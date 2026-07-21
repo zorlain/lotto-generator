@@ -911,68 +911,75 @@ footer {
   line-height: 1.8;
 }
 
+/* 국내 스마트폰 실사용 화면 폭(약 360~430px, 갤럭시/아이폰 표준) 기준 최적화.
+   글씨를 억지로 줄이는 대신, 한 줄에 욱여넣던 항목들을 세로로 풀어써서
+   PC를 축소한 느낌이 아니라 앱처럼 읽히게 만든다. */
 @media (max-width: 640px) {
   .page {
-    padding: 36px 16px 80px;
+    padding: 28px 16px 72px;
   }
   header.hero {
-    margin-bottom: 32px;
+    margin-bottom: 28px;
   }
   header.hero h1 {
-    font-size: 26px;
-    margin: 0 0 10px;
+    font-size: 25px;
+    margin: 0 0 8px;
   }
   header.hero p {
     font-size: 14px;
+    line-height: 1.5;
   }
   .card {
-    padding: 20px;
+    padding: 18px;
     border-radius: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
   }
   .card h2 {
-    font-size: 18px;
-    margin: 0 0 14px;
+    font-size: 17px;
+    margin: 0 0 12px;
   }
   .card .card-desc {
     font-size: 14px;
-    margin: -8px 0 16px;
+    line-height: 1.55;
+    margin: -6px 0 16px;
   }
 
-  /* 탭 내비게이션 */
+  /* 탭 내비게이션 — 세 탭 다 큼직하게 눌리도록 */
   .tabs {
-    padding: 6px;
+    padding: 5px;
     gap: 4px;
     border-radius: 16px;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
   }
   .tab-btn {
-    font-size: 12px;
-    padding: 12px 4px;
-    border-radius: 11px;
+    font-size: 12.5px;
+    padding: 13px 4px;
+    border-radius: 12px;
+    line-height: 1.3;
   }
 
   /* 번호 생성 버튼/결과 */
   .generate-btn {
-    padding: 16px;
+    padding: 17px;
     font-size: 16px;
     border-radius: 16px;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
   }
   .sets-header-label {
     font-size: 13px;
   }
   .copy-all-btn {
-    padding: 8px 12px;
-    font-size: 12px;
+    padding: 9px 13px;
+    font-size: 12.5px;
   }
   .set-row {
     gap: 10px;
     padding: 14px 0;
+    row-gap: 8px;
   }
   .ball {
-    width: 33px;
-    height: 33px;
+    width: 34px;
+    height: 34px;
     font-size: 14px;
   }
   .set-label {
@@ -985,21 +992,22 @@ footer {
     gap: 8px;
   }
   .set-meta {
-    font-size: 12px;
+    font-size: 12.5px;
   }
   .copy-btn {
     padding: 7px 10px;
     font-size: 12px;
   }
   .generate-warning {
-    font-size: 12px;
-    padding: 10px 14px;
+    font-size: 12.5px;
+    padding: 11px 14px;
+    line-height: 1.5;
   }
 
-  /* 번호별 출현 빈도 차트 */
+  /* 번호별 출현 빈도 차트 — 45칸은 어쩔 수 없이 촘촘하지만 세로 여유는 준다 */
   .freq-chart {
     grid-template-columns: repeat(45, minmax(0, 1fr));
-    height: 120px;
+    height: 140px;
     padding-top: 4px;
   }
   .freq-num,
@@ -1007,68 +1015,74 @@ footer {
     display: none;
   }
   .freq-legend {
-    font-size: 12px;
+    font-size: 12.5px;
     gap: 12px;
   }
 
   /* 합계 구간 / 재출현 간격 히스토그램 */
   .sum-chart {
-    gap: 3px;
-    height: 170px;
-    padding-top: 26px;
+    gap: 4px;
+    height: 190px;
+    padding-top: 24px;
   }
   .sum-count {
-    font-size: 10px;
+    font-size: 10.5px;
   }
   .sum-label {
-    font-size: 9px;
+    font-size: 9.5px;
   }
   .sum-pct {
-    font-size: 8px;
+    font-size: 8.5px;
   }
 
   .mini-lists,
   .mini-lists.mini-lists-3 {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 14px;
   }
   .highlight-stat {
     font-size: 14px;
-    padding: 12px 14px;
+    padding: 13px 15px;
+    line-height: 1.5;
   }
 
   /* 자주 함께 나오는 번호 쌍 */
   .pair-row {
     gap: 10px;
-    padding: 12px 0;
+    padding: 13px 0;
   }
   .pair-count {
-    font-size: 12px;
+    font-size: 12.5px;
   }
 
-  /* 가로 막대(홀짝비율/AC값/구간별분포 등) */
+  /* 가로 막대(홀짝비율/AC값/구간별분포/직전회차 재출현 등)
+     — 라벨+수치를 한 줄로, 막대는 그 아래 한 줄 전체를 써서 2줄 구조로 */
   .hbar-row,
   .zone-row {
-    gap: 8px;
-    font-size: 12px;
+    flex-wrap: wrap;
+    row-gap: 6px;
+    margin-bottom: 14px;
+    font-size: 13.5px;
   }
-  .hbar-label {
-    width: 58px;
-  }
-  .hbar-value {
-    width: 84px;
-    font-size: 11px;
-  }
+  .hbar-label,
   .zone-label {
-    width: 52px;
+    width: auto;
+    order: 1;
+    font-weight: 600;
+    color: var(--text);
   }
+  .hbar-value,
   .zone-value {
-    width: 72px;
-    font-size: 11px;
+    width: auto;
+    order: 2;
+    margin-left: auto;
+    font-size: 13px;
   }
   .hbar-track,
   .zone-track {
-    height: 16px;
+    order: 3;
+    flex-basis: 100%;
+    height: 18px;
   }
 
   /* 맞춤 번호 생성 (탭2) */
@@ -1076,69 +1090,76 @@ footer {
     margin: 4px 2px 12px;
   }
   .section-heading-title {
-    font-size: 15px;
+    font-size: 15.5px;
   }
   .section-heading-desc {
-    font-size: 12px;
+    font-size: 12.5px;
   }
   .advanced-toggle {
-    padding: 14px;
-    font-size: 14px;
+    padding: 15px;
+    font-size: 14.5px;
   }
   .option-card {
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
   .option-title {
-    font-size: 15px;
+    font-size: 15.5px;
   }
   .switch-row input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
   }
   .field-row select,
   .field-row input[type="number"] {
-    padding: 12px 14px;
-    font-size: 14px;
+    padding: 13px 14px;
+    font-size: 14.5px;
   }
   .field-row input[type="number"] {
-    width: 84px;
+    width: 88px;
   }
   .radio-row {
     gap: 16px;
-    font-size: 13px;
+    font-size: 13.5px;
   }
   .dual-slider-labels {
-    font-size: 14px;
+    font-size: 14.5px;
+  }
+  .dual-slider input[type="range"]::-webkit-slider-thumb,
+  .dual-slider input[type="range"]::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
   }
 
-  /* 원하는 번호 포함 그리드 */
+  /* 원하는 번호 포함 그리드 — 6열, 손가락으로 누르기 좋은 크기 유지 */
   .number-picker {
     grid-template-columns: repeat(6, 1fr);
-    gap: 6px;
+    gap: 7px;
   }
   .pick-ball {
-    font-size: 12px;
+    font-size: 13px;
   }
 
   .reset-btn {
-    padding: 14px;
-    font-size: 14px;
+    padding: 15px;
+    font-size: 14.5px;
   }
   footer {
     font-size: 12px;
-    margin-top: 36px;
+    margin-top: 32px;
+    line-height: 1.7;
   }
 }
 
-@media (max-width: 380px) {
+/* 아주 작은 화면(구형 소형 단말) 전용 미세 조정 */
+@media (max-width: 340px) {
   .page {
-    padding: 28px 12px 72px;
+    padding: 24px 12px 64px;
   }
   header.hero h1 {
     font-size: 22px;
   }
   .card {
-    padding: 16px;
+    padding: 15px;
   }
   .ball {
     width: 30px;
@@ -1153,9 +1174,9 @@ footer {
     gap: 5px;
   }
   .freq-chart {
-    height: 100px;
+    height: 110px;
   }
   .sum-chart {
-    height: 150px;
+    height: 160px;
   }
 }
