@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sewo0416-design.github.io/lotto-generator/sitemap.xml
+Sitemap: https://zorlain.github.io/lotto-generator/sitemap.xml
