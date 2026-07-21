@@ -164,7 +164,6 @@ const TOTAL_ATTEMPT_BUDGET = 60000;
 
 function generateSets(stats, config, count) {
   const weights = computeNumberWeights(stats, config);
-  const forced = config.includeNumbers.enabled ? config.includeNumbers.numbers : [];
   const oddRange = config.oddEven.enabled ? pickOddRange(stats, config) : null;
   const targetSum = config.sumRange.enabled ? pickTargetSumRange(stats, config) : null;
   const zoneTargets = config.zoneSpread.enabled ? config.zoneSpread.zoneTargets : null;
@@ -175,39 +174,62 @@ function generateSets(stats, config, count) {
   const results = [];
   const seen = new Set();
 
-  for (let attempt = 0; attempt < TOTAL_ATTEMPT_BUDGET && results.length < count; attempt++) {
-    // 미출현 기간처럼 "자동" 모드가 남아있는 조건은 시도할 때마다 목표를 다시 뽑아,
-    // 생성되는 5조합이 서로 다른 목표값을 가질 수 있게 한다.
-    const prevRepeatRange = config.prevRepeat.enabled ? pickPrevRepeatRange(stats, config) : null;
+  // forcedForPhase에 담긴 번호를 포함시킨 채로, needCount개를 찾을 때까지(또는 예산 소진까지) 추첨한다.
+  function fillPhase(forcedForPhase, needCount, attemptBudget) {
+    let produced = 0;
+    for (let attempt = 0; attempt < attemptBudget && produced < needCount; attempt++) {
+      // 미출현 기간처럼 "자동" 모드가 남아있는 조건은 시도할 때마다 목표를 다시 뽑아,
+      // 생성되는 5조합이 서로 다른 목표값을 가질 수 있게 한다.
+      const prevRepeatRange = config.prevRepeat.enabled ? pickPrevRepeatRange(stats, config) : null;
 
-    const candidate = weightedSampleWithoutReplacement(weights, 6, forced);
-    const key = combinationKey(candidate);
-    if (seen.has(key)) continue;
+      const candidate = weightedSampleWithoutReplacement(weights, 6, forcedForPhase);
+      const key = combinationKey(candidate);
+      if (seen.has(key)) continue;
 
-    const odd = oddCountOf(candidate);
-    const sum = sumOf(candidate);
-    const zones = zoneCountsOf(candidate, stats.zoneRanges);
+      const odd = oddCountOf(candidate);
+      const sum = sumOf(candidate);
+      const zones = zoneCountsOf(candidate, stats.zoneRanges);
 
-    if (zoneTargets && !matchesZoneTargets(zones, zoneTargets)) continue;
-    if (maxSameDigit !== null && maxLastDigitCountOf(candidate) > maxSameDigit) continue;
+      if (zoneTargets && !matchesZoneTargets(zones, zoneTargets)) continue;
+      if (maxSameDigit !== null && maxLastDigitCountOf(candidate) > maxSameDigit) continue;
 
-    const hasConsec = hasConsecutivePairOf(candidate);
-    if (consecutiveMode === "require" && !hasConsec) continue;
-    if (consecutiveMode === "exclude" && hasConsec) continue;
+      const hasConsec = hasConsecutivePairOf(candidate);
+      if (consecutiveMode === "require" && !hasConsec) continue;
+      if (consecutiveMode === "exclude" && hasConsec) continue;
 
-    const ac = acValueOf(candidate);
-    const prevRepeat = overlapCountOf(candidate, stats.lastDraw.nums);
+      const ac = acValueOf(candidate);
+      const prevRepeat = overlapCountOf(candidate, stats.lastDraw.nums);
 
-    const matchesOdd = oddRange === null || (odd >= oddRange.min && odd <= oddRange.max);
-    const matchesSum = targetSum === null || (sum >= targetSum.min && sum <= targetSum.max);
-    const matchesAc = acRange === null || (ac >= acRange.min && ac <= acRange.max);
-    const matchesPrevRepeat =
-      prevRepeatRange === null || (prevRepeat >= prevRepeatRange.min && prevRepeat <= prevRepeatRange.max);
+      const matchesOdd = oddRange === null || (odd >= oddRange.min && odd <= oddRange.max);
+      const matchesSum = targetSum === null || (sum >= targetSum.min && sum <= targetSum.max);
+      const matchesAc = acRange === null || (ac >= acRange.min && ac <= acRange.max);
+      const matchesPrevRepeat =
+        prevRepeatRange === null || (prevRepeat >= prevRepeatRange.min && prevRepeat <= prevRepeatRange.max);
 
-    if (matchesOdd && matchesSum && matchesAc && matchesPrevRepeat) {
-      seen.add(key);
-      results.push({ nums: candidate, odd, sum });
+      if (matchesOdd && matchesSum && matchesAc && matchesPrevRepeat) {
+        seen.add(key);
+        results.push({ nums: candidate, odd, sum });
+        produced++;
+      }
     }
+  }
+
+  // "원하는 번호 포함"이 켜져 있으면, 지정한 줄 수만큼만 그 번호를 강제로 넣고
+  // 나머지 줄은 다른 조건만으로 자유롭게 생성한다.
+  const includeOn = config.includeNumbers.enabled && config.includeNumbers.numbers.length > 0;
+  const forcedRowCount = includeOn
+    ? Math.min(count, Math.max(1, config.includeNumbers.rowCount || count))
+    : 0;
+
+  if (forcedRowCount > 0) {
+    const phase1Budget = Math.round((TOTAL_ATTEMPT_BUDGET * forcedRowCount) / count);
+    fillPhase(config.includeNumbers.numbers, forcedRowCount, phase1Budget);
+  }
+
+  const remaining = count - results.length;
+  if (remaining > 0) {
+    const phase2Budget = TOTAL_ATTEMPT_BUDGET - (forcedRowCount > 0 ? Math.round((TOTAL_ATTEMPT_BUDGET * forcedRowCount) / count) : 0);
+    fillPhase([], remaining, phase2Budget);
   }
 
   return results;

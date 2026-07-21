@@ -172,7 +172,8 @@ function initAdvancedToggle() {
 function renderActiveConfigSummary(config) {
   const active = [];
   if (config.includeNumbers.enabled && config.includeNumbers.numbers.length > 0) {
-    active.push(`${config.includeNumbers.numbers.join(",")}번 포함`);
+    const rowNote = config.includeNumbers.rowCount < 5 ? ` (${config.includeNumbers.rowCount}줄만)` : "";
+    active.push(`${config.includeNumbers.numbers.join(",")}번 포함${rowNote}`);
   }
   if (config.oddEven.enabled) {
     const { manualMin, manualMax } = config.oddEven;
@@ -257,6 +258,7 @@ function initConfigPanel(stats, config, onChange) {
   const includeEnabled = document.getElementById("opt-include-enabled");
   const includeGrid = document.getElementById("opt-include-grid");
   const includeHint = document.getElementById("opt-include-hint");
+  const includeRowCount = document.getElementById("opt-include-rowcount");
   document.getElementById("opt-include-max-label").textContent = MAX_INCLUDE_NUMBERS;
 
   const pickButtons = [];
@@ -291,6 +293,7 @@ function initConfigPanel(stats, config, onChange) {
       pickBtn.classList.toggle("selected", isSelected);
       pickBtn.disabled = !config.includeNumbers.enabled || (!isSelected && atMax);
     });
+    includeRowCount.disabled = !config.includeNumbers.enabled;
     if (!config.includeNumbers.enabled) {
       includeHint.textContent = "";
     } else if (config.includeNumbers.numbers.length === 0) {
@@ -302,6 +305,7 @@ function initConfigPanel(stats, config, onChange) {
 
   const resyncInclude = () => {
     includeEnabled.checked = config.includeNumbers.enabled;
+    includeRowCount.value = String(config.includeNumbers.rowCount);
     syncInclude();
   };
   resyncInclude();
@@ -310,6 +314,10 @@ function initConfigPanel(stats, config, onChange) {
   includeEnabled.addEventListener("change", () => {
     config.includeNumbers.enabled = includeEnabled.checked;
     syncInclude();
+    onChange();
+  });
+  includeRowCount.addEventListener("change", () => {
+    config.includeNumbers.rowCount = Number(includeRowCount.value);
     onChange();
   });
 
