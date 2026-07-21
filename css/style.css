@@ -92,6 +92,91 @@ header.hero p {
   word-break: keep-all;
 }
 
+/* 한 줄 요약 설명 (자세한 내용은 ⓘ 아이콘 툴팁으로) */
+.card-desc-short {
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.5;
+  margin: -12px 0 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.option-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.option-title-row .switch-row {
+  flex: 1;
+  min-width: 0;
+}
+
+/* 설명 아이콘 + 툴팁 */
+.info-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--card-elevated);
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 800;
+  font-style: normal;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.15s, color 0.15s;
+}
+
+.info-btn:hover,
+.info-btn:focus-visible,
+.info-btn.open {
+  background: var(--accent);
+  color: var(--accent-on);
+}
+
+.info-tooltip {
+  position: absolute;
+  z-index: 30;
+  left: 0;
+  top: calc(100% + 8px);
+  width: 270px;
+  max-width: 78vw;
+  background: var(--card-elevated);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.6;
+  text-align: left;
+  white-space: normal;
+  border-radius: 12px;
+  padding: 13px 15px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.15s, transform 0.15s, visibility 0.15s;
+  pointer-events: none;
+}
+
+.info-btn:hover .info-tooltip,
+.info-btn:focus-visible .info-tooltip,
+.info-btn.open .info-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
 /* 탭 내비게이션 */
 .tabs {
   display: flex;
@@ -922,6 +1007,30 @@ footer {
 @media (max-width: 640px) {
   .page {
     padding: 28px 16px 72px;
+  }
+
+  /* 아이콘 위치와 상관없이 화면 하단에 고정 표시해서, 좁은 화면에서 잘리지 않게 한다 */
+  .info-tooltip {
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    top: auto;
+    bottom: 20px;
+    width: auto;
+    max-width: none;
+    font-size: 13.5px;
+    padding: 14px 16px;
+    transform: translateY(6px);
+  }
+  .info-btn:hover .info-tooltip,
+  .info-btn:focus-visible .info-tooltip,
+  .info-btn.open .info-tooltip {
+    transform: translateY(0);
+  }
+  .card-desc-short {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
   }
   header.hero {
     margin-bottom: 28px;

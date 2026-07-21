@@ -77,6 +77,20 @@ function initTabs() {
   });
 }
 
+/* ---------- 설명 아이콘 툴팁 (PC 호버 + 모바일 탭) ---------- */
+function initInfoTooltips() {
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".info-btn");
+    document.querySelectorAll(".info-btn.open").forEach((el) => {
+      if (el !== btn) el.classList.remove("open");
+    });
+    if (btn) {
+      btn.classList.toggle("open");
+      e.stopPropagation();
+    }
+  });
+}
+
 /* ---------- 번호 생성 (탭1, 탭2 공용) ---------- */
 function renderSetsInto(containerId, sets) {
   const container = document.getElementById(containerId);
@@ -941,6 +955,7 @@ function init() {
 
   initTabs();
   initAdvancedToggle();
+  initInfoTooltips();
 
   renderTrustLine(stats);
   renderFreqChart(stats);

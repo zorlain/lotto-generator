@@ -59,12 +59,18 @@
   <!-- 탭 2: 맞춤 번호 생성 -->
   <section class="tab-panel" data-tab-panel="custom" hidden>
     <div class="card">
-      <h2>⚙️ 맞춤 번호 생성</h2>
-      <p class="card-desc">
-        원하는 조건에 체크하고 값을 정하면, 그 조건에 맞는 번호만 생성됩니다.
-        체크를 끄면 그 조건은 무시돼요. 아래 "기본 설정"은 누구나 바로 쓸 수 있는 조건이고,
-        "심화 설정"은 조금 더 자세히 파고들고 싶은 분들을 위한 조건입니다.
-      </p>
+      <h2>
+        ⚙️ 맞춤 번호 생성
+        <button type="button" class="info-btn" aria-label="자세히 보기">
+          <span aria-hidden="true">ⓘ</span>
+          <span class="info-tooltip">
+            원하는 조건에 체크하고 값을 정하면, 그 조건에 맞는 번호만 생성됩니다.
+            체크를 끄면 그 조건은 무시돼요. "기본 설정"은 누구나 바로 쓸 수 있는 조건이고,
+            "심화 설정"은 조금 더 자세히 파고들고 싶은 분들을 위한 조건입니다.
+          </span>
+        </button>
+      </h2>
+      <p class="card-desc-short">체크한 조건에 맞는 번호만 생성돼요.</p>
       <button class="generate-btn" id="generate-btn-2">🔄 지금 설정으로 번호 생성하기</button>
       <p class="generate-warning" id="generate-warning-2" hidden></p>
       <div class="sets-header">
@@ -81,16 +87,22 @@
 
     <div class="card option-card">
       <div class="option-head">
-        <label class="switch-row">
-          <input type="checkbox" id="opt-include-enabled" />
-          <span class="option-title">🎯 원하는 번호 포함</span>
-        </label>
+        <div class="option-title-row">
+          <label class="switch-row">
+            <input type="checkbox" id="opt-include-enabled" />
+            <span class="option-title">🎯 원하는 번호 포함</span>
+          </label>
+          <button type="button" class="info-btn" aria-label="자세히 보기">
+            <span aria-hidden="true">ⓘ</span>
+            <span class="info-tooltip">
+              직접 고른 번호를 생성되는 조합에 반드시 포함시켜요. 좋아하는 숫자나 기념일처럼
+              의미 있는 번호가 있다면 아래에서 눌러 선택하세요. 최대 <span id="opt-include-max-label"></span>개까지
+              고를 수 있고, 나머지 자리는 다른 조건에 맞춰 자동으로 채워집니다.
+            </span>
+          </button>
+        </div>
       </div>
-      <p class="card-desc">
-        직접 고른 번호를 생성되는 조합에 반드시 포함시켜요. 좋아하는 숫자나 기념일처럼
-        의미 있는 번호가 있다면 아래에서 눌러 선택하세요. 최대 <span id="opt-include-max-label"></span>개까지
-        고를 수 있고, 나머지 자리는 다른 조건에 맞춰 자동으로 채워집니다.
-      </p>
+      <p class="card-desc-short">직접 고른 번호를 결과에 반드시 포함시켜요.</p>
       <div class="number-picker" id="opt-include-grid"></div>
       <p class="field-hint" id="opt-include-hint"></p>
       <div class="field-row">
@@ -103,23 +115,27 @@
           <option value="5">5줄 (전체)</option>
         </select>
       </div>
-      <p class="card-desc" style="margin: 8px 0 0;">
-        선택한 줄에는 고른 번호가 포함되고, 나머지 줄은 다른 조건에 맞춰 자동으로 생성됩니다.
-      </p>
+      <p class="field-hint">선택한 줄에만 고른 번호가 포함되고, 나머지 줄은 자동으로 생성돼요.</p>
     </div>
 
     <div class="card option-card">
       <div class="option-head">
-        <label class="switch-row">
-          <input type="checkbox" id="opt-oddeven-enabled" />
-          <span class="option-title">⚖️ 홀짝 비율</span>
-        </label>
+        <div class="option-title-row">
+          <label class="switch-row">
+            <input type="checkbox" id="opt-oddeven-enabled" />
+            <span class="option-title">⚖️ 홀짝 비율</span>
+          </label>
+          <button type="button" class="info-btn" aria-label="자세히 보기">
+            <span aria-hidden="true">ⓘ</span>
+            <span class="info-tooltip">
+              당첨번호 6개 중 홀수(1, 3, 5…)가 몇 개 섞여야 하는지 정해요. 예를 들어 2~4로 두면
+              홀수 2~4개, 짝수 2~4개로 적당히 섞인 조합만 나옵니다. 실제 당첨번호도 홀수나 짝수
+              한쪽으로 쏠리기보다 골고루 섞인 경우가 훨씬 많았어요.
+            </span>
+          </button>
+        </div>
       </div>
-      <p class="card-desc">
-        당첨번호 6개 중 홀수(1, 3, 5…)가 몇 개 섞여야 하는지 정해요. 예를 들어 2~4로 두면
-        홀수 2~4개, 짝수 2~4개로 적당히 섞인 조합만 나옵니다. 실제 당첨번호도 홀수나 짝수
-        한쪽으로 쏠리기보다 골고루 섞인 경우가 훨씬 많았어요.
-      </p>
+      <p class="card-desc-short">홀수가 몇 개 섞여야 하는지 정해요.</p>
       <div id="opt-oddeven-manual-wrap">
         <div class="dual-slider">
           <div class="dual-slider-track"></div>
@@ -133,16 +149,22 @@
 
     <div class="card option-card">
       <div class="option-head">
-        <label class="switch-row">
-          <input type="checkbox" id="opt-sumrange-enabled" />
-          <span class="option-title">➕ 번호 합계 구간</span>
-        </label>
+        <div class="option-title-row">
+          <label class="switch-row">
+            <input type="checkbox" id="opt-sumrange-enabled" />
+            <span class="option-title">➕ 번호 합계 구간</span>
+          </label>
+          <button type="button" class="info-btn" aria-label="자세히 보기">
+            <span aria-hidden="true">ⓘ</span>
+            <span class="info-tooltip">
+              뽑힌 번호 6개를 전부 더한 값이 이 범위 안에 들어오게 해요. 이론적으로 합계는
+              21(1+2+3+4+5+6)부터 255(40~45)까지 가능하지만, 실제 당첨번호는 90~180 사이에
+              몰리는 경우가 대부분이었습니다. 너무 작거나 너무 큰 합계는 잘 나오지 않아요.
+            </span>
+          </button>
+        </div>
       </div>
-      <p class="card-desc">
-        뽑힌 번호 6개를 전부 더한 값이 이 범위 안에 들어오게 해요. 이론적으로 합계는
-        21(1+2+3+4+5+6)부터 255(40~45)까지 가능하지만, 실제 당첨번호는 90~180 사이에
-        몰리는 경우가 대부분이었습니다. 너무 작거나 너무 큰 합계는 잘 나오지 않아요.
-      </p>
+      <p class="card-desc-short">6개 번호 합계가 이 범위 안에 들어오게 해요.</p>
       <div id="opt-sumrange-manual-wrap">
         <div class="dual-slider">
           <div class="dual-slider-track"></div>
@@ -156,17 +178,23 @@
 
     <div class="card option-card">
       <div class="option-head">
-        <label class="switch-row">
-          <input type="checkbox" id="opt-ac-enabled" />
-          <span class="option-title">🧮 조합 복잡도(AC값) 범위</span>
-        </label>
+        <div class="option-title-row">
+          <label class="switch-row">
+            <input type="checkbox" id="opt-ac-enabled" />
+            <span class="option-title">🧮 조합 복잡도(AC값) 범위</span>
+          </label>
+          <button type="button" class="info-btn" aria-label="자세히 보기">
+            <span aria-hidden="true">ⓘ</span>
+            <span class="info-tooltip">
+              AC값은 번호들 사이 간격이 얼마나 다양한지 보여주는 값이에요(0~10).
+              예를 들어 2, 4, 6, 8, 10, 12처럼 간격이 일정하면 AC값이 낮고(너무 규칙적인 조합),
+              간격이 들쭉날쭉할수록 AC값이 높아집니다(더 무작위에 가까운 조합). 실제 당첨번호는
+              대부분 AC값이 7 이상으로, 규칙성 없이 다양하게 섞인 조합이었어요.
+            </span>
+          </button>
+        </div>
       </div>
-      <p class="card-desc">
-        AC값은 번호들 사이 간격이 얼마나 다양한지 보여주는 값이에요(0~10).
-        예를 들어 2, 4, 6, 8, 10, 12처럼 간격이 일정하면 AC값이 낮고(너무 규칙적인 조합),
-        간격이 들쭉날쭉할수록 AC값이 높아집니다(더 무작위에 가까운 조합). 실제 당첨번호는
-        대부분 AC값이 7 이상으로, 규칙성 없이 다양하게 섞인 조합이었어요.
-      </p>
+      <p class="card-desc-short">번호 간격이 얼마나 다양한지(AC값)를 정해요.</p>
       <div id="opt-ac-manual-wrap">
         <div class="dual-slider">
           <div class="dual-slider-track"></div>
@@ -190,33 +218,45 @@
 
       <div class="card option-card">
         <div class="option-head">
-          <label class="switch-row">
-            <input type="checkbox" id="opt-zone-enabled" />
-            <span class="option-title">🧭 구간별 분포</span>
-          </label>
+          <div class="option-title-row">
+            <label class="switch-row">
+              <input type="checkbox" id="opt-zone-enabled" />
+              <span class="option-title">🧭 구간별 분포</span>
+            </label>
+            <button type="button" class="info-btn" aria-label="자세히 보기">
+              <span aria-hidden="true">ⓘ</span>
+              <span class="info-tooltip">
+                번호를 1~9, 10~19, 20~29, 30~39, 40~45 다섯 구간으로 나눠서, 각 구간에서
+                정확히 몇 개씩 나올지 지정해요. 예를 들어 번호가 특정 구간(예: 1~9)에만 몰리지
+                않게 막고 싶을 때 사용합니다. "자동"으로 두면 그 구간은 몇 개가 나오든 상관하지 않아요.
+              </span>
+            </button>
+          </div>
         </div>
-        <p class="card-desc">
-          번호를 1~9, 10~19, 20~29, 30~39, 40~45 다섯 구간으로 나눠서, 각 구간에서
-          정확히 몇 개씩 나올지 지정해요. 예를 들어 번호가 특정 구간(예: 1~9)에만 몰리지
-          않게 막고 싶을 때 사용합니다. "자동"으로 두면 그 구간은 몇 개가 나오든 상관하지 않아요.
-        </p>
+        <p class="card-desc-short">구간별로 번호가 몇 개씩 나올지 정해요.</p>
         <div id="opt-zone-rows"></div>
         <p class="field-hint" id="opt-zone-hint"></p>
       </div>
 
       <div class="card option-card">
         <div class="option-head">
-          <label class="switch-row">
-            <input type="checkbox" id="opt-freq-enabled" />
-            <span class="option-title">🔥 출현 빈도 가중치</span>
-          </label>
+          <div class="option-title-row">
+            <label class="switch-row">
+              <input type="checkbox" id="opt-freq-enabled" />
+              <span class="option-title">🔥 출현 빈도 가중치</span>
+            </label>
+            <button type="button" class="info-btn" aria-label="자세히 보기">
+              <span aria-hidden="true">ⓘ</span>
+              <span class="info-tooltip">
+                지금까지 자주 나왔던 번호(HOT)나 반대로 드물게 나왔던 번호(COLD) 중 하나를 골라,
+                그 번호들이 더 잘 뽑히도록 우대해요. 예를 들어 "HOT 상위 15개"를 선택하면, 자주
+                나온 번호 15개가 다른 번호보다 <b>이 생성기에서 골라질 확률</b>이 더 높아집니다.
+                실제 로또 추첨은 완전 무작위라서, 이 설정이 실제 당첨 확률을 높여주지는 않아요.
+              </span>
+            </button>
+          </div>
         </div>
-        <p class="card-desc">
-          지금까지 자주 나왔던 번호(HOT)나 반대로 드물게 나왔던 번호(COLD) 중 하나를 골라,
-          그 번호들이 더 잘 뽑히도록 우대해요. 예를 들어 "HOT 상위 15개"를 선택하면, 자주
-          나온 번호 15개가 다른 번호보다 <b>이 생성기에서 골라질 확률</b>이 더 높아집니다.
-          실제 로또 추첨은 완전 무작위라서, 이 설정이 실제 당첨 확률을 높여주지는 않아요.
-        </p>
+        <p class="card-desc-short">자주/드물게 나온 번호를 우대해요.</p>
         <div class="radio-row">
           <label><input type="radio" name="opt-freq-direction" value="hot" /> 자주 나온 번호(HOT) 우대</label>
           <label><input type="radio" name="opt-freq-direction" value="cold" /> 드물게 나온 번호(COLD) 우대</label>
@@ -230,17 +270,23 @@
 
       <div class="card option-card">
         <div class="option-head">
-          <label class="switch-row">
-            <input type="checkbox" id="opt-gap-enabled" />
-            <span class="option-title">⏳ 미출현 기간 가중치</span>
-          </label>
+          <div class="option-title-row">
+            <label class="switch-row">
+              <input type="checkbox" id="opt-gap-enabled" />
+              <span class="option-title">⏳ 미출현 기간 가중치</span>
+            </label>
+            <button type="button" class="info-btn" aria-label="자세히 보기">
+              <span aria-hidden="true">ⓘ</span>
+              <span class="info-tooltip">
+                마지막으로 당첨된 지 오래됐지만 "슬슬 나올 때가 됐다"고 여겨지는 번호를 우대해요.
+                예를 들어 15회로 설정하면, 최근 15회차 동안 한 번도 안 나온 번호들이
+                <b>이 생성기에서 골라질 확률</b>이 더 높아집니다. 다만 로또는 매 회차 완전히
+                독립적인 추첨이라, 오래 안 나왔다고 실제로 나올 확률이 더 높아지는 건 아니에요.
+              </span>
+            </button>
+          </div>
         </div>
-        <p class="card-desc">
-          마지막으로 당첨된 지 오래됐지만 "슬슬 나올 때가 됐다"고 여겨지는 번호를 우대해요.
-          예를 들어 15회로 설정하면, 최근 15회차 동안 한 번도 안 나온 번호들이
-          <b>이 생성기에서 골라질 확률</b>이 더 높아집니다. 다만 로또는 매 회차 완전히
-          독립적인 추첨이라, 오래 안 나왔다고 실제로 나올 확률이 더 높아지는 건 아니에요.
-        </p>
+        <p class="card-desc-short">오래 안 나온 번호를 우대해요.</p>
         <div class="field-row">
           <span class="field-label">최근</span>
           <input type="number" id="opt-gap-threshold" min="1" max="150" />
@@ -251,16 +297,22 @@
 
       <div class="card option-card">
         <div class="option-head">
-          <label class="switch-row">
-            <input type="checkbox" id="opt-consecutive-enabled" />
-            <span class="option-title">🔗 연속번호 포함 방식</span>
-          </label>
+          <div class="option-title-row">
+            <label class="switch-row">
+              <input type="checkbox" id="opt-consecutive-enabled" />
+              <span class="option-title">🔗 연속번호 포함 방식</span>
+            </label>
+            <button type="button" class="info-btn" aria-label="자세히 보기">
+              <span aria-hidden="true">ⓘ</span>
+              <span class="info-tooltip">
+                12, 13처럼 바로 이어지는 숫자("연속번호")를 일부러 넣을지 뺄지 정해요.
+                "반드시 포함"을 고르면 연속번호가 최소 한 쌍은 들어가고, "포함 안 함"을 고르면
+                연속된 숫자가 전혀 없는 조합만 나옵니다.
+              </span>
+            </button>
+          </div>
         </div>
-        <p class="card-desc">
-          12, 13처럼 바로 이어지는 숫자("연속번호")를 일부러 넣을지 뺄지 정해요.
-          "반드시 포함"을 고르면 연속번호가 최소 한 쌍은 들어가고, "포함 안 함"을 고르면
-          연속된 숫자가 전혀 없는 조합만 나옵니다.
-        </p>
+        <p class="card-desc-short">연속번호를 넣을지 뺄지 정해요.</p>
         <div class="field-row">
           <span class="field-label">적용 방식</span>
           <select id="opt-consecutive-mode">
@@ -273,16 +325,22 @@
 
       <div class="card option-card">
         <div class="option-head">
-          <label class="switch-row">
-            <input type="checkbox" id="opt-lastdigit-enabled" />
-            <span class="option-title">🔢 끝자리 중복 제한</span>
-          </label>
+          <div class="option-title-row">
+            <label class="switch-row">
+              <input type="checkbox" id="opt-lastdigit-enabled" />
+              <span class="option-title">🔢 끝자리 중복 제한</span>
+            </label>
+            <button type="button" class="info-btn" aria-label="자세히 보기">
+              <span aria-hidden="true">ⓘ</span>
+              <span class="info-tooltip">
+                번호의 마지막 숫자("끝자리")가 같은 번호들이 너무 많이 겹치지 않게 막아요.
+                예를 들어 3, 13, 23, 33은 모두 끝자리가 '3'인데, "1개(중복 없음)"를 고르면
+                6개 번호의 끝자리가 전부 서로 다르게 뽑힙니다.
+              </span>
+            </button>
+          </div>
         </div>
-        <p class="card-desc">
-          번호의 마지막 숫자("끝자리")가 같은 번호들이 너무 많이 겹치지 않게 막아요.
-          예를 들어 3, 13, 23, 33은 모두 끝자리가 '3'인데, "1개(중복 없음)"를 고르면
-          6개 번호의 끝자리가 전부 서로 다르게 뽑힙니다.
-        </p>
+        <p class="card-desc-short">같은 끝자리 번호 중복을 제한해요.</p>
         <div class="field-row">
           <span class="field-label">최대 허용</span>
           <select id="opt-lastdigit-max">
@@ -296,17 +354,23 @@
 
       <div class="card option-card">
         <div class="option-head">
-          <label class="switch-row">
-            <input type="checkbox" id="opt-cooccur-enabled" />
-            <span class="option-title">🤝 궁합 번호 가중치</span>
-          </label>
+          <div class="option-title-row">
+            <label class="switch-row">
+              <input type="checkbox" id="opt-cooccur-enabled" />
+              <span class="option-title">🤝 궁합 번호 가중치</span>
+            </label>
+            <button type="button" class="info-btn" aria-label="자세히 보기">
+              <span aria-hidden="true">ⓘ</span>
+              <span class="info-tooltip">
+                다른 번호와 같은 회차에 유독 자주 같이 나왔던 "궁합 좋은" 번호들을 우대해요.
+                예를 들어 7번과 27번이 유난히 자주 함께 나왔다면, 이런 번호들이
+                <b>이 생성기에서 골라질 확률</b>이 더 높아집니다. 과거에 자주 같이 나왔다고
+                앞으로도 그럴 확률이 높은 건 아니라는 점은 참고해주세요.
+              </span>
+            </button>
+          </div>
         </div>
-        <p class="card-desc">
-          다른 번호와 같은 회차에 유독 자주 같이 나왔던 "궁합 좋은" 번호들을 우대해요.
-          예를 들어 7번과 27번이 유난히 자주 함께 나왔다면, 이런 번호들이
-          <b>이 생성기에서 골라질 확률</b>이 더 높아집니다. 과거에 자주 같이 나왔다고
-          앞으로도 그럴 확률이 높은 건 아니라는 점은 참고해주세요.
-        </p>
+        <p class="card-desc-short">자주 같이 나온 번호를 우대해요.</p>
         <div class="field-row">
           <span class="field-label">상위 몇 개</span>
           <input type="number" id="opt-cooccur-topn" min="1" max="45" />
@@ -316,16 +380,22 @@
 
       <div class="card option-card">
         <div class="option-head">
-          <label class="switch-row">
-            <input type="checkbox" id="opt-prevrepeat-enabled" />
-            <span class="option-title">🔁 직전 회차 재출현 개수</span>
-          </label>
+          <div class="option-title-row">
+            <label class="switch-row">
+              <input type="checkbox" id="opt-prevrepeat-enabled" />
+              <span class="option-title">🔁 직전 회차 재출현 개수</span>
+            </label>
+            <button type="button" class="info-btn" aria-label="자세히 보기">
+              <span aria-hidden="true">ⓘ</span>
+              <span class="info-tooltip">
+                가장 최근 회차(<span id="opt-prevrepeat-drawno"></span>회)에서 나온 번호와 이번에
+                생성할 번호가 몇 개까지 겹쳐도 되는지 정해요. 실제로는 바로 전 회차와 아예 안
+                겹치거나(0개) 1개만 겹치는 경우가 대부분이었습니다.
+              </span>
+            </button>
+          </div>
         </div>
-        <p class="card-desc">
-          가장 최근 회차(<span id="opt-prevrepeat-drawno"></span>회)에서 나온 번호와 이번에
-          생성할 번호가 몇 개까지 겹쳐도 되는지 정해요. 실제로는 바로 전 회차와 아예 안
-          겹치거나(0개) 1개만 겹치는 경우가 대부분이었습니다.
-        </p>
+        <p class="card-desc-short">직전 회차와 겹치는 개수를 정해요.</p>
         <div class="field-row">
           <span class="field-label">적용 방식</span>
           <select id="opt-prevrepeat-mode">
@@ -353,8 +423,17 @@
     <p class="stats-trust-line" id="stats-trust-line"></p>
 
     <div class="card">
-      <h2>🔥 번호별 출현 빈도</h2>
-      <p class="card-desc">1회부터 최신 회차까지 각 번호가 당첨번호(보너스 제외)로 나온 횟수입니다.</p>
+      <h2>
+        🔥 번호별 출현 빈도
+        <button type="button" class="info-btn" aria-label="자세히 보기">
+          <span aria-hidden="true">ⓘ</span>
+          <span class="info-tooltip">
+            1회부터 최신 회차까지 각 번호가 당첨번호(보너스 제외)로 나온 횟수예요.
+            흰 테두리는 자주 나온 HOT 번호, 회색 테두리는 드물게 나온 COLD 번호를 표시합니다.
+          </span>
+        </button>
+      </h2>
+      <p class="card-desc-short">각 번호가 몇 번 나왔는지 보여줍니다.</p>
       <div class="freq-legend">
         <span><span class="legend-dot hot"></span> 자주 나온 번호(HOT) TOP 10</span>
         <span><span class="legend-dot cold"></span> 드물게 나온 번호(COLD) TOP 10</span>
@@ -377,32 +456,73 @@
     </div>
 
     <div class="card">
-      <h2>⚖️ 홀짝 비율 분포</h2>
-      <p class="card-desc">당첨번호 6개 중 홀수/짝수 비율이 회차별로 어떻게 분포했는지 보여줍니다.</p>
+      <h2>
+        ⚖️ 홀짝 비율 분포
+        <button type="button" class="info-btn" aria-label="자세히 보기">
+          <span aria-hidden="true">ⓘ</span>
+          <span class="info-tooltip">
+            당첨번호 6개 중 홀수/짝수 비율이 전 회차 동안 어떻게 분포했는지 보여줘요.
+            어떤 비율이 실제로 가장 자주 나왔는지 한눈에 볼 수 있습니다.
+          </span>
+        </button>
+      </h2>
+      <p class="card-desc-short">홀짝 비율이 회차별로 어떻게 나왔는지 보여줍니다.</p>
       <div id="odd-even-chart"></div>
     </div>
 
     <div class="card">
-      <h2>➕ 번호 합계 구간 분포</h2>
-      <p class="card-desc">당첨번호 6개의 합계가 어느 구간에 가장 많이 몰려 있는지 보여줍니다.</p>
+      <h2>
+        ➕ 번호 합계 구간 분포
+        <button type="button" class="info-btn" aria-label="자세히 보기">
+          <span aria-hidden="true">ⓘ</span>
+          <span class="info-tooltip">
+            당첨번호 6개의 합계가 어느 구간에 가장 많이 몰려 있는지 보여줘요.
+            막대가 높을수록 그 합계 범위가 자주 나왔다는 뜻입니다.
+          </span>
+        </button>
+      </h2>
+      <p class="card-desc-short">번호 합계가 어느 구간에 몰리는지 보여줍니다.</p>
       <div class="sum-chart" id="sum-chart"></div>
     </div>
 
     <div class="card">
-      <h2>🧭 구간별 번호 분포</h2>
-      <p class="card-desc">번호를 5개 구간(1~9, 10~19, 20~29, 30~39, 40~45)으로 나눴을 때, 한 회차에 평균 몇 개씩 나오는지 보여줍니다.</p>
+      <h2>
+        🧭 구간별 번호 분포
+        <button type="button" class="info-btn" aria-label="자세히 보기">
+          <span aria-hidden="true">ⓘ</span>
+          <span class="info-tooltip">
+            번호를 5개 구간(1~9, 10~19, 20~29, 30~39, 40~45)으로 나눴을 때,
+            한 회차에 평균 몇 개씩 나오는지 보여줘요.
+          </span>
+        </button>
+      </h2>
+      <p class="card-desc-short">구간별 평균 출현 개수를 보여줍니다.</p>
       <div id="zone-chart"></div>
     </div>
 
     <div class="card">
-      <h2>🔢 끝자리 분포</h2>
-      <p class="card-desc">당첨번호의 1의 자리 숫자(끝자리)가 얼마나 골고루 나왔는지 보여줍니다.</p>
+      <h2>
+        🔢 끝자리 분포
+        <button type="button" class="info-btn" aria-label="자세히 보기">
+          <span aria-hidden="true">ⓘ</span>
+          <span class="info-tooltip">당첨번호의 1의 자리 숫자(끝자리)가 얼마나 골고루 나왔는지 보여줘요.</span>
+        </button>
+      </h2>
+      <p class="card-desc-short">끝자리 숫자별 출현 비율을 보여줍니다.</p>
       <div id="lastdigit-chart"></div>
     </div>
 
     <div class="card">
-      <h2>🎾 보너스 번호 통계</h2>
-      <p class="card-desc">보너스 번호만 따로 집계한 출현 빈도입니다.</p>
+      <h2>
+        🎾 보너스 번호 통계
+        <button type="button" class="info-btn" aria-label="자세히 보기">
+          <span aria-hidden="true">ⓘ</span>
+          <span class="info-tooltip">
+            보너스 번호만 따로 집계한 출현 빈도예요. 본번호와는 별도로 뽑히기 때문에 통계도 따로 봅니다.
+          </span>
+        </button>
+      </h2>
+      <p class="card-desc-short">보너스 번호만 따로 집계했습니다.</p>
       <div class="mini-lists">
         <div>
           <h3>보너스 HOT TOP 10</h3>
@@ -416,33 +536,69 @@
     </div>
 
     <div class="card">
-      <h2>🤝 자주 함께 나오는 번호 TOP 10</h2>
-      <p class="card-desc">같은 회차에서 함께 당첨된 횟수가 가장 많은 번호 짝입니다.</p>
+      <h2>
+        🤝 자주 함께 나오는 번호 TOP 10
+        <button type="button" class="info-btn" aria-label="자세히 보기">
+          <span aria-hidden="true">ⓘ</span>
+          <span class="info-tooltip">
+            같은 회차에서 함께 당첨된 횟수가 가장 많은 번호 짝이에요.
+            "궁합 번호 가중치" 필터가 이 데이터를 기반으로 동작합니다.
+          </span>
+        </button>
+      </h2>
+      <p class="card-desc-short">같이 자주 나온 번호 짝을 보여줍니다.</p>
       <div id="pair-list"></div>
     </div>
 
     <div class="card">
-      <h2>🔗 번호 조합 특성</h2>
-      <p class="card-desc">연속번호 포함 여부와, 번호 간 간격이 얼마나 다양한지(AC값)를 보여줍니다. AC값이 낮을수록 등간격에 가까운 단조로운 조합입니다.</p>
+      <h2>
+        🔗 번호 조합 특성
+        <button type="button" class="info-btn" aria-label="자세히 보기">
+          <span aria-hidden="true">ⓘ</span>
+          <span class="info-tooltip">
+            연속번호 포함 여부와, 번호 간 간격이 얼마나 다양한지(AC값)를 보여줘요.
+            AC값이 낮을수록 등간격에 가까운 단조로운 조합입니다.
+          </span>
+        </button>
+      </h2>
+      <p class="card-desc-short">연속번호 비율과 AC값 분포를 보여줍니다.</p>
       <p class="highlight-stat" id="consecutive-stat"></p>
       <div id="ac-chart"></div>
     </div>
 
     <div class="card">
-      <h2>⏳ 재출현 간격 분포</h2>
-      <p class="card-desc">한 번 나온 번호가 다시 나오기까지 보통 몇 회차가 걸리는지 보여줍니다.</p>
+      <h2>
+        ⏳ 재출현 간격 분포
+        <button type="button" class="info-btn" aria-label="자세히 보기">
+          <span aria-hidden="true">ⓘ</span>
+          <span class="info-tooltip">한 번 나온 번호가 다시 나오기까지 보통 몇 회차가 걸리는지 보여줘요.</span>
+        </button>
+      </h2>
+      <p class="card-desc-short">재출현까지 걸리는 회차 분포를 보여줍니다.</p>
       <div class="sum-chart" id="reappear-chart"></div>
     </div>
 
     <div class="card">
-      <h2>🔁 직전 회차 재출현 통계</h2>
-      <p class="card-desc">바로 전 회차 당첨번호 중 몇 개가 이번 회차에도 다시 나왔는지 보여줍니다.</p>
+      <h2>
+        🔁 직전 회차 재출현 통계
+        <button type="button" class="info-btn" aria-label="자세히 보기">
+          <span aria-hidden="true">ⓘ</span>
+          <span class="info-tooltip">바로 전 회차 당첨번호 중 몇 개가 이번 회차에도 다시 나왔는지 보여줘요.</span>
+        </button>
+      </h2>
+      <p class="card-desc-short">직전 회차 번호의 재출현 개수를 보여줍니다.</p>
       <div id="prevrepeat-chart"></div>
     </div>
 
     <div class="card">
-      <h2>📈 최근 트렌드 vs 전체 기간 비교</h2>
-      <p class="card-desc" id="trend-desc"></p>
+      <h2>
+        📈 최근 트렌드 vs 전체 기간 비교
+        <button type="button" class="info-btn" aria-label="자세히 보기">
+          <span aria-hidden="true">ⓘ</span>
+          <span class="info-tooltip">최근 회차들의 인기 번호와 전체 기간 인기 번호를 비교해서, 요즘 흐름이 달라졌는지 보여줘요.</span>
+        </button>
+      </h2>
+      <p class="card-desc-short" id="trend-desc"></p>
       <div class="mini-lists">
         <div>
           <h3>전체 기간 HOT TOP 10</h3>
