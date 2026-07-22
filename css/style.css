@@ -90,6 +90,7 @@ header.hero p {
   text-align: justify;
   text-justify: inter-word;
   word-break: keep-all;
+  text-wrap: pretty;
 }
 
 /* 한 줄 요약 설명 (자세한 내용은 ⓘ 아이콘 툴팁으로) */
@@ -654,7 +655,7 @@ header.hero p {
   font-size: 13px;
 }
 
-/* 맞춤 번호 생성 (탭2) */
+/* 맞춤 설정 (탭2) */
 .section-heading {
   display: flex;
   align-items: baseline;
@@ -740,6 +741,41 @@ header.hero p {
 
 .pick-ball:disabled {
   opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* 원하는 번호 포함 - "줄마다 다르게 설정" 모드에서 편집할 줄을 고르는 탭 */
+.row-select {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.row-select button {
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card-elevated);
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.row-select button:hover:not(:disabled) {
+  color: var(--text);
+}
+
+.row-select button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-on);
+}
+
+.row-select button:disabled {
+  opacity: 0.4;
   cursor: not-allowed;
 }
 
@@ -1209,7 +1245,7 @@ footer {
     height: 18px;
   }
 
-  /* 맞춤 번호 생성 (탭2) */
+  /* 맞춤 설정 (탭2) */
   .section-heading {
     margin: 4px 2px 12px;
   }

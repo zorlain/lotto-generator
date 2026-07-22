@@ -1,4 +1,4 @@
-// 탭2("맞춤 번호 생성")에서 사용자가 켜고 끄고, 직접 값으로 지정하는 생성 설정.
+// 탭2("맞춤 설정")에서 사용자가 켜고 끄고, 직접 값으로 지정하는 생성 설정.
 // 홀짝 비율 / 번호 합계 구간 / 조합 복잡도(AC값)는 "기본 설정"으로, 항상 직접 범위 지정(mode: "manual")만 사용한다.
 const CONFIG_STORAGE_KEY = "lotto-gen-config-v8";
 const MAX_INCLUDE_NUMBERS = 5;
@@ -6,8 +6,14 @@ const MAX_INCLUDE_NUMBERS = 5;
 function defaultConfig() {
   return {
     // 직접 고른 번호를 생성 결과에 반드시 포함시킨다 (최대 MAX_INCLUDE_NUMBERS개).
-    // rowCount: 5줄 중 몇 줄에만 포함시킬지 (나머지 줄은 다른 조건만으로 자동 생성).
-    includeNumbers: { enabled: false, numbers: [], rowCount: 5 },
+    // mode: "common"이면 numbers를 rowCount줄에 똑같이 적용, "perRow"면 줄(A~E)마다 perRow[i]를 각각 적용.
+    includeNumbers: {
+      enabled: false,
+      mode: "common",
+      numbers: [],
+      rowCount: 5,
+      perRow: [[], [], [], [], []],
+    },
     oddEven: { enabled: true, mode: "manual", manualMin: 2, manualMax: 4 },
     sumRange: {
       enabled: true,

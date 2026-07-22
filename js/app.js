@@ -185,9 +185,14 @@ function initAdvancedToggle() {
 
 function renderActiveConfigSummary(config) {
   const active = [];
-  if (config.includeNumbers.enabled && config.includeNumbers.numbers.length > 0) {
-    const rowNote = config.includeNumbers.rowCount < 5 ? ` (${config.includeNumbers.rowCount}줄만)` : "";
-    active.push(`${config.includeNumbers.numbers.join(",")}번 포함${rowNote}`);
+  if (config.includeNumbers.enabled) {
+    if (config.includeNumbers.mode === "perRow") {
+      const rowsWithNums = config.includeNumbers.perRow.filter((nums) => nums.length > 0).length;
+      if (rowsWithNums > 0) active.push(`번호 포함(줄마다 다르게, ${rowsWithNums}줄)`);
+    } else if (config.includeNumbers.numbers.length > 0) {
+      const rowNote = config.includeNumbers.rowCount < 5 ? ` (${config.includeNumbers.rowCount}줄만)` : "";
+      active.push(`${config.includeNumbers.numbers.join(",")}번 포함${rowNote}`);
+    }
   }
   if (config.oddEven.enabled) {
     const { manualMin, manualMax } = config.oddEven;
@@ -264,7 +269,7 @@ function bindDualSlider({ minEl, maxEl, fillEl, labelEl, format, getRange, setRa
   return render;
 }
 
-/* ---------- 탭 2: 맞춤 번호 생성 ---------- */
+/* ---------- 탭 2: 맞춤 설정 ---------- */
 function initConfigPanel(stats, config, onChange) {
   const resyncFns = [];
 
@@ -273,7 +278,20 @@ function initConfigPanel(stats, config, onChange) {
   const includeGrid = document.getElementById("opt-include-grid");
   const includeHint = document.getElementById("opt-include-hint");
   const includeRowCount = document.getElementById("opt-include-rowcount");
+  const includeRowCountRow = document.getElementById("opt-include-rowcount-row");
+  const includeRowCountHint = document.getElementById("opt-include-rowcount-hint");
+  const includeModeRadios = document.querySelectorAll('input[name="opt-include-mode"]');
+  const includeRowSelect = document.getElementById("opt-include-row-select");
+  const includeRowButtons = includeRowSelect.querySelectorAll("button");
   document.getElementById("opt-include-max-label").textContent = MAX_INCLUDE_NUMBERS;
+
+  // perRow 모드에서 현재 편집 중인 줄(0~4). UI 상태일 뿐, config엔 저장하지 않는다.
+  let activeIncludeRow = 0;
+
+  const currentIncludeTarget = () =>
+    config.includeNumbers.mode === "perRow"
+      ? config.includeNumbers.perRow[activeIncludeRow]
+      : config.includeNumbers.numbers;
 
   const pickButtons = [];
   for (let n = 1; n <= 45; n++) {
@@ -283,13 +301,14 @@ function initConfigPanel(stats, config, onChange) {
     pickBtn.textContent = n;
     pickBtn.dataset.num = String(n);
     pickBtn.addEventListener("click", () => {
-      const idx = config.includeNumbers.numbers.indexOf(n);
+      const arr = currentIncludeTarget();
+      const idx = arr.indexOf(n);
       if (idx >= 0) {
-        config.includeNumbers.numbers.splice(idx, 1);
+        arr.splice(idx, 1);
       } else {
-        if (config.includeNumbers.numbers.length >= MAX_INCLUDE_NUMBERS) return;
-        config.includeNumbers.numbers.push(n);
-        config.includeNumbers.numbers.sort((a, b) => a - b);
+        if (arr.length >= MAX_INCLUDE_NUMBERS) return;
+        arr.push(n);
+        arr.sort((a, b) => a - b);
       }
       syncInclude();
       onChange();
@@ -299,27 +318,51 @@ function initConfigPanel(stats, config, onChange) {
   }
 
   const syncInclude = () => {
-    const selected = new Set(config.includeNumbers.numbers);
-    const atMax = config.includeNumbers.numbers.length >= MAX_INCLUDE_NUMBERS;
+    const isPerRow = config.includeNumbers.mode === "perRow";
+    const arr = currentIncludeTarget();
+    const selected = new Set(arr);
+    const atMax = arr.length >= MAX_INCLUDE_NUMBERS;
     pickButtons.forEach((pickBtn) => {
       const n = Number(pickBtn.dataset.num);
       const isSelected = selected.has(n);
       pickBtn.classList.toggle("selected", isSelected);
       pickBtn.disabled = !config.includeNumbers.enabled || (!isSelected && atMax);
     });
-    includeRowCount.disabled = !config.includeNumbers.enabled;
+
+    includeRowSelect.hidden = !isPerRow;
+    includeRowCountRow.hidden = isPerRow;
+    includeRowCountHint.hidden = isPerRow;
+    includeRowCount.disabled = !config.includeNumbers.enabled || isPerRow;
+
+    includeRowButtons.forEach((rowBtn) => {
+      const ri = Number(rowBtn.dataset.row);
+      rowBtn.classList.toggle("active", isPerRow && ri === activeIncludeRow);
+      rowBtn.disabled = !config.includeNumbers.enabled;
+      const rowCount = config.includeNumbers.perRow[ri].length;
+      rowBtn.textContent = `${SET_LABELS[ri]}줄${rowCount ? `(${rowCount})` : ""}`;
+    });
+
     if (!config.includeNumbers.enabled) {
       includeHint.textContent = "";
-    } else if (config.includeNumbers.numbers.length === 0) {
+    } else if (isPerRow) {
+      const summary = config.includeNumbers.perRow
+        .map((nums, ri) => `${SET_LABELS[ri]}:${nums.length ? nums.join(",") : "자동"}`)
+        .join(" · ");
+      includeHint.textContent = `${SET_LABELS[activeIncludeRow]}줄 ${arr.length}/${MAX_INCLUDE_NUMBERS}개 선택됨 · ${summary}`;
+    } else if (arr.length === 0) {
       includeHint.textContent = `0/${MAX_INCLUDE_NUMBERS}개 선택됨`;
     } else {
-      includeHint.textContent = `${config.includeNumbers.numbers.length}/${MAX_INCLUDE_NUMBERS}개 선택됨 · ${config.includeNumbers.numbers.join(", ")}번 포함`;
+      includeHint.textContent = `${arr.length}/${MAX_INCLUDE_NUMBERS}개 선택됨 · ${arr.join(", ")}번 포함`;
     }
   };
 
   const resyncInclude = () => {
     includeEnabled.checked = config.includeNumbers.enabled;
     includeRowCount.value = String(config.includeNumbers.rowCount);
+    includeModeRadios.forEach((radio) => {
+      radio.checked = radio.value === config.includeNumbers.mode;
+    });
+    activeIncludeRow = 0;
     syncInclude();
   };
   resyncInclude();
@@ -333,6 +376,21 @@ function initConfigPanel(stats, config, onChange) {
   includeRowCount.addEventListener("change", () => {
     config.includeNumbers.rowCount = Number(includeRowCount.value);
     onChange();
+  });
+  includeModeRadios.forEach((radio) => {
+    radio.addEventListener("change", () => {
+      if (!radio.checked) return;
+      config.includeNumbers.mode = radio.value;
+      activeIncludeRow = 0;
+      syncInclude();
+      onChange();
+    });
+  });
+  includeRowButtons.forEach((rowBtn) => {
+    rowBtn.addEventListener("click", () => {
+      activeIncludeRow = Number(rowBtn.dataset.row);
+      syncInclude();
+    });
   });
 
   // 홀짝 비율 (항상 직접 범위 지정)

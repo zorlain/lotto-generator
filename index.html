@@ -34,7 +34,7 @@
 
   <nav class="tabs" id="tabs">
     <button class="tab-btn active" data-tab="generate">🎯 번호 생성</button>
-    <button class="tab-btn" data-tab="custom">⚙️ 맞춤 번호 생성</button>
+    <button class="tab-btn" data-tab="custom">⚙️ 맞춤 설정</button>
     <button class="tab-btn" data-tab="stats">📊 데이터 통계</button>
   </nav>
 
@@ -44,7 +44,7 @@
       <h2>🎯 번호 생성</h2>
       <p class="card-desc">
         <span id="active-config-summary">기본 설정</span>으로 5조합을 생성합니다.
-        조건은 <b>맞춤 번호 생성</b> 탭에서 직접 바꿀 수 있습니다.
+        조건은 <b>맞춤 설정</b> 탭에서 직접 바꿀 수 있습니다.
       </p>
       <button class="generate-btn" id="generate-btn">🔄 번호 생성하기</button>
       <p class="generate-warning" id="generate-warning" hidden></p>
@@ -56,11 +56,11 @@
     </div>
   </section>
 
-  <!-- 탭 2: 맞춤 번호 생성 -->
+  <!-- 탭 2: 맞춤 설정 -->
   <section class="tab-panel" data-tab-panel="custom" hidden>
     <div class="card">
       <h2>
-        ⚙️ 맞춤 번호 생성
+        ⚙️ 맞춤 설정
         <button type="button" class="info-btn" aria-label="자세히 보기">
           <span aria-hidden="true">ⓘ</span>
           <span class="info-tooltip">
@@ -98,14 +98,27 @@
               직접 고른 번호를 생성되는 조합에 반드시 포함시킵니다. 좋아하는 숫자나 기념일처럼
               의미 있는 번호가 있다면 아래에서 선택합니다. 최대 <span id="opt-include-max-label"></span>개까지
               고를 수 있으며, 나머지 자리는 다른 조건에 맞춰 자동으로 채워집니다.
+              "공통으로 적용"은 고른 번호를 여러 줄에 똑같이 넣고, "줄마다 다르게 설정"은
+              A~E줄마다 서로 다른 번호를 지정할 수 있습니다.
             </span>
           </button>
         </div>
       </div>
       <p class="card-desc-short">직접 고른 번호를 결과에 반드시 포함시킵니다.</p>
+      <div class="radio-row" id="opt-include-mode-row">
+        <label><input type="radio" name="opt-include-mode" value="common" /> 공통으로 적용</label>
+        <label><input type="radio" name="opt-include-mode" value="perRow" /> 줄마다 다르게 설정</label>
+      </div>
+      <div class="row-select" id="opt-include-row-select" hidden>
+        <button type="button" data-row="0">A줄</button>
+        <button type="button" data-row="1">B줄</button>
+        <button type="button" data-row="2">C줄</button>
+        <button type="button" data-row="3">D줄</button>
+        <button type="button" data-row="4">E줄</button>
+      </div>
       <div class="number-picker" id="opt-include-grid"></div>
       <p class="field-hint" id="opt-include-hint"></p>
-      <div class="field-row">
+      <div class="field-row" id="opt-include-rowcount-row">
         <span class="field-label">적용할 줄 수</span>
         <select id="opt-include-rowcount">
           <option value="1">1줄만</option>
@@ -115,7 +128,7 @@
           <option value="5">5줄 (전체)</option>
         </select>
       </div>
-      <p class="field-hint">선택한 줄에만 고른 번호가 포함되며, 나머지 줄은 자동으로 생성됩니다.</p>
+      <p class="field-hint" id="opt-include-rowcount-hint">선택한 줄에만 고른 번호가 포함되며, 나머지 줄은 자동으로 생성됩니다.</p>
     </div>
 
     <div class="card option-card">
@@ -214,6 +227,42 @@
       <div class="section-heading">
         <span class="section-heading-title">🔬 심화 설정</span>
         <span class="section-heading-desc">번호 분석에 익숙한 사용자를 위한 고급 필터입니다</span>
+      </div>
+
+      <div class="card option-card">
+        <div class="option-head">
+          <div class="option-title-row">
+            <label class="switch-row">
+              <input type="checkbox" id="opt-prevrepeat-enabled" />
+              <span class="option-title">🔁 직전 회차 재출현 개수</span>
+            </label>
+            <button type="button" class="info-btn" aria-label="자세히 보기">
+              <span aria-hidden="true">ⓘ</span>
+              <span class="info-tooltip">
+                가장 최근 회차(<span id="opt-prevrepeat-drawno"></span>회)에서 나온 번호와 이번에
+                생성할 번호가 몇 개까지 겹쳐도 되는지 지정합니다. 실제로는 바로 전 회차와 아예 안
+                겹치거나(0개) 1개만 겹치는 경우가 대부분이었습니다.
+              </span>
+            </button>
+          </div>
+        </div>
+        <p class="card-desc-short">직전 회차와 겹치는 개수를 지정합니다.</p>
+        <div class="field-row">
+          <span class="field-label">적용 방식</span>
+          <select id="opt-prevrepeat-mode">
+            <option value="auto">자동 (전 회차 통계 기반)</option>
+            <option value="manual">직접 범위 지정</option>
+          </select>
+        </div>
+        <div id="opt-prevrepeat-manual-wrap">
+          <div class="dual-slider">
+            <div class="dual-slider-track"></div>
+            <div class="dual-slider-fill" id="opt-prevrepeat-fill"></div>
+            <input type="range" id="opt-prevrepeat-min" min="0" max="6" step="1" />
+            <input type="range" id="opt-prevrepeat-max" min="0" max="6" step="1" />
+          </div>
+          <div class="dual-slider-labels" id="opt-prevrepeat-labels"></div>
+        </div>
       </div>
 
       <div class="card option-card">
@@ -375,42 +424,6 @@
           <span class="field-label">상위 몇 개</span>
           <input type="number" id="opt-cooccur-topn" min="1" max="45" />
           <span class="field-suffix">개 번호 우대</span>
-        </div>
-      </div>
-
-      <div class="card option-card">
-        <div class="option-head">
-          <div class="option-title-row">
-            <label class="switch-row">
-              <input type="checkbox" id="opt-prevrepeat-enabled" />
-              <span class="option-title">🔁 직전 회차 재출현 개수</span>
-            </label>
-            <button type="button" class="info-btn" aria-label="자세히 보기">
-              <span aria-hidden="true">ⓘ</span>
-              <span class="info-tooltip">
-                가장 최근 회차(<span id="opt-prevrepeat-drawno"></span>회)에서 나온 번호와 이번에
-                생성할 번호가 몇 개까지 겹쳐도 되는지 지정합니다. 실제로는 바로 전 회차와 아예 안
-                겹치거나(0개) 1개만 겹치는 경우가 대부분이었습니다.
-              </span>
-            </button>
-          </div>
-        </div>
-        <p class="card-desc-short">직전 회차와 겹치는 개수를 지정합니다.</p>
-        <div class="field-row">
-          <span class="field-label">적용 방식</span>
-          <select id="opt-prevrepeat-mode">
-            <option value="auto">자동 (전 회차 통계 기반)</option>
-            <option value="manual">직접 범위 지정</option>
-          </select>
-        </div>
-        <div id="opt-prevrepeat-manual-wrap">
-          <div class="dual-slider">
-            <div class="dual-slider-track"></div>
-            <div class="dual-slider-fill" id="opt-prevrepeat-fill"></div>
-            <input type="range" id="opt-prevrepeat-min" min="0" max="6" step="1" />
-            <input type="range" id="opt-prevrepeat-max" min="0" max="6" step="1" />
-          </div>
-          <div class="dual-slider-labels" id="opt-prevrepeat-labels"></div>
         </div>
       </div>
     </div>

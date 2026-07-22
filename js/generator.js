@@ -214,22 +214,35 @@ function generateSets(stats, config, count) {
     }
   }
 
-  // "원하는 번호 포함"이 켜져 있으면, 지정한 줄 수만큼만 그 번호를 강제로 넣고
-  // 나머지 줄은 다른 조건만으로 자유롭게 생성한다.
-  const includeOn = config.includeNumbers.enabled && config.includeNumbers.numbers.length > 0;
-  const forcedRowCount = includeOn
-    ? Math.min(count, Math.max(1, config.includeNumbers.rowCount || count))
-    : 0;
+  // "원하는 번호 포함"이 켜져 있으면 모드에 따라 두 가지 방식으로 강제로 넣는다.
+  // - "common": 같은 번호 세트를 지정한 줄 수만큼 넣고, 나머지 줄은 자유롭게 생성한다.
+  // - "perRow": A~E줄마다 각자 지정한 번호를 넣는다(빈 줄은 자유 생성). 줄 순서가 그대로
+  //   결과 배열 순서(=A~E 라벨)와 대응해야 하므로, 줄 단위로 순서대로 하나씩 생성한다.
+  const includeCfg = config.includeNumbers;
+  const perRowOn = includeCfg.enabled && includeCfg.mode === "perRow" &&
+    includeCfg.perRow.some((nums) => nums.length > 0);
+  const commonOn = includeCfg.enabled && includeCfg.mode !== "perRow" && includeCfg.numbers.length > 0;
 
-  if (forcedRowCount > 0) {
-    const phase1Budget = Math.round((TOTAL_ATTEMPT_BUDGET * forcedRowCount) / count);
-    fillPhase(config.includeNumbers.numbers, forcedRowCount, phase1Budget);
-  }
+  if (perRowOn) {
+    const perRowBudget = Math.floor(TOTAL_ATTEMPT_BUDGET / count);
+    for (let i = 0; i < count; i++) {
+      fillPhase(includeCfg.perRow[i] || [], 1, perRowBudget);
+    }
+  } else {
+    const forcedRowCount = commonOn
+      ? Math.min(count, Math.max(1, includeCfg.rowCount || count))
+      : 0;
 
-  const remaining = count - results.length;
-  if (remaining > 0) {
-    const phase2Budget = TOTAL_ATTEMPT_BUDGET - (forcedRowCount > 0 ? Math.round((TOTAL_ATTEMPT_BUDGET * forcedRowCount) / count) : 0);
-    fillPhase([], remaining, phase2Budget);
+    if (forcedRowCount > 0) {
+      const phase1Budget = Math.round((TOTAL_ATTEMPT_BUDGET * forcedRowCount) / count);
+      fillPhase(includeCfg.numbers, forcedRowCount, phase1Budget);
+    }
+
+    const remaining = count - results.length;
+    if (remaining > 0) {
+      const phase2Budget = TOTAL_ATTEMPT_BUDGET - (forcedRowCount > 0 ? Math.round((TOTAL_ATTEMPT_BUDGET * forcedRowCount) / count) : 0);
+      fillPhase([], remaining, phase2Budget);
+    }
   }
 
   return results;
