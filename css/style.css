@@ -16,11 +16,12 @@
      OLED 화면의 자동 밝기 제한(ABL)으로 큰 면적이 실제보다 칙칙하게 보이는 걸 줄인다. */
   --chart-fill: #999999;
 
-  --yellow: #fbc400;
-  --blue: #69c8f2;
-  --red: #ff7272;
-  --gray: #aaaaaa;
-  --green: #b0d840;
+  /* 동행복권 공식 사이트(dhlottery.co.kr)의 실제 로또공 색상과 동일하게 맞춤 */
+  --yellow: #e08f00;
+  --blue: #0063cc;
+  --red: #d8314f;
+  --gray: #6e7382;
+  --green: #2c9e44;
   --bonus: #c58af9;
 }
 
@@ -397,11 +398,11 @@ header.hero p {
   flex-shrink: 0;
 }
 
-.ball-yellow { background: var(--yellow); color: #5b4400; text-shadow: none; }
+.ball-yellow { background: var(--yellow); }
 .ball-blue { background: var(--blue); }
 .ball-red { background: var(--red); }
 .ball-gray { background: var(--gray); }
-.ball-green { background: var(--green); color: #35460a; text-shadow: none; }
+.ball-green { background: var(--green); }
 .ball-bonus { background: var(--bonus); }
 
 /* 번호별 출현 빈도 차트 */
@@ -766,9 +767,6 @@ header.hero p {
   box-shadow: 0 0 0 3px var(--accent);
   transform: scale(1.06);
 }
-
-.pick-ball.selected.ball-yellow { color: #5b4400; text-shadow: none; }
-.pick-ball.selected.ball-green { color: #35460a; text-shadow: none; }
 
 .pick-ball:disabled {
   opacity: 0.35;
