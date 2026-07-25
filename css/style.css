@@ -68,6 +68,35 @@ header.hero p {
   line-height: 1.6;
 }
 
+.hero-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+
+.site-switch-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 22px;
+  border-radius: 14px;
+  border: none;
+  background: var(--accent);
+  color: var(--accent-on);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.site-switch-link:hover {
+  background: var(--accent-hover);
+}
+
+.site-switch-link:active {
+  transform: scale(0.98);
+}
+
 .card {
   background: var(--card);
   border-radius: 24px;
@@ -1080,6 +1109,13 @@ footer {
   header.hero p {
     font-size: 14px;
     line-height: 1.5;
+  }
+  .hero-actions {
+    margin-top: 14px;
+  }
+  .site-switch-link {
+    padding: 9px 15px;
+    font-size: 13px;
   }
   .card {
     padding: 18px;
