@@ -1,21 +1,26 @@
-/* 애플 다크모드 디자인 언어 적용: SF Pro 타이포그래피 문법(타이트한 자간, 17px 본문),
-   단일 블루 액센트, 알약형 버튼, 장식적 그림자 배제. 배경은 애플 다크 타일 톤 유지. */
+/* 레볼루트(Revolut) 다크 캔버스 디자인 언어 적용: 순수 블랙 캔버스 + 코발트 바이올렛
+   포인트(전용 버튼 표면 X, 아껴서 사용), 흰 배경 위 검은 알약형 1차 버튼, Inter 타이포그래피
+   (양수 자간), 그림자 완전 배제(깊이는 색 대비로만). */
 :root {
   --bg: #000000;
-  --card: #1d1d1f;
-  --card-elevated: #2a2a2c;
+  --card: #16181a;
+  --card-elevated: #1f2226;
   --text: #ffffff;
-  --text-muted: #cccccc;
+  --text-muted: rgba(255, 255, 255, 0.72);
   --border: rgba(255, 255, 255, 0.12);
-  --accent: #2997ff;
-  --accent-hover: #47a6ff;
-  --accent-soft: rgba(41, 151, 255, 0.16);
+  --accent: #494fdf;
+  --accent-hover: #4f55f1;
+  --accent-soft: rgba(73, 79, 223, 0.16);
   --accent-on: #ffffff;
-  --hot-mark: #2997ff;
-  --cold-mark: #6e6e73;
+  --hot-mark: #4f55f1;
+  --cold-mark: #5c5e60;
   /* 넓은 면적을 차지하는 차트 막대 전용 색. --accent보다 어둡게 잡아서,
      OLED 화면의 자동 밝기 제한(ABL)으로 큰 면적이 실제보다 칙칙하게 보이는 걸 줄인다. */
-  --chart-fill: #1a6fc4;
+  --chart-fill: #3a40c4;
+  /* 1차 CTA는 레볼루트 시그니처인 "검정 캔버스 위 흰 알약"으로, 액센트와 분리해서 관리한다. */
+  --btn-primary-bg: #ffffff;
+  --btn-primary-text: #000000;
+  --btn-primary-pressed: #c9c9cd;
 
   /* 동행복권 공식 사이트(dhlottery.co.kr)의 실제 로또공 색상과 동일하게 맞춤 */
   --yellow: #e08f00;
@@ -32,12 +37,13 @@
 
 body {
   margin: 0;
-  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
-    "SF Pro Display", "SF Pro Text", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  font-family: Inter, "Pretendard Variable", Pretendard, "Apple SD Gothic Neo",
+    "Malgun Gothic", sans-serif;
   background: var(--bg);
   color: var(--text);
-  font-size: 17px;
-  line-height: 1.47;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.24px;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -59,16 +65,18 @@ header.hero {
 
 header.hero h1 {
   font-size: 34px;
-  font-weight: 700;
+  font-weight: 500;
   margin: 0 0 14px;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
 }
 
 header.hero p {
   color: var(--text-muted);
   margin: 0;
-  font-size: 17px;
-  line-height: 1.47;
+  font-size: 18px;
+  line-height: 1.56;
+  letter-spacing: -0.09px;
 }
 
 .hero-actions {
@@ -83,17 +91,18 @@ header.hero p {
   gap: 6px;
   padding: 12px 22px;
   border-radius: 9999px;
-  border: none;
-  background: var(--accent);
-  color: var(--accent-on);
+  border: 1px solid var(--text);
+  background: transparent;
+  color: var(--text);
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
+  letter-spacing: 0.24px;
   text-decoration: none;
   transition: background 0.15s, transform 0.1s;
 }
 
 .site-switch-link:hover {
-  background: var(--accent-hover);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .site-switch-link:active {
@@ -102,14 +111,14 @@ header.hero p {
 
 .card {
   background: var(--card);
-  border-radius: 18px;
+  border-radius: 20px;
   padding: 32px;
   margin-bottom: 28px;
 }
 
 .card h2 {
   font-size: 20px;
-  font-weight: 700;
+  font-weight: 500;
   margin: 0 0 20px;
   display: flex;
   align-items: center;
@@ -247,14 +256,16 @@ header.hero p {
 }
 
 /* 번호 생성 */
+/* 레볼루트의 시그니처 1차 CTA: 검정 캔버스 위 흰 알약. 이 화면에서 가장 밝은 픽셀이 되도록. */
 .generate-btn {
   display: block;
   width: 100%;
   padding: 20px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
-  color: var(--accent-on);
-  background: var(--accent);
+  letter-spacing: 0.24px;
+  color: var(--btn-primary-text);
+  background: var(--btn-primary-bg);
   border: none;
   border-radius: 9999px;
   cursor: pointer;
@@ -263,10 +274,11 @@ header.hero p {
 }
 
 .generate-btn:hover {
-  background: var(--accent-hover);
+  background: var(--btn-primary-bg);
 }
 
 .generate-btn:active {
+  background: var(--btn-primary-pressed);
   transform: scale(0.98);
 }
 
@@ -323,7 +335,7 @@ header.hero p {
   font-size: 13px;
   font-weight: 600;
   padding: 8px 12px;
-  border-radius: 10px;
+  border-radius: 9999px;
   cursor: pointer;
   white-space: nowrap;
   transition: background 0.15s, color 0.15s, transform 0.1s;
@@ -362,9 +374,9 @@ header.hero p {
   background: var(--card-elevated);
   color: var(--text);
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
   padding: 10px 14px;
-  border-radius: 12px;
+  border-radius: 9999px;
   cursor: pointer;
   transition: background 0.15s, color 0.15s, transform 0.1s;
 }
@@ -383,9 +395,7 @@ header.hero p {
   color: var(--accent-on);
 }
 
-/* 공 */
-/* 이 사이트에서 유일하게 그림자를 쓰는 요소 — 생성된 번호 공을
-   "제품처럼" 표면 위에 놓인 듯 보이게 하는 용도로만 예약한다. */
+/* 공 — 레볼루트 시스템은 그림자를 전혀 쓰지 않는다. 깊이는 색 대비로만 표현. */
 .ball {
   width: 40px;
   height: 40px;
@@ -394,10 +404,8 @@ header.hero p {
   align-items: center;
   justify-content: center;
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
   color: #fff;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
-  box-shadow: 2px 3px 14px rgba(0, 0, 0, 0.35);
   flex-shrink: 0;
 }
 
@@ -718,7 +726,7 @@ header.hero p {
   color: var(--text);
   background: var(--card);
   border: none;
-  border-radius: 18px;
+  border-radius: 9999px;
   cursor: pointer;
   margin: 4px 0 20px;
   transition: background 0.15s, transform 0.1s;
@@ -785,7 +793,7 @@ header.hero p {
 
 .row-select button {
   padding: 7px 14px;
-  border-radius: 8px;
+  border-radius: 9999px;
   border: 1px solid var(--border);
   background: var(--card-elevated);
   color: var(--text-muted);
@@ -1045,7 +1053,7 @@ header.hero p {
   color: var(--text-muted);
   background: var(--card-elevated);
   border: none;
-  border-radius: 18px;
+  border-radius: 9999px;
   cursor: pointer;
   margin-top: 12px;
   transition: background 0.15s, color 0.15s, transform 0.1s;
@@ -1136,13 +1144,11 @@ footer {
   .tabs {
     padding: 5px;
     gap: 4px;
-    border-radius: 16px;
     margin-bottom: 18px;
   }
   .tab-btn {
     font-size: 12.5px;
     padding: 13px 4px;
-    border-radius: 12px;
     line-height: 1.3;
   }
 
