@@ -1,6 +1,6 @@
-/* 레볼루트(Revolut) 다크 캔버스 디자인 언어 적용: 순수 블랙 캔버스 + 코발트 바이올렛
-   포인트(전용 버튼 표면 X, 아껴서 사용), 흰 배경 위 검은 알약형 1차 버튼, Inter 타이포그래피
-   (양수 자간), 그림자 완전 배제(깊이는 색 대비로만). */
+/* 레볼루트(Revolut) 디자인 언어 적용: 코발트 바이올렛 포인트(전용 버튼 표면 X, 아껴서 사용),
+   1차 버튼은 캔버스 반대색 알약, Inter 타이포그래피(양수 자간), 그림자 완전 배제(깊이는 색
+   대비로만). 다크가 기본값이며, data-theme="light"로 라이트 모드를 전환한다. */
 :root {
   --bg: #000000;
   --card: #16181a;
@@ -17,10 +17,11 @@
   /* 넓은 면적을 차지하는 차트 막대 전용 색. --accent보다 어둡게 잡아서,
      OLED 화면의 자동 밝기 제한(ABL)으로 큰 면적이 실제보다 칙칙하게 보이는 걸 줄인다. */
   --chart-fill: #3a40c4;
-  /* 1차 CTA는 레볼루트 시그니처인 "검정 캔버스 위 흰 알약"으로, 액센트와 분리해서 관리한다. */
+  /* 1차 CTA는 레볼루트 시그니처인 "캔버스 반대색 알약"으로, 액센트와 분리해서 관리한다. */
   --btn-primary-bg: #ffffff;
   --btn-primary-text: #000000;
   --btn-primary-pressed: #c9c9cd;
+  --hover-tint: rgba(255, 255, 255, 0.08);
 
   /* 동행복권 공식 사이트(dhlottery.co.kr)의 실제 로또공 색상과 동일하게 맞춤 */
   --yellow: #e08f00;
@@ -29,6 +30,48 @@
   --gray: #6e7382;
   --green: #2c9e44;
   --bonus: #c58af9;
+}
+
+:root[data-theme="light"] {
+  --bg: #ffffff;
+  --card: #f7f7f8;
+  --card-elevated: #ececef;
+  --text: #0a0a0a;
+  --text-muted: rgba(10, 10, 10, 0.62);
+  --border: rgba(10, 10, 10, 0.12);
+  --accent-soft: rgba(73, 79, 223, 0.12);
+  --hot-mark: #494fdf;
+  --cold-mark: #9296a1;
+  --chart-fill: #494fdf;
+  --btn-primary-bg: #0a0a0a;
+  --btn-primary-text: #ffffff;
+  --btn-primary-pressed: #2e2e2e;
+  --hover-tint: rgba(10, 10, 10, 0.06);
+}
+
+/* 테마 토글 버튼 */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  border: 1px solid var(--text);
+  background: transparent;
+  color: var(--text);
+  font-size: 17px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.theme-toggle:hover {
+  background: var(--hover-tint);
+}
+
+.theme-toggle:active {
+  transform: scale(0.94);
 }
 
 * {
@@ -82,6 +125,8 @@ header.hero p {
 .hero-actions {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
   margin-top: 18px;
 }
 
@@ -102,7 +147,7 @@ header.hero p {
 }
 
 .site-switch-link:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--hover-tint);
 }
 
 .site-switch-link:active {
@@ -772,9 +817,9 @@ header.hero p {
 }
 
 .pick-ball.selected {
-  color: #fff;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
-  box-shadow: 0 0 0 3px var(--accent);
+  background: var(--accent);
+  color: var(--accent-on);
+  box-shadow: 0 0 0 3px var(--accent-soft);
   transform: scale(1.06);
 }
 
@@ -965,9 +1010,8 @@ header.hero p {
   position: absolute;
   top: 50%;
   height: 8px;
-  background: #ffffff;
+  background: var(--accent);
   border-radius: 4px;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.35);
   transform: translateY(-50%);
 }
 
@@ -995,9 +1039,9 @@ header.hero p {
   height: 22px;
   margin-top: 5px;
   border-radius: 50%;
-  background: #ffffff;
+  background: var(--accent);
   border: 3px solid var(--card);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.4);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
   cursor: pointer;
 }
 
@@ -1011,9 +1055,9 @@ header.hero p {
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: #ffffff;
+  background: var(--accent);
   border: 3px solid var(--card);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.4);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
   cursor: pointer;
 }
 

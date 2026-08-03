@@ -61,6 +61,25 @@ function flashCopied(btn, tempLabel) {
   }, 1200);
 }
 
+/* ---------- 다크/라이트 모드 토글 ---------- */
+function initThemeToggle() {
+  const btn = document.getElementById("theme-toggle");
+  if (!btn) return;
+
+  const getTheme = () => document.documentElement.getAttribute("data-theme") || "dark";
+  const applyIcon = () => {
+    btn.textContent = getTheme() === "light" ? "🌙" : "☀️";
+  };
+
+  applyIcon();
+  btn.addEventListener("click", () => {
+    const next = getTheme() === "light" ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", next);
+    localStorage.setItem("theme", next);
+    applyIcon();
+  });
+}
+
 /* ---------- 탭 전환 ---------- */
 function initTabs() {
   const buttons = document.querySelectorAll(".tab-btn");
@@ -1030,6 +1049,7 @@ function init() {
   const config = loadConfig();
 
   renderSeoMeta(stats);
+  initThemeToggle();
   initTabs();
   initAdvancedToggle();
   initInfoTooltips();
