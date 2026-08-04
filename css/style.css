@@ -357,6 +357,38 @@ header.hero p {
   margin: 0 0 20px;
 }
 
+.download-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 1px solid var(--accent);
+  border-radius: 9999px;
+  background: transparent;
+  color: var(--accent);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.download-btn:hover {
+  background: var(--accent-soft);
+}
+
+.download-btn:active {
+  transform: scale(0.98);
+}
+
+.download-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* 번호 생성 */
 /* 레볼루트의 시그니처 1차 CTA: 검정 캔버스 위 흰 알약. 이 화면에서 가장 밝은 픽셀이 되도록. */
 .generate-btn {
