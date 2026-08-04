@@ -130,28 +130,85 @@ header.hero p {
   margin-top: 18px;
 }
 
-.site-switch-link {
+/* 헤더 햄버거 메뉴 — 누르면 다른 도구 목록이 드롭다운으로 표시 */
+.menu {
+  position: relative;
+}
+
+.menu-toggle {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 12px 22px;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
   border-radius: 9999px;
   border: 1px solid var(--text);
   background: transparent;
   color: var(--text);
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.24px;
-  text-decoration: none;
+  font-size: 18px;
+  cursor: pointer;
   transition: background 0.15s, transform 0.1s;
 }
 
-.site-switch-link:hover {
+.menu-toggle:hover {
   background: var(--hover-tint);
 }
 
-.site-switch-link:active {
-  transform: scale(0.98);
+.menu-toggle:active {
+  transform: scale(0.94);
+}
+
+.menu-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  min-width: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--card-elevated);
+  border-radius: 16px;
+  padding: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.15s, transform 0.15s, visibility 0.15s;
+  z-index: 40;
+}
+
+.menu.open .menu-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.tool-list-group-label {
+  padding: 6px 10px 8px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tool-list-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 10px;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.tool-list-item:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
 }
 
 .card {
@@ -1164,10 +1221,6 @@ footer {
   }
   .hero-actions {
     margin-top: 14px;
-  }
-  .site-switch-link {
-    padding: 9px 15px;
-    font-size: 13px;
   }
   .card {
     padding: 18px;

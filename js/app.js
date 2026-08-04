@@ -80,6 +80,18 @@ function initThemeToggle() {
   });
 }
 
+/* ---------- 헤더 햄버거 메뉴 ---------- */
+function initMenu() {
+  const menu = document.getElementById("menu");
+  const toggle = document.getElementById("menu-toggle");
+  if (!menu || !toggle) return;
+  toggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    menu.classList.toggle("open");
+  });
+  document.addEventListener("click", () => menu.classList.remove("open"));
+}
+
 /* ---------- 탭 전환 ---------- */
 function initTabs() {
   const buttons = document.querySelectorAll(".tab-btn");
@@ -1050,6 +1062,7 @@ function init() {
 
   renderSeoMeta(stats);
   initThemeToggle();
+  initMenu();
   initTabs();
   initAdvancedToggle();
   initInfoTooltips();

@@ -36,7 +36,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
-<link rel="stylesheet" href="css/style.css?v=5" />
+<link rel="stylesheet" href="css/style.css?v=6" />
 </head>
 <body>
 <div class="page">
@@ -46,7 +46,14 @@
     <p>동행복권 로또 6/45 전 회차 당첨번호를 분석해서 통계 기반으로 번호를 생성합니다.</p>
     <div class="hero-actions">
       <button type="button" class="theme-toggle" id="theme-toggle" aria-label="다크/라이트 모드 전환">☀️</button>
-      <a class="site-switch-link" href="https://zorlain.github.io/pension-lotto-generator/">🎰 연금복권 번호 생성기 바로가기</a>
+      <div class="menu" id="menu">
+        <button type="button" class="menu-toggle" id="menu-toggle" aria-label="메뉴 열기">☰</button>
+        <div class="menu-dropdown" id="menu-dropdown">
+          <div class="tool-list-group-label">다른 도구</div>
+          <a class="tool-list-item" href="https://zorlain.github.io/pension-lotto-generator/">🎰 연금복권 번호 생성기</a>
+          <a class="tool-list-item" href="https://zorlain.github.io/loan-calculator/">💰 이자 계산기</a>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -654,6 +661,6 @@
 <script src="js/config.js"></script>
 <script src="js/stats.js"></script>
 <script src="js/generator.js"></script>
-<script src="js/app.js?v=2"></script>
+<script src="js/app.js?v=3"></script>
 </body>
 </html>
