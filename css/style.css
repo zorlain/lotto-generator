@@ -612,6 +612,17 @@ header.hero p {
   font-weight: 700;
 }
 
+.stat-subheading {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 20px 0 10px;
+  font-weight: 700;
+}
+
+.stat-subheading:first-of-type {
+  margin-top: 0;
+}
+
 .mini-item {
   display: flex;
   align-items: center;

@@ -36,7 +36,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
-<link rel="stylesheet" href="css/style.css?v=6" />
+<link rel="stylesheet" href="css/style.css?v=7" />
 </head>
 <body>
 <div class="page">
@@ -523,7 +523,29 @@
         </button>
       </h2>
       <p class="card-desc-short">번호 합계가 어느 구간에 몰리는지 보여줍니다.</p>
+      <p class="highlight-stat" id="sum-stddev-stat"></p>
       <div class="sum-chart" id="sum-chart"></div>
+    </div>
+
+    <div class="card">
+      <h2>
+        🎯 소수·배수 개수 분포
+        <button type="button" class="info-btn" aria-label="자세히 보기">
+          <span aria-hidden="true">ⓘ</span>
+          <span class="info-tooltip">
+            당첨번호 6개 중 소수(2, 3, 5, 7…)가 몇 개 섞였는지, 3의 배수·5의 배수가 몇 개
+            섞였는지 보여줍니다. 특정 성질의 숫자에 쏠리기보다 골고루 섞인 조합이 실제로
+            더 자주 나왔는지 확인할 수 있습니다.
+          </span>
+        </button>
+      </h2>
+      <p class="card-desc-short">소수·3의 배수·5의 배수가 몇 개씩 섞였는지 보여줍니다.</p>
+      <h3 class="stat-subheading">소수 개수</h3>
+      <div id="prime-chart"></div>
+      <h3 class="stat-subheading">3의 배수 개수</h3>
+      <div id="multiple3-chart"></div>
+      <h3 class="stat-subheading">5의 배수 개수</h3>
+      <div id="multiple5-chart"></div>
     </div>
 
     <div class="card">
@@ -598,13 +620,47 @@
           <span aria-hidden="true">ⓘ</span>
           <span class="info-tooltip">
             연속번호 포함 여부와, 번호 간 간격이 얼마나 다양한지(AC값)를 보여줍니다.
-            AC값이 낮을수록 등간격에 가까운 단조로운 조합입니다.
+            AC값이 낮을수록 등간격에 가까운 단조로운 조합입니다. 최장 연속 길이는 이어지는
+            숫자(예: 12, 13, 14)가 한 회차에 최대 몇 개까지 붙어서 나왔는지를 봅니다.
           </span>
         </button>
       </h2>
       <p class="card-desc-short">연속번호 비율과 AC값 분포를 보여줍니다.</p>
       <p class="highlight-stat" id="consecutive-stat"></p>
       <div id="ac-chart"></div>
+      <h3 class="stat-subheading">최장 연속 길이 분포</h3>
+      <div id="streak-chart"></div>
+    </div>
+
+    <div class="card">
+      <h2>
+        🤝🤝 세 번호 조합(트리플) TOP 10
+        <button type="button" class="info-btn" aria-label="자세히 보기">
+          <span aria-hidden="true">ⓘ</span>
+          <span class="info-tooltip">
+            같은 회차에서 함께 당첨된 횟수가 가장 많은 세 번호 조합입니다.
+            두 번호 궁합보다 더 좁혀진, 세 개가 동시에 잘 나온 조합을 보여줍니다.
+          </span>
+        </button>
+      </h2>
+      <p class="card-desc-short">같이 자주 나온 세 번호 조합을 보여줍니다.</p>
+      <div id="triple-list"></div>
+    </div>
+
+    <div class="card">
+      <h2>
+        🌸 계절별 인기 번호
+        <button type="button" class="info-btn" aria-label="자세히 보기">
+          <span aria-hidden="true">ⓘ</span>
+          <span class="info-tooltip">
+            추첨일 기준으로 봄(3~5월)·여름(6~8월)·가을(9~11월)·겨울(12~2월)로 나눠서,
+            계절별로 가장 자주 나온 번호 TOP 5를 보여줍니다. 로또는 완전 무작위 추첨이라
+            계절과 실제 상관관계는 없지만, 참고용으로 확인할 수 있습니다.
+          </span>
+        </button>
+      </h2>
+      <p class="card-desc-short">계절별로 가장 많이 나온 번호를 보여줍니다.</p>
+      <div class="mini-lists" id="seasonal-lists"></div>
     </div>
 
     <div class="card">
@@ -662,8 +718,8 @@
 
 <script src="data/lotto-data.js"></script>
 <script src="js/config.js"></script>
-<script src="js/stats.js"></script>
+<script src="js/stats.js?v=2"></script>
 <script src="js/generator.js"></script>
-<script src="js/app.js?v=3"></script>
+<script src="js/app.js?v=4"></script>
 </body>
 </html>

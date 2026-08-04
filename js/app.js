@@ -978,6 +978,66 @@ function renderCombinationTraits(stats) {
   document.getElementById("consecutive-stat").textContent =
     `연속번호가 1쌍 이상 포함된 회차: 전체의 ${withPct}% (${stats.consecutivePairCount.withConsecutive.toLocaleString()} / ${stats.totalDraws.toLocaleString()}회)`;
   renderHBarDist("ac-chart", stats.acDist, (i) => (i === 10 ? "AC 10+" : `AC ${i}`));
+
+  const streakCounts = [stats.streakDist.none, stats.streakDist.two, stats.streakDist.threePlus];
+  renderHBarDist("streak-chart", streakCounts, (i) => ["연속 없음", "2연속", "3연속 이상"][i]);
+}
+
+function renderPrimeMultipleCharts(stats) {
+  renderHBarDist("prime-chart", stats.primeCountDist, (i) => `소수 ${i}개`);
+  renderHBarDist("multiple3-chart", stats.multiple3Dist, (i) => `${i}개`);
+  renderHBarDist("multiple5-chart", stats.multiple5Dist, (i) => `${i}개`);
+}
+
+function renderSumStdDev(stats) {
+  document.getElementById("sum-stddev-stat").textContent =
+    `평균 합계 ${stats.avgSum.toFixed(1)} · 표준편차 ${stats.sumStdDev.toFixed(1)} (숫자가 작을수록 합계가 평균 근처에 몰려있다는 뜻)`;
+}
+
+function renderTripleList(stats) {
+  const container = document.getElementById("triple-list");
+  container.innerHTML = "";
+
+  stats.topTriples.forEach((t, idx) => {
+    const row = document.createElement("div");
+    row.className = "pair-row";
+
+    const rank = document.createElement("span");
+    rank.className = "pair-rank";
+    rank.textContent = String(idx + 1);
+
+    const balls = document.createElement("div");
+    balls.className = "pair-balls";
+    balls.appendChild(makeBall(t.a));
+    balls.appendChild(makeBall(t.b));
+    balls.appendChild(makeBall(t.c));
+
+    const count = document.createElement("span");
+    count.className = "pair-count";
+    count.textContent = `${t.count}회 동시 출현`;
+
+    row.appendChild(rank);
+    row.appendChild(balls);
+    row.appendChild(count);
+    container.appendChild(row);
+  });
+}
+
+function renderSeasonalLists(stats) {
+  const container = document.getElementById("seasonal-lists");
+  container.innerHTML = "";
+
+  stats.seasonalHotNumbers.forEach((s) => {
+    const wrap = document.createElement("div");
+    const heading = document.createElement("h3");
+    heading.textContent = `${s.season} TOP 5`;
+    const list = document.createElement("div");
+    list.className = "top-list";
+    s.top.forEach((x) => list.appendChild(makeMiniItem(x.n, `${x.count}회`)));
+    wrap.appendChild(heading);
+    wrap.appendChild(list);
+    container.appendChild(wrap);
+  });
 }
 
 function renderReappearChart(stats) {
@@ -1073,9 +1133,13 @@ function init() {
   renderSumChart(stats);
   renderZoneChart(stats);
   renderLastDigitChart(stats);
+  renderSumStdDev(stats);
+  renderPrimeMultipleCharts(stats);
   renderBonusLists(stats);
   renderPairList(stats);
   renderCombinationTraits(stats);
+  renderTripleList(stats);
+  renderSeasonalLists(stats);
   renderReappearChart(stats);
   renderPrevRepeatChart(stats);
   renderTrendComparison(stats);
