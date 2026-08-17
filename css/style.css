@@ -30,6 +30,15 @@
   --gray: #6e7382;
   --green: #2c9e44;
   --bonus: #c58af9;
+
+  /* 동행복권 공식 사이트의 연금복권720+ 결과 화면에서 1~6번째 자리마다 실제로 쓰는
+     색과 동일하게 맞춘 자릿수별 색상 */
+  --pos1: #de4c0e;
+  --pos2: #f08200;
+  --pos3: #f3c00f;
+  --pos4: #2a9bdb;
+  --pos5: #a87ad7;
+  --pos6: #adb0ba;
 }
 
 :root[data-theme="light"] {
@@ -670,6 +679,151 @@ header.hero p {
 .legend-dot.hot { background: var(--hot-mark); box-shadow: none; }
 .legend-dot.cold { background: transparent; box-shadow: 0 0 0 2px var(--cold-mark) inset; }
 
+/* 연금복권 — 조 배지 + 자릿수 타일. 그림자를 전혀 쓰지 않는다. 깊이는 색 대비로만 표현. */
+.group-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent-on);
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+.digit-tile {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  background: var(--bg);
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.digit-tile.bonus-tile {
+  color: var(--bonus);
+}
+
+/* 자리(1~6번째)별 색상 — 동행복권 공식 사이트와 동일 */
+.digit-tile.pos-0 { border-color: var(--pos1); color: var(--pos1); }
+.digit-tile.pos-1 { border-color: var(--pos2); color: var(--pos2); }
+.digit-tile.pos-2 { border-color: var(--pos3); color: var(--pos3); }
+.digit-tile.pos-3 { border-color: var(--pos4); color: var(--pos4); }
+.digit-tile.pos-4 { border-color: var(--pos5); color: var(--pos5); }
+.digit-tile.pos-5 { border-color: var(--pos6); color: var(--pos6); }
+
+/* 연금복권 — 자릿수 위치별(1~6번째) 숫자 0~9 출현 히트맵 */
+.digit-heatmap-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.digit-heatmap-label {
+  width: 76px;
+  flex-shrink: 0;
+  font-size: 13.5px;
+  color: var(--text-muted);
+}
+
+.digit-heatmap-cells {
+  display: flex;
+  gap: 5px;
+  flex: 1;
+  min-width: 0;
+}
+
+.digit-heatmap-cell {
+  flex: 1;
+  min-width: 0;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 7px 2px;
+  color: var(--text-muted);
+  background: var(--card-elevated);
+}
+
+.digit-heatmap-cell-digit {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.digit-heatmap-cell-count {
+  font-size: 9px;
+  font-weight: 600;
+  opacity: 0.75;
+}
+
+.digit-heatmap-cell.hot {
+  background: var(--chart-fill);
+  color: var(--accent-on);
+}
+
+.digit-heatmap-cell.hot .digit-heatmap-cell-digit {
+  font-weight: 800;
+}
+
+/* 연금복권 — 원하는 숫자 포함: 자리(1~6번째)별로 숫자를 지정하는 선택 그리드 */
+.digit-position-picker {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.digit-position-field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.digit-position-field label {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.digit-position-field select {
+  width: 100%;
+  padding: 10px 2px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--card-elevated);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  text-align-last: center;
+}
+
+.digit-position-field select:disabled {
+  opacity: 0.4;
+}
+
+/* 연금복권 — 조(組) 선택: "줄마다 다르게 설정" 모드에서 A~E줄마다 조를 지정하는 그리드 */
+.group-row-picker {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-top: 16px;
+}
+
 .mini-lists {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1272,6 +1426,40 @@ footer {
     width: 85vw;
   }
 
+  /* 연금복권 — 자릿수별 숫자 분포 히트맵: 라벨을 위 줄로 올리고 숫자칸은 카드 전체 너비를 쓰게 한다 */
+  .digit-heatmap-row {
+    flex-wrap: wrap;
+    row-gap: 6px;
+    margin-bottom: 14px;
+  }
+  .digit-heatmap-label {
+    width: 100%;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .digit-heatmap-cells {
+    flex-basis: 100%;
+  }
+  .digit-heatmap-cell-digit {
+    font-size: 14px;
+  }
+  .digit-heatmap-cell-count {
+    font-size: 10px;
+  }
+
+  /* 연금복권 — 원하는 숫자 포함: 좁은 화면에서는 3열x2줄로 */
+  .digit-position-picker {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  /* 연금복권 — 조 선택 줄별 지정: 좁은 화면에서는 3열로, 남는 2칸은 다음 줄로 */
+  .group-row-picker {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
   .page {
     padding: 28px 16px 72px;
   }
@@ -1556,6 +1744,25 @@ footer {
     width: 30px;
     height: 30px;
     font-size: 13px;
+  }
+  .group-badge {
+    width: 30px;
+    height: 30px;
+    font-size: 11px;
+  }
+  .digit-tile {
+    width: 30px;
+    height: 30px;
+    font-size: 13px;
+  }
+  .digit-heatmap-label {
+    font-size: 12.5px;
+  }
+  .digit-heatmap-cell-digit {
+    font-size: 12px;
+  }
+  .digit-heatmap-cell-count {
+    font-size: 9px;
   }
   .set-balls {
     gap: 6px;
