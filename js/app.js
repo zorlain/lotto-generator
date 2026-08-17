@@ -98,10 +98,12 @@ function initSidebar() {
   backdrop.addEventListener("click", close);
 }
 
-/* ---------- 탭 전환 ---------- */
+/* ---------- 탭 전환 (로또 패널 내부로 범위 한정 — 연금복권 탭과 분리) ---------- */
 function initTabs() {
-  const buttons = document.querySelectorAll(".tab-btn");
-  const panels = document.querySelectorAll(".tab-panel");
+  const root = document.getElementById("game-lotto");
+  if (!root) return;
+  const buttons = root.querySelectorAll(".tab-btn");
+  const panels = root.querySelectorAll(".tab-panel");
 
   buttons.forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -109,6 +111,24 @@ function initTabs() {
       buttons.forEach((b) => b.classList.toggle("active", b === btn));
       panels.forEach((p) => {
         p.hidden = p.dataset.tabPanel !== target;
+      });
+    });
+  });
+}
+
+/* ---------- 게임 전환 (로또 / 연금복권) ---------- */
+function initGameSwitcher() {
+  const switcher = document.getElementById("game-tabs");
+  if (!switcher) return;
+  const buttons = switcher.querySelectorAll(".game-tab-btn");
+  const panels = document.querySelectorAll(".game-panel");
+
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const target = btn.dataset.game;
+      buttons.forEach((b) => b.classList.toggle("active", b === btn));
+      panels.forEach((p) => {
+        p.hidden = p.id !== `game-${target}`;
       });
     });
   });
@@ -1129,6 +1149,7 @@ function init() {
   renderSeoMeta(stats);
   initThemeToggle();
   initSidebar();
+  initGameSwitcher();
   initTabs();
   initAdvancedToggle();
   initInfoTooltips();
