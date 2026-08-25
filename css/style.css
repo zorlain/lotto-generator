@@ -614,6 +614,26 @@ header.hero p {
   overflow: hidden;
 }
 
+/* 연금복권 조별(1~5) 출현 빈도 차트는 칸 수가 다르므로 그리드 열 수를 따로 지정한다.
+   막대는 로또 6/45처럼 번호별 공 색상이 없으므로 다른 막대 차트와 동일한 --chart-fill로 채운다. */
+#pension-group-freq-chart {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+#pension-group-freq-chart .freq-bar {
+  background: var(--chart-fill);
+}
+/* .freq-col은 원래 flex-column이라 라벨 높이만큼 막대의 height:%가 밀려서(상단 여백 만큼
+   shrink) 실제 카운트 차이가 잘 안 보인다. 그리드로 바꿔 라벨 행을 고정 높이로 떼어내면
+   가운데 1fr 트랙이 막대 전용 기준 높이가 되어 height:% 가 정확한 비율로 반영된다. */
+#pension-group-freq-chart .freq-col {
+  display: grid;
+  grid-template-rows: 20px 1fr 20px;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  height: 100%;
+}
+
 .freq-col {
   display: flex;
   flex-direction: column;
