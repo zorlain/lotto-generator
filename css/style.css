@@ -410,6 +410,90 @@ header.hero p {
   margin: 0 0 20px;
 }
 
+/* 회차별 당첨번호 조회 */
+.round-lookup-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.round-lookup-controls input[type="number"] {
+  flex: 1;
+  min-width: 0;
+  padding: 14px 16px;
+  border: none;
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+}
+
+.round-lookup-btn {
+  padding: 14px 22px;
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--accent);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.round-lookup-btn:hover {
+  background: var(--accent-soft);
+}
+
+.round-lookup-btn:active {
+  transform: scale(0.98);
+}
+
+.round-lookup-result {
+  margin-top: 20px;
+}
+
+.round-lookup-head {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
+
+.round-lookup-balls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.round-lookup-plus {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.round-lookup-bonus-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.round-lookup-bonus-label {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-right: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.round-lookup-error {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
 .download-btn {
   display: flex;
   align-items: center;

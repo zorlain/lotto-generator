@@ -984,6 +984,64 @@ function initConfigPanel(stats, config, onChange) {
 }
 
 /* ---------- 탭 3: 데이터 통계 ---------- */
+/* 회차별 당첨번호 조회 — "N회 연금복권 당첨번호" 검색 유입에 대응. 데이터 통계 탭 맨 위에서
+   최신 회차를 기본으로 보여주고, 회차를 입력하면 그 회차로 바꿔 보여준다. */
+function renderPensionRoundLookup(stats, no) {
+  const resultEl = document.getElementById("pension-round-lookup-result");
+  const inputEl = document.getElementById("pension-round-lookup-input");
+  const targetNo = no || stats.lastDraw.no;
+  const draw = PENSION_DATA.find((d) => d.no === targetNo);
+
+  inputEl.value = targetNo;
+  resultEl.innerHTML = "";
+
+  if (!draw) {
+    const err = document.createElement("p");
+    err.className = "round-lookup-error";
+    err.textContent = `${targetNo}회는 존재하지 않는 회차입니다. (1~${stats.lastDraw.no}회)`;
+    resultEl.appendChild(err);
+    return;
+  }
+
+  const head = document.createElement("div");
+  head.className = "round-lookup-head";
+  head.textContent = `${draw.no}회 (${draw.date} 추첨)`;
+  resultEl.appendChild(head);
+
+  const row = document.createElement("div");
+  row.className = "round-lookup-balls";
+  row.appendChild(makeGroupBadge(draw.group));
+  draw.num.split("").forEach((d, pos) => row.appendChild(makeDigitTile(d, `pos-${pos}`)));
+  resultEl.appendChild(row);
+
+  const bonusRow = document.createElement("div");
+  bonusRow.className = "round-lookup-bonus-row";
+  const bonusLabel = document.createElement("span");
+  bonusLabel.className = "round-lookup-bonus-label";
+  bonusLabel.textContent = "보너스";
+  bonusRow.appendChild(bonusLabel);
+  draw.bonus.split("").forEach((d) => bonusRow.appendChild(makeDigitTile(d, "bonus-tile")));
+  resultEl.appendChild(bonusRow);
+}
+
+function initPensionRoundLookup(stats) {
+  const inputEl = document.getElementById("pension-round-lookup-input");
+  const btnEl = document.getElementById("pension-round-lookup-btn");
+  inputEl.max = stats.lastDraw.no;
+
+  const doLookup = () => {
+    const no = parseInt(inputEl.value, 10);
+    renderPensionRoundLookup(stats, Number.isFinite(no) ? no : null);
+  };
+
+  btnEl.addEventListener("click", doLookup);
+  inputEl.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") doLookup();
+  });
+
+  renderPensionRoundLookup(stats, null);
+}
+
 function renderTrustLine(stats) {
   document.getElementById("pension-stats-trust-line").textContent =
     `1회 ~ ${stats.lastDraw.no}회 (${stats.lastDraw.date}) · 총 ${stats.totalDraws.toLocaleString()}개 회차 전수 분석`;
@@ -1219,6 +1277,7 @@ function init() {
   initInfoTooltips();
 
   renderTrustLine(stats);
+  initPensionRoundLookup(stats);
   renderGroupFreqChart(stats);
   renderDigitHeatmap("pension-digit-heatmap", stats.digitFreq);
   renderDigitHeatmap("pension-bonus-digit-heatmap", stats.bonusDigitFreq);

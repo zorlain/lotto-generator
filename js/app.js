@@ -827,6 +827,59 @@ function initConfigPanel(stats, config, onChange) {
 }
 
 /* ---------- 탭 3: 데이터 통계 ---------- */
+/* 회차별 당첨번호 조회 — "N회 로또 당첨번호" 같은 검색 유입이 가장 많은 항목이라
+   데이터 통계 탭 맨 위에서 최신 회차를 기본으로 보여주고, 회차를 입력하면 그 회차로 바꿔 보여준다. */
+function renderRoundLookup(stats, no) {
+  const resultEl = document.getElementById("round-lookup-result");
+  const inputEl = document.getElementById("round-lookup-input");
+  const targetNo = no || stats.lastDraw.no;
+  const draw = LOTTO_DATA.find((d) => d.no === targetNo);
+
+  inputEl.value = targetNo;
+  resultEl.innerHTML = "";
+
+  if (!draw) {
+    const err = document.createElement("p");
+    err.className = "round-lookup-error";
+    err.textContent = `${targetNo}회는 존재하지 않는 회차입니다. (1~${stats.lastDraw.no}회)`;
+    resultEl.appendChild(err);
+    return;
+  }
+
+  const head = document.createElement("div");
+  head.className = "round-lookup-head";
+  head.textContent = `${draw.no}회 (${draw.date} 추첨)`;
+  resultEl.appendChild(head);
+
+  const balls = document.createElement("div");
+  balls.className = "round-lookup-balls";
+  draw.nums.forEach((n) => balls.appendChild(makeBall(n)));
+  const plus = document.createElement("span");
+  plus.className = "round-lookup-plus";
+  plus.textContent = "+";
+  balls.appendChild(plus);
+  balls.appendChild(makeBall(draw.bonus, "ball-bonus"));
+  resultEl.appendChild(balls);
+}
+
+function initRoundLookup(stats) {
+  const inputEl = document.getElementById("round-lookup-input");
+  const btnEl = document.getElementById("round-lookup-btn");
+  inputEl.max = stats.lastDraw.no;
+
+  const doLookup = () => {
+    const no = parseInt(inputEl.value, 10);
+    renderRoundLookup(stats, Number.isFinite(no) ? no : null);
+  };
+
+  btnEl.addEventListener("click", doLookup);
+  inputEl.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") doLookup();
+  });
+
+  renderRoundLookup(stats, null);
+}
+
 function renderTrustLine(stats) {
   document.getElementById("stats-trust-line").textContent =
     `1회 ~ ${stats.lastDraw.no}회 (${stats.lastDraw.date}) · 총 ${stats.totalDraws.toLocaleString()}개 회차 전수 분석`;
@@ -1155,6 +1208,7 @@ function init() {
   initInfoTooltips();
 
   renderTrustLine(stats);
+  initRoundLookup(stats);
   renderFreqChart(stats);
   renderOddEvenChart(stats);
   renderSumChart(stats);

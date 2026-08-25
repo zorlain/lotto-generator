@@ -40,7 +40,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
-<link rel="stylesheet" href="css/style.css?v=13" />
+<link rel="stylesheet" href="css/style.css?v=14" />
 </head>
 <body>
 <div class="layout">
@@ -474,6 +474,16 @@
   <section class="tab-panel" data-tab-panel="stats" hidden>
     <button type="button" class="download-btn" id="download-stats-btn">📥 데이터 통계 다운로드 (엑셀)</button>
     <p class="stats-trust-line" id="stats-trust-line"></p>
+
+    <div class="card round-lookup-card">
+      <h2>🎱 회차별 당첨번호 조회</h2>
+      <p class="card-desc-short">회차를 입력하면 해당 회차 당첨번호를 보여줍니다. 기본으로 최신 회차가 표시됩니다.</p>
+      <div class="round-lookup-controls">
+        <input type="number" inputmode="numeric" id="round-lookup-input" min="1" placeholder="회차 입력" />
+        <button type="button" class="round-lookup-btn" id="round-lookup-btn">조회</button>
+      </div>
+      <div class="round-lookup-result" id="round-lookup-result"></div>
+    </div>
 
     <div class="card">
       <h2>
@@ -1031,6 +1041,16 @@
     <button type="button" class="download-btn" id="pension-download-stats-btn">📥 데이터 통계 다운로드 (엑셀)</button>
     <p class="stats-trust-line" id="pension-stats-trust-line"></p>
 
+    <div class="card round-lookup-card">
+      <h2>🎰 회차별 당첨번호 조회</h2>
+      <p class="card-desc-short">회차를 입력하면 해당 회차 당첨번호를 보여줍니다. 기본으로 최신 회차가 표시됩니다.</p>
+      <div class="round-lookup-controls">
+        <input type="number" inputmode="numeric" id="pension-round-lookup-input" min="1" placeholder="회차 입력" />
+        <button type="button" class="round-lookup-btn" id="pension-round-lookup-btn">조회</button>
+      </div>
+      <div class="round-lookup-result" id="pension-round-lookup-result"></div>
+    </div>
+
     <div class="card">
       <h2>
         🎱 조별 출현 빈도
@@ -1248,7 +1268,7 @@
 <script src="js/config.js"></script>
 <script src="js/stats.js?v=2"></script>
 <script src="js/generator.js"></script>
-<script src="js/app.js?v=6"></script>
+<script src="js/app.js?v=7"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script defer src="js/export.js"></script>
 <script defer src="js/pension-bundle.js"></script>
