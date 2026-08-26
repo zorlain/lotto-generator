@@ -1278,6 +1278,7 @@ function init() {
 
   renderTrustLine(stats);
   initPensionRoundLookup(stats);
+  setupLuckyStoreMapLazyInit("game-pension", "pension-lucky-store-map", "pension-lucky-store-list");
   renderGroupFreqChart(stats);
   renderDigitHeatmap("pension-digit-heatmap", stats.digitFreq);
   renderDigitHeatmap("pension-bonus-digit-heatmap", stats.bonusDigitFreq);

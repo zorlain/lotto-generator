@@ -59,7 +59,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
-<link rel="stylesheet" href="css/style.css?v=14" />
+<link rel="stylesheet" href="css/style.css?v=15" />
 </head>
 <body>
 <div class="layout">
@@ -502,6 +502,18 @@
         <button type="button" class="round-lookup-btn" id="round-lookup-btn">조회</button>
       </div>
       <div class="round-lookup-result" id="round-lookup-result"></div>
+    </div>
+
+    <div class="card lucky-store-card">
+      <h2>📍 로또 명당 지도</h2>
+      <p class="card-desc-short">여러 매체에서 로또 명당으로 소개된 판매점 위치를 지도에서 확인하세요.</p>
+      <div class="lucky-store-map" id="lucky-store-map"></div>
+      <div class="lucky-store-list" id="lucky-store-list"></div>
+      <p class="lucky-store-disclaimer">
+        당첨은 완전히 무작위이며, 특정 판매점에서 구매한다고 당첨 확률이 높아지지 않습니다.
+        정확한 최신 정보는
+        <a href="https://www.dhlottery.co.kr/wnprchsplcsrch/home" target="_blank" rel="noopener">동행복권 공식 판매점 조회</a>에서 확인하세요.
+      </p>
     </div>
 
     <div class="card">
@@ -1070,6 +1082,18 @@
       <div class="round-lookup-result" id="pension-round-lookup-result"></div>
     </div>
 
+    <div class="card lucky-store-card">
+      <h2>📍 복권 명당 지도</h2>
+      <p class="card-desc-short">여러 매체에서 복권 명당으로 소개된 판매점 위치를 지도에서 확인하세요.</p>
+      <div class="lucky-store-map" id="pension-lucky-store-map"></div>
+      <div class="lucky-store-list" id="pension-lucky-store-list"></div>
+      <p class="lucky-store-disclaimer">
+        당첨은 완전히 무작위이며, 특정 판매점에서 구매한다고 당첨 확률이 높아지지 않습니다.
+        정확한 최신 정보는
+        <a href="https://www.dhlottery.co.kr/wnprchsplcsrch/home" target="_blank" rel="noopener">동행복권 공식 판매점 조회</a>에서 확인하세요.
+      </p>
+    </div>
+
     <div class="card">
       <h2>
         🎱 조별 출현 빈도
@@ -1284,10 +1308,13 @@
 
 <script src="data/lotto-data.js"></script>
 <script src="data/pension-data.js"></script>
+<script src="data/lucky-stores.js"></script>
+<script src="js/kakao-config.js"></script>
+<script src="js/lucky-store-map.js"></script>
 <script src="js/config.js"></script>
 <script src="js/stats.js?v=2"></script>
 <script src="js/generator.js"></script>
-<script src="js/app.js?v=7"></script>
+<script src="js/app.js?v=8"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script defer src="js/export.js"></script>
 <script defer src="js/pension-bundle.js"></script>
