@@ -66,6 +66,18 @@ async function initLuckyStoreMap(mapId, listId) {
 
   const places = new kakao.maps.services.Places();
   const bounds = new kakao.maps.LatLngBounds();
+
+  // 창 크기가 바뀌어도(모바일 회전 등) 카카오맵은 자동으로 다시 맞추지 않으므로
+  // 컨테이너 크기 변화를 감지해 relayout + 마커 범위 재조정을 해준다.
+  let resizeTimer = null;
+  const resizeObserver = new ResizeObserver(() => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      map.relayout();
+      if (!bounds.isEmpty()) map.setBounds(bounds);
+    }, 150);
+  });
+  resizeObserver.observe(mapContainer);
   const infoWindow = new kakao.maps.InfoWindow({ zIndex: 1 });
   const entries = new Array(LUCKY_STORES.length);
   let pending = LUCKY_STORES.length;
