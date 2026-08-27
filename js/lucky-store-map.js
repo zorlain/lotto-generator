@@ -112,12 +112,7 @@ async function initLuckyStoreMap(mapId, listId) {
       head.appendChild(name);
       head.appendChild(region);
 
-      const note = document.createElement("div");
-      note.className = "lucky-store-item-note";
-      note.textContent = store.note;
-
       item.appendChild(head);
-      item.appendChild(note);
 
       if (entry) {
         item.addEventListener("click", () => openStoreInfo(entry));

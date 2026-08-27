@@ -561,13 +561,6 @@ header.hero p {
   white-space: nowrap;
 }
 
-.lucky-store-item-note {
-  font-size: 13px;
-  color: var(--text-muted);
-  margin-top: 4px;
-  line-height: 1.5;
-}
-
 .lucky-store-disclaimer {
   font-size: 12.5px;
   color: var(--text-muted);
