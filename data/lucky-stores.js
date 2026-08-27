@@ -39,7 +39,7 @@ const LUCKY_STORES = [
   { name: "리이지복권", query: "경남 창원시 성산구 동산로 156", region: "경남 창원시", sido: "경남" },
   { name: "GS25 양산혜인점", query: "GS25 양산혜인점", region: "경남 양산시", sido: "경남" },
 
-  { name: "나눔Lotto 메트로센터점", query: "대구 중구 반월당역", region: "대구 중구", sido: "대구" },
+  { name: "나눔Lotto 메트로센터점", query: "나눔Lotto 메트로센터점", region: "대구 중구", sido: "대구" },
   { name: "천하명당", query: "대구 북구 읍내동 천하명당 로또", region: "대구 북구", sido: "대구" },
   { name: "GS25 대구교대점", query: "GS25 대구교대점", region: "대구 남구", sido: "대구" },
   { name: "로또명당 경대북문점", query: "대구 북구 대동로 43-1", region: "대구 북구", sido: "대구" },

@@ -109,7 +109,6 @@ async function initLuckyStoreMap(mapId, listId, regionsId) {
   const places = new kakao.maps.services.Places();
   const infoWindow = new kakao.maps.InfoWindow({ zIndex: 1 });
   const entries = new Array(LUCKY_STORES.length);
-  let pending = LUCKY_STORES.length;
   let currentRegion = "전국";
 
   // 창 크기가 바뀌어도(모바일 회전 등) 카카오맵은 자동으로 다시 맞추지 않으므로
@@ -213,22 +212,28 @@ async function initLuckyStoreMap(mapId, listId, regionsId) {
     });
   }
 
-  LUCKY_STORES.forEach((store, i) => {
-    places.keywordSearch(store.query, (result, status) => {
-      pending--;
-      if (status === kakao.maps.services.Status.OK && result[0]) {
-        const place = result[0];
-        const pos = new kakao.maps.LatLng(place.y, place.x);
-        const marker = new kakao.maps.Marker({ position: pos, title: store.name });
-        const address = place.road_address_name || place.address_name || "";
-        const entry = { marker, pos, store, address };
-        entries[i] = entry;
-        kakao.maps.event.addListener(marker, "click", () => openStoreInfo(entry));
-      }
-
-      if (pending === 0) {
-        selectRegion("전국");
-      }
+  // keywordSearch를 한꺼번에 다 쏘면(20여 건) 카카오 쪽에서 일부 요청이 누락되는 경우가
+  // 있어(요청량 폭주로 추정) 순서대로 하나씩 요청하고 응답을 받은 뒤 다음 요청을 보낸다.
+  const searchOne = (store, i) =>
+    new Promise((resolve) => {
+      places.keywordSearch(store.query, (result, status) => {
+        if (status === kakao.maps.services.Status.OK && result[0]) {
+          const place = result[0];
+          const pos = new kakao.maps.LatLng(place.y, place.x);
+          const marker = new kakao.maps.Marker({ position: pos, title: store.name });
+          const address = place.road_address_name || place.address_name || "";
+          const entry = { marker, pos, store, address };
+          entries[i] = entry;
+          kakao.maps.event.addListener(marker, "click", () => openStoreInfo(entry));
+        }
+        resolve();
+      });
     });
-  });
+
+  (async () => {
+    for (let i = 0; i < LUCKY_STORES.length; i++) {
+      await searchOne(LUCKY_STORES[i], i);
+    }
+    selectRegion("전국");
+  })();
 }
