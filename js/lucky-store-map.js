@@ -20,7 +20,9 @@ function setupLuckyStoreMapLazyInit(rootId, mapId, listId, regionsId) {
   btn.addEventListener("click", () => {
     if (started) return;
     started = true;
-    requestAnimationFrame(() => initLuckyStoreMap(mapId, listId, regionsId));
+    // requestAnimationFrame은 탭이 비활성/백그라운드일 때 지연되거나 아예 안 불릴 수 있어
+    // setTimeout을 쓴다(hidden→visible 레이아웃이 반영될 정도로만 한 틱 늦추면 충분하다).
+    setTimeout(() => initLuckyStoreMap(mapId, listId, regionsId), 0);
   });
 }
 
