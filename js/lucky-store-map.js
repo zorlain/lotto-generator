@@ -63,27 +63,22 @@ function buildLuckyStoreInfoContent(entry) {
   name.textContent = entry.store.name;
   wrap.appendChild(name);
 
-  const addrRow = document.createElement("div");
-  addrRow.className = "lucky-store-infowindow-addr-row";
-
-  const addrText = document.createElement("span");
+  const addrText = document.createElement("div");
   addrText.className = "lucky-store-infowindow-addr";
   addrText.textContent = entry.address || entry.store.region;
-  addrRow.appendChild(addrText);
+  wrap.appendChild(addrText);
 
   const copyBtn = document.createElement("button");
   copyBtn.type = "button";
   copyBtn.className = "lucky-store-copy-btn";
-  copyBtn.textContent = "📋";
-  copyBtn.title = "주소 복사";
+  copyBtn.textContent = "복사";
   copyBtn.addEventListener("click", async (e) => {
     e.stopPropagation();
     const ok = await copyToClipboard(entry.address || entry.store.region);
-    if (ok) flashCopied(copyBtn, "✅");
+    if (ok) flashCopied(copyBtn, "복사됨");
   });
-  addrRow.appendChild(copyBtn);
+  wrap.appendChild(copyBtn);
 
-  wrap.appendChild(addrRow);
   return wrap;
 }
 
