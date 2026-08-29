@@ -495,15 +495,22 @@ header.hero p {
 }
 
 /* 로또/복권 명당 지도 */
-.lucky-store-body {
-  display: flex;
-  gap: 10px;
+.lucky-store-region-select {
+  display: block;
+  width: 100%;
+  padding: 14px 16px;
   margin-top: 4px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 600;
 }
 
 .lucky-store-map {
-  flex: 1;
-  min-width: 0;
+  width: 100%;
   height: 320px;
   border-radius: 12px;
   background: var(--card-elevated);
@@ -522,44 +529,11 @@ header.hero p {
   padding: 0 20px;
 }
 
-/* 지역 선택 상자 — 지도 오른쪽에 세로 목록으로, 좁은 화면에서는 지도 위에 가로로 */
-.lucky-store-regions {
-  width: 108px;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  max-height: 320px;
-  overflow-y: auto;
-}
-
-.lucky-store-region-btn {
-  padding: 8px 10px;
-  border: none;
-  border-radius: 8px;
-  background: var(--card-elevated);
-  color: var(--text-muted);
-  font-size: 13px;
-  font-weight: 600;
-  text-align: left;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.lucky-store-region-btn:hover {
-  background: var(--accent-soft);
-}
-
-.lucky-store-region-btn.active {
-  background: var(--accent);
-  color: var(--accent-on);
-}
-
 .lucky-store-list {
-  margin-top: 16px;
+  margin-top: 12px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
 }
 
 .lucky-store-empty {
@@ -569,9 +543,13 @@ header.hero p {
   padding: 8px 0;
 }
 
+/* 세로로 길어지지 않도록 순위·이름·지역·횟수를 한 줄에 담는다 */
 .lucky-store-item {
-  padding: 12px 14px;
-  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
   background: var(--card-elevated);
   cursor: pointer;
 }
@@ -580,28 +558,50 @@ header.hero p {
   background: var(--accent-soft);
 }
 
-.lucky-store-item-head {
+.lucky-store-item-rank {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--text-muted);
+  font-size: 11.5px;
+  font-weight: 700;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+}
+
+.lucky-store-item-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
   gap: 8px;
+  overflow: hidden;
 }
 
 .lucky-store-item-name {
   font-weight: 700;
-  font-size: 14.5px;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .lucky-store-item-region {
-  font-size: 12.5px;
+  font-size: 12px;
   color: var(--text-muted);
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .lucky-store-item-count {
-  font-size: 12px;
+  flex-shrink: 0;
+  font-size: 12.5px;
+  font-weight: 700;
   color: var(--accent);
-  margin-top: 3px;
 }
 
 /* 지도 마커/목록 클릭 시 뜨는 정보창 — 카카오맵 InfoWindow 안에 들어가는 DOM.
@@ -646,17 +646,10 @@ header.hero p {
 }
 
 @media (max-width: 520px) {
-  .lucky-store-body {
+  .lucky-store-item-main {
     flex-direction: column;
-  }
-  .lucky-store-regions {
-    width: 100%;
-    flex-direction: row;
-    flex-wrap: wrap;
-    max-height: none;
-  }
-  .lucky-store-region-btn {
-    flex-shrink: 1;
+    align-items: flex-start;
+    gap: 1px;
   }
 }
 

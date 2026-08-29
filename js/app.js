@@ -1209,7 +1209,7 @@ function init() {
 
   renderTrustLine(stats);
   initRoundLookup(stats);
-  setupLuckyStoreMapLazyInit("game-lotto", "lucky-store-map", "lucky-store-list", "lucky-store-regions");
+  setupLuckyStoreMapLazyInit("game-lotto", "lucky-store-map", "lucky-store-list", "lucky-store-region-select");
   renderFreqChart(stats);
   renderOddEvenChart(stats);
   renderSumChart(stats);

@@ -59,7 +59,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
-<link rel="stylesheet" href="css/style.css?v=18" />
+<link rel="stylesheet" href="css/style.css?v=19" />
 </head>
 <body>
 <div class="layout">
@@ -506,10 +506,8 @@
 
     <div class="card lucky-store-card">
       <h2>📍 로또 명당 지도</h2>
-      <div class="lucky-store-body">
-        <div class="lucky-store-map" id="lucky-store-map"></div>
-        <div class="lucky-store-regions" id="lucky-store-regions"></div>
-      </div>
+      <select class="lucky-store-region-select" id="lucky-store-region-select"></select>
+      <div class="lucky-store-map" id="lucky-store-map"></div>
       <div class="lucky-store-list" id="lucky-store-list"></div>
     </div>
 
@@ -1081,10 +1079,8 @@
 
     <div class="card lucky-store-card">
       <h2>📍 복권 명당 지도</h2>
-      <div class="lucky-store-body">
-        <div class="lucky-store-map" id="pension-lucky-store-map"></div>
-        <div class="lucky-store-regions" id="pension-lucky-store-regions"></div>
-      </div>
+      <select class="lucky-store-region-select" id="pension-lucky-store-region-select"></select>
+      <div class="lucky-store-map" id="pension-lucky-store-map"></div>
       <div class="lucky-store-list" id="pension-lucky-store-list"></div>
     </div>
 
@@ -1302,9 +1298,9 @@
 
 <script src="data/lotto-data.js"></script>
 <script src="data/pension-data.js"></script>
-<script src="data/lucky-stores.js?v=9"></script>
+<script src="data/lucky-stores.js?v=10"></script>
 <script src="js/kakao-config.js"></script>
-<script src="js/lucky-store-map.js?v=7"></script>
+<script src="js/lucky-store-map.js?v=8"></script>
 <script src="js/config.js"></script>
 <script src="js/stats.js?v=2"></script>
 <script src="js/generator.js"></script>

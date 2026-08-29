@@ -11,7 +11,7 @@
 
 /* 지도가 속한 "데이터 통계" 탭을 처음 열 때만 지도를 생성한다(게임 패널마다 버튼이
    따로 있으므로 rootId로 범위를 좁혀 그 안의 버튼만 찾는다). */
-function setupLuckyStoreMapLazyInit(rootId, mapId, listId, regionsId) {
+function setupLuckyStoreMapLazyInit(rootId, mapId, listId, regionSelectId) {
   const root = document.getElementById(rootId);
   if (!root) return;
   const btn = root.querySelector('[data-tab="stats"]');
@@ -22,8 +22,15 @@ function setupLuckyStoreMapLazyInit(rootId, mapId, listId, regionsId) {
     started = true;
     // requestAnimationFrame은 탭이 비활성/백그라운드일 때 지연되거나 아예 안 불릴 수 있어
     // setTimeout을 쓴다(hidden→visible 레이아웃이 반영될 정도로만 한 틱 늦추면 충분하다).
-    setTimeout(() => initLuckyStoreMap(mapId, listId, regionsId), 0);
+    setTimeout(() => initLuckyStoreMap(mapId, listId, regionSelectId), 0);
   });
+}
+
+/* "경기 성남시" 같은 축약 지역 표기를 "경기도 성남시"처럼 정식 시/도 명칭으로 바꿔준다. */
+function fullRegionLabel(store) {
+  const full = LUCKY_SIDO_FULL_NAME[store.sido] || store.sido;
+  const cityPart = store.region.replace(store.sido, "").trim();
+  return cityPart ? `${full} ${cityPart}` : full;
 }
 
 function loadKakaoSdk() {
@@ -82,10 +89,10 @@ function buildLuckyStoreInfoContent(entry) {
   return wrap;
 }
 
-async function initLuckyStoreMap(mapId, listId, regionsId) {
+async function initLuckyStoreMap(mapId, listId, regionSelectId) {
   const mapContainer = document.getElementById(mapId);
   const listContainer = document.getElementById(listId);
-  const regionsContainer = regionsId ? document.getElementById(regionsId) : null;
+  const regionSelect = regionSelectId ? document.getElementById(regionSelectId) : null;
   if (!mapContainer || !listContainer) return;
 
   const ready = await kakaoReady();
@@ -165,26 +172,32 @@ async function initLuckyStoreMap(mapId, listId, regionsId) {
       return;
     }
 
-    visible.forEach((entry) => {
+    // 세로로 길어지지 않도록 한 줄짜리 순위 목록으로 표시한다.
+    visible.forEach((entry, i) => {
       const item = document.createElement("div");
       item.className = "lucky-store-item";
 
-      const head = document.createElement("div");
-      head.className = "lucky-store-item-head";
+      const rank = document.createElement("span");
+      rank.className = "lucky-store-item-rank";
+      rank.textContent = i + 1;
+      item.appendChild(rank);
+
+      const main = document.createElement("span");
+      main.className = "lucky-store-item-main";
       const name = document.createElement("span");
       name.className = "lucky-store-item-name";
       name.textContent = entry.store.name;
       const region = document.createElement("span");
       region.className = "lucky-store-item-region";
-      region.textContent = entry.store.region;
-      head.appendChild(name);
-      head.appendChild(region);
-      item.appendChild(head);
+      region.textContent = fullRegionLabel(entry.store);
+      main.appendChild(name);
+      main.appendChild(region);
+      item.appendChild(main);
 
       if (entry.store.count) {
-        const count = document.createElement("div");
+        const count = document.createElement("span");
         count.className = "lucky-store-item-count";
-        count.textContent = `1등 ${entry.store.count}회 배출`;
+        count.textContent = `${entry.store.count}회`;
         item.appendChild(count);
       }
 
@@ -195,27 +208,21 @@ async function initLuckyStoreMap(mapId, listId, regionsId) {
 
   function selectRegion(region) {
     currentRegion = region;
-    if (regionsContainer) {
-      regionsContainer.querySelectorAll(".lucky-store-region-btn").forEach((btn) => {
-        btn.classList.toggle("active", btn.dataset.region === region);
-      });
-    }
+    if (regionSelect) regionSelect.value = region;
     fitToRegion(region);
     renderList();
   }
 
-  if (regionsContainer) {
-    regionsContainer.innerHTML = "";
+  if (regionSelect) {
+    regionSelect.innerHTML = "";
     LUCKY_REGIONS.forEach((region) => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "lucky-store-region-btn";
-      if (region === currentRegion) btn.classList.add("active");
-      btn.dataset.region = region;
-      btn.textContent = region;
-      btn.addEventListener("click", () => selectRegion(region));
-      regionsContainer.appendChild(btn);
+      const option = document.createElement("option");
+      option.value = region;
+      option.textContent = LUCKY_SIDO_FULL_NAME[region] || region;
+      regionSelect.appendChild(option);
     });
+    regionSelect.value = currentRegion;
+    regionSelect.addEventListener("change", () => selectRegion(regionSelect.value));
   }
 
   // keywordSearch를 한꺼번에 다 쏘면(20여 건) 카카오 쪽에서 일부 요청이 누락되는 경우가
