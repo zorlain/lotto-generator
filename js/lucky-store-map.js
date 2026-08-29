@@ -104,7 +104,7 @@ async function initLuckyStoreMap(mapId, listId, regionsId) {
   const places = new kakao.maps.services.Places();
   const infoWindow = new kakao.maps.InfoWindow({ zIndex: 1 });
   const entries = new Array(LUCKY_STORES.length);
-  let currentRegion = "전국";
+  let currentRegion = LUCKY_REGIONS[0];
 
   // 창 크기가 바뀌어도(모바일 회전 등) 카카오맵은 자동으로 다시 맞추지 않으므로
   // 컨테이너 크기 변화를 감지해 relayout + 현재 지역 범위 재조정을 해준다.
@@ -124,10 +124,12 @@ async function initLuckyStoreMap(mapId, listId, regionsId) {
     map.panTo(entry.pos);
   };
 
+  // 지역당 1등 배출 횟수(count) 상위 5곳만 보여준다. count가 없는 곳은 뒤로 밀린다.
   function entriesForRegion(region) {
     return entries
-      .filter((e) => e && (region === "전국" || e.store.sido === region))
-      .sort((a, b) => (b.store.count || 0) - (a.store.count || 0));
+      .filter((e) => e && e.store.sido === region)
+      .sort((a, b) => (b.store.count || 0) - (a.store.count || 0))
+      .slice(0, 5);
   }
 
   function fitToRegion(region) {
@@ -238,6 +240,6 @@ async function initLuckyStoreMap(mapId, listId, regionsId) {
     for (let i = 0; i < LUCKY_STORES.length; i++) {
       await searchOne(LUCKY_STORES[i], i);
     }
-    selectRegion("전국");
+    selectRegion(LUCKY_REGIONS[0]);
   })();
 }
