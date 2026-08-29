@@ -30,7 +30,7 @@ const LUCKY_STORES = [
   { name: "복권전문점", query: "인천 부평구 원적로 437", region: "인천 부평구", sido: "인천", count: 9 },
   { name: "나라복권", query: "인천 남동구 인주대로676번길 22", region: "인천 남동구", sido: "인천" },
 
-  { name: "흥양마중물", query: "강원 원주시 치악로 2335", region: "강원 원주시", sido: "강원", count: 6 },
+  { name: "흥양마중물", query: "흥양마중물", region: "강원 원주시", sido: "강원", count: 6 },
   { name: "주택복권방", query: "강원 원주시 우산초교길 29", region: "강원 원주시", sido: "강원", count: 5 },
   { name: "복권나라(원주)", query: "강원 원주시 평원로 23", region: "강원 원주시", sido: "강원", count: 3 },
   { name: "속초복권샵", query: "강원 속초시 청학동 486-42", region: "강원 속초시", sido: "강원" },
@@ -57,7 +57,7 @@ const LUCKY_STORES = [
   { name: "팡팡복권마트", query: "전북 전주시 덕진구", region: "전북 전주시", sido: "전북", count: 5 },
   { name: "춘향로또", query: "전북 남원시 동림로 102-1", region: "전북 남원시", sido: "전북" },
 
-  { name: "알리바이(나주점)", query: "전남 나주시 금성동 2-2", region: "전남 나주시", sido: "전남", count: 13 },
+  { name: "알리바이(나주점)", query: "알리바이 나주점", region: "전남 나주시", sido: "전남", count: 13 },
   { name: "대광복권방", query: "전남 화순군 칠충로 55", region: "전남 화순군", sido: "전남", count: 9 },
   { name: "이마트24 순천산단점", query: "전남 순천시 산단1길 6", region: "전남 순천시", sido: "전남", count: 8 },
   { name: "종합복권방", query: "전남 해남군 해남읍 해리 189-2", region: "전남 해남군", sido: "전남", count: 8 },
