@@ -1209,14 +1209,15 @@ function init() {
 
   renderTrustLine(stats);
   initRoundLookup(stats);
-  setupLuckyStoreMapLazyInit(
-    "game-lotto",
-    "lucky-store-map",
-    "lucky-store-list",
-    "lucky-store-sido-select",
-    "lucky-store-city-select",
-    "lucky-store-more-btn"
-  );
+  setupLuckyStoreMapLazyInit("game-lotto", {
+    mapId: "lucky-store-map",
+    listId: "lucky-store-list",
+    sidoSelectId: "lucky-store-sido-select",
+    citySelectId: "lucky-store-city-select",
+    moreBtnId: "lucky-store-more-btn",
+    hintId: "lucky-store-hint",
+    gameFlag: "l",
+  });
   renderFreqChart(stats);
   renderOddEvenChart(stats);
   renderSumChart(stats);

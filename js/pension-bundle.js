@@ -1278,14 +1278,15 @@ function init() {
 
   renderTrustLine(stats);
   initPensionRoundLookup(stats);
-  setupLuckyStoreMapLazyInit(
-    "game-pension",
-    "pension-lucky-store-map",
-    "pension-lucky-store-list",
-    "pension-lucky-store-sido-select",
-    "pension-lucky-store-city-select",
-    "pension-lucky-store-more-btn"
-  );
+  setupLuckyStoreMapLazyInit("game-pension", {
+    mapId: "pension-lucky-store-map",
+    listId: "pension-lucky-store-list",
+    sidoSelectId: "pension-lucky-store-sido-select",
+    citySelectId: "pension-lucky-store-city-select",
+    moreBtnId: "pension-lucky-store-more-btn",
+    hintId: "pension-lucky-store-hint",
+    gameFlag: "p",
+  });
   renderGroupFreqChart(stats);
   renderDigitHeatmap("pension-digit-heatmap", stats.digitFreq);
   renderDigitHeatmap("pension-bonus-digit-heatmap", stats.bonusDigitFreq);

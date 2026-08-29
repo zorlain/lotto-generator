@@ -11,9 +11,14 @@
 
 const LUCKY_LIST_PAGE_SIZE = 5;
 
+// 지도를 이 레벨(카카오맵 기준, 숫자가 작을수록 확대)만큼 확대하면 명당 외에
+// 주변 전체 판매점도 함께 보여준다. 한 번에 너무 많이 찍지 않도록 개수도 제한한다.
+const FULL_STORE_ZOOM_LEVEL = 4;
+const FULL_STORE_MAX_MARKERS = 150;
+
 /* 지도가 속한 "데이터 통계" 탭을 처음 열 때만 지도를 생성한다(게임 패널마다 버튼이
    따로 있으므로 rootId로 범위를 좁혀 그 안의 버튼만 찾는다). */
-function setupLuckyStoreMapLazyInit(rootId, mapId, listId, sidoSelectId, citySelectId, moreBtnId) {
+function setupLuckyStoreMapLazyInit(rootId, options) {
   const root = document.getElementById(rootId);
   if (!root) return;
   const btn = root.querySelector('[data-tab="stats"]');
@@ -24,7 +29,7 @@ function setupLuckyStoreMapLazyInit(rootId, mapId, listId, sidoSelectId, citySel
     started = true;
     // requestAnimationFrame은 탭이 비활성/백그라운드일 때 지연되거나 아예 안 불릴 수 있어
     // setTimeout을 쓴다(hidden→visible 레이아웃이 반영될 정도로만 한 틱 늦추면 충분하다).
-    setTimeout(() => initLuckyStoreMap(mapId, listId, sidoSelectId, citySelectId, moreBtnId), 0);
+    setTimeout(() => initLuckyStoreMap(options), 0);
   });
 }
 
@@ -100,12 +105,58 @@ function buildLuckyStoreInfoContent(entry) {
   return wrap;
 }
 
-async function initLuckyStoreMap(mapId, listId, sidoSelectId, citySelectId, moreBtnId) {
+/* 전체 판매점(명당 아닌 일반 판매점) 마커용 작은 원형 아이콘. 명당의 기본 빨간 핀과
+   구분되도록 옅은 보라색 점으로 만든다. */
+let _fullStoreMarkerImage = null;
+function fullStoreMarkerImage() {
+  if (!_fullStoreMarkerImage) {
+    const svg =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14">' +
+      '<circle cx="7" cy="7" r="6" fill="#8b93f0" stroke="#ffffff" stroke-width="1.5"/></svg>';
+    const src = "data:image/svg+xml;base64," + btoa(svg);
+    _fullStoreMarkerImage = new kakao.maps.MarkerImage(src, new kakao.maps.Size(14, 14), {
+      offset: new kakao.maps.Point(7, 7),
+    });
+  }
+  return _fullStoreMarkerImage;
+}
+
+function buildFullStoreInfoContent(store) {
+  const wrap = document.createElement("div");
+  wrap.className = "lucky-store-infowindow";
+
+  const name = document.createElement("div");
+  name.className = "lucky-store-infowindow-name";
+  name.textContent = store.n;
+  wrap.appendChild(name);
+
+  const addrText = document.createElement("div");
+  addrText.className = "lucky-store-infowindow-addr";
+  addrText.textContent = store.a;
+  wrap.appendChild(addrText);
+
+  const copyBtn = document.createElement("button");
+  copyBtn.type = "button";
+  copyBtn.className = "lucky-store-copy-btn";
+  copyBtn.textContent = "복사";
+  copyBtn.addEventListener("click", async (e) => {
+    e.stopPropagation();
+    const ok = await copyToClipboard(store.a);
+    if (ok) flashCopied(copyBtn, "복사됨");
+  });
+  wrap.appendChild(copyBtn);
+
+  return wrap;
+}
+
+async function initLuckyStoreMap(options) {
+  const { mapId, listId, sidoSelectId, citySelectId, moreBtnId, hintId, gameFlag } = options;
   const mapContainer = document.getElementById(mapId);
   const listContainer = document.getElementById(listId);
   const sidoSelect = sidoSelectId ? document.getElementById(sidoSelectId) : null;
   const citySelect = citySelectId ? document.getElementById(citySelectId) : null;
   const moreBtn = moreBtnId ? document.getElementById(moreBtnId) : null;
+  const hintEl = hintId ? document.getElementById(hintId) : null;
   if (!mapContainer || !listContainer) return;
 
   const ready = await kakaoReady();
@@ -145,6 +196,67 @@ async function initLuckyStoreMap(mapId, listId, sidoSelectId, citySelectId, more
     infoWindow.open(map, entry.marker);
     map.panTo(entry.pos);
   };
+
+  // ---------- 전체 판매점(명당 아닌 곳) : 일정 배율 이상 확대해야 보여준다 ----------
+  let fullStoreMarkers = [];
+  let fullStoreLoaded = false;
+  const fullStoreInfoWindow = new kakao.maps.InfoWindow({ zIndex: 2 });
+
+  function clearFullStoreMarkers() {
+    fullStoreMarkers.forEach((m) => m.setMap(null));
+    fullStoreMarkers = [];
+  }
+
+  async function renderFullStoresInView() {
+    if (map.getLevel() > FULL_STORE_ZOOM_LEVEL) {
+      clearFullStoreMarkers();
+      if (hintEl) hintEl.hidden = false;
+      return;
+    }
+    if (hintEl) hintEl.hidden = true;
+
+    if (!fullStoreLoaded) {
+      if (hintEl) {
+        hintEl.hidden = false;
+        hintEl.textContent = "주변 판매점을 불러오는 중...";
+      }
+      await loadAllFullStoreShards();
+      fullStoreLoaded = true;
+      if (hintEl) hintEl.hidden = true;
+    }
+
+    const bounds = map.getBounds();
+    const sw = bounds.getSouthWest();
+    const ne = bounds.getNorthEast();
+    clearFullStoreMarkers();
+
+    let count = 0;
+    for (let i = 0; i < FULL_STORE_DATA.length && count < FULL_STORE_MAX_MARKERS; i++) {
+      const s = FULL_STORE_DATA[i];
+      if (gameFlag === "l" && s.l !== "Y") continue;
+      if (gameFlag === "p" && s.p !== "Y") continue;
+      if (s.la < sw.getLat() || s.la > ne.getLat() || s.lo < sw.getLng() || s.lo > ne.getLng()) continue;
+
+      const pos = new kakao.maps.LatLng(s.la, s.lo);
+      const marker = new kakao.maps.Marker({
+        map,
+        position: pos,
+        image: fullStoreMarkerImage(),
+        title: s.n,
+        zIndex: 1,
+      });
+      kakao.maps.event.addListener(marker, "click", () => {
+        fullStoreInfoWindow.setContent(buildFullStoreInfoContent(s));
+        fullStoreInfoWindow.open(map, marker);
+      });
+      fullStoreMarkers.push(marker);
+      count++;
+    }
+  }
+
+  kakao.maps.event.addListener(map, "idle", () => {
+    renderFullStoresInView();
+  });
 
   // 1등 배출 횟수(count) 상위 순으로 정렬. count가 없는 곳은 뒤로 밀린다.
   function matchingEntries() {

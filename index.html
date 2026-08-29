@@ -59,7 +59,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
-<link rel="stylesheet" href="css/style.css?v=21" />
+<link rel="stylesheet" href="css/style.css?v=22" />
 </head>
 <body>
 <div class="layout">
@@ -511,6 +511,7 @@
         <select class="lucky-store-select" id="lucky-store-city-select"></select>
       </div>
       <div class="lucky-store-map" id="lucky-store-map"></div>
+      <p class="lucky-store-hint" id="lucky-store-hint">지도를 확대하면 주변 판매점도 함께 표시돼요</p>
       <div class="lucky-store-list" id="lucky-store-list"></div>
       <button type="button" class="lucky-store-more-btn" id="lucky-store-more-btn" hidden>더보기</button>
     </div>
@@ -1088,6 +1089,7 @@
         <select class="lucky-store-select" id="pension-lucky-store-city-select"></select>
       </div>
       <div class="lucky-store-map" id="pension-lucky-store-map"></div>
+      <p class="lucky-store-hint" id="pension-lucky-store-hint">지도를 확대하면 주변 판매점도 함께 표시돼요</p>
       <div class="lucky-store-list" id="pension-lucky-store-list"></div>
       <button type="button" class="lucky-store-more-btn" id="pension-lucky-store-more-btn" hidden>더보기</button>
     </div>
@@ -1307,8 +1309,10 @@
 <script src="data/lotto-data.js"></script>
 <script src="data/pension-data.js"></script>
 <script src="data/lucky-stores.js?v=13"></script>
+<script src="data/full-stores/index.js?v=1"></script>
 <script src="js/kakao-config.js"></script>
-<script src="js/lucky-store-map.js?v=11"></script>
+<script src="js/full-store-loader.js?v=1"></script>
+<script src="js/lucky-store-map.js?v=12"></script>
 <script src="js/config.js"></script>
 <script src="js/stats.js?v=2"></script>
 <script src="js/generator.js"></script>
