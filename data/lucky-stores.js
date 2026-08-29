@@ -58,7 +58,6 @@ const LUCKY_STORES = [
   { name: "천하명당복권방", query: "경기 수원시 팔달구 매산로 2", region: "경기 수원시", sido: "경기", city: "수원시", count: 11 },
   { name: "종합복권슈퍼", query: "경기 시흥시 마유로 336", region: "경기 시흥시", sido: "경기", city: "시흥시", count: 11 },
   { name: "노다지복권방(용인)", query: "경기 용인시 처인구 금령로 130", region: "경기 용인시", sido: "경기", city: "용인시", count: 11 },
-  { name: "로또명당인주점(포천)", query: "경기 포천시 소흘읍 송우리 128-2", region: "경기 포천시", sido: "경기", city: "포천시", count: 11 },
   { name: "올인", query: "경기 화성시 3.1만세로 1147", region: "경기 화성시", sido: "경기", city: "화성시", count: 11 },
   { name: "명당골복권방", query: "경기 수원시 권선구", region: "경기 수원시", sido: "경기", city: "수원시", count: 10 },
   { name: "탑복권", query: "경기 성남시 분당구 성남대로 926", region: "경기 성남시", sido: "경기", city: "성남시" },
@@ -93,7 +92,7 @@ const LUCKY_STORES = [
   { name: "럭키뱅크복권방", query: "충북 청주시 서원구 청남로 2092-1", region: "충북 청주시", sido: "충북", city: "청주시" },
   { name: "중앙복권방", query: "충북 청주시 청원구 율량로189번길 25", region: "충북 청주시", sido: "충북", city: "청주시" },
 
-  { name: "로또명당인주점(아산)", query: "충남 아산시 인주면", region: "충남 아산시", sido: "충남", city: "아산시", count: 9 },
+  { name: "로또명당인주점", query: "충남 아산시 인주면 서해로 519-2", region: "충남 아산시", sido: "충남", city: "아산시", count: 9 },
   { name: "대박마트복권방", query: "충남 아산시 음봉면", region: "충남 아산시", sido: "충남", city: "아산시", count: 5 },
   { name: "로또복권두정점", query: "충남 천안시 서북구", region: "충남 천안시", sido: "충남", city: "천안시", count: 5 },
   { name: "황실복권방", query: "충남 천안시 동남구", region: "충남 천안시", sido: "충남", city: "천안시", count: 5 },
