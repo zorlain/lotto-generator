@@ -125,7 +125,9 @@ async function initLuckyStoreMap(mapId, listId, regionsId) {
   };
 
   function entriesForRegion(region) {
-    return entries.filter((e) => e && (region === "전국" || e.store.sido === region));
+    return entries
+      .filter((e) => e && (region === "전국" || e.store.sido === region))
+      .sort((a, b) => (b.store.count || 0) - (a.store.count || 0));
   }
 
   function fitToRegion(region) {
@@ -176,6 +178,13 @@ async function initLuckyStoreMap(mapId, listId, regionsId) {
       head.appendChild(name);
       head.appendChild(region);
       item.appendChild(head);
+
+      if (entry.store.count) {
+        const count = document.createElement("div");
+        count.className = "lucky-store-item-count";
+        count.textContent = `1등 ${entry.store.count}회 배출`;
+        item.appendChild(count);
+      }
 
       item.addEventListener("click", () => openStoreInfo(entry));
       listContainer.appendChild(item);
