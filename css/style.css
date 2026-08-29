@@ -495,12 +495,17 @@ header.hero p {
 }
 
 /* 로또/복권 명당 지도 */
-.lucky-store-region-select {
-  display: block;
-  width: 100%;
-  padding: 14px 16px;
+.lucky-store-select-row {
+  display: flex;
+  gap: 8px;
   margin-top: 4px;
   margin-bottom: 10px;
+}
+
+.lucky-store-select {
+  flex: 1;
+  min-width: 0;
+  padding: 14px 16px;
   border: none;
   border-radius: 12px;
   background: var(--bg);
@@ -599,8 +604,28 @@ header.hero p {
 
 .lucky-store-item-count {
   flex-shrink: 0;
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 700;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.lucky-store-more-btn {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 11px;
+  border: none;
+  border-radius: 10px;
+  background: var(--card-elevated);
+  color: var(--text-muted);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.lucky-store-more-btn:hover {
+  background: var(--accent-soft);
   color: var(--accent);
 }
 
@@ -616,6 +641,13 @@ header.hero p {
   font-weight: 700;
   font-size: 13.5px;
   color: #111;
+  margin-bottom: 4px;
+}
+
+.lucky-store-infowindow-stats {
+  font-size: 12px;
+  font-weight: 600;
+  color: #494fdf;
   margin-bottom: 4px;
 }
 
@@ -646,10 +678,20 @@ header.hero p {
 }
 
 @media (max-width: 520px) {
+  .lucky-store-select-row {
+    flex-direction: column;
+  }
+  .lucky-store-item {
+    flex-wrap: wrap;
+  }
   .lucky-store-item-main {
     flex-direction: column;
     align-items: flex-start;
     gap: 1px;
+  }
+  .lucky-store-item-count {
+    flex-basis: 100%;
+    margin-left: 30px;
   }
 }
 

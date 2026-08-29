@@ -6,12 +6,14 @@
    "데이터 통계" 탭을 처음 열 때(레이아웃이 잡힌 뒤) 지연 생성한다.
 
    장소 검색(키워드 검색)은 페이지당 한 번만 전체 목록에 대해 수행하고, 그 결과(좌표 +
-   도로명/지번 주소)를 캐싱해둔다. 지역 필터를 눌러도 재검색하지 않고 마커를
+   도로명/지번 주소)를 캐싱해둔다. 시/도·시군구 필터를 눌러도 재검색하지 않고 마커를
    보이기/숨기기만 해서 API 호출을 아낀다. */
+
+const LUCKY_LIST_PAGE_SIZE = 5;
 
 /* 지도가 속한 "데이터 통계" 탭을 처음 열 때만 지도를 생성한다(게임 패널마다 버튼이
    따로 있으므로 rootId로 범위를 좁혀 그 안의 버튼만 찾는다). */
-function setupLuckyStoreMapLazyInit(rootId, mapId, listId, regionSelectId) {
+function setupLuckyStoreMapLazyInit(rootId, mapId, listId, sidoSelectId, citySelectId, moreBtnId) {
   const root = document.getElementById(rootId);
   if (!root) return;
   const btn = root.querySelector('[data-tab="stats"]');
@@ -22,15 +24,14 @@ function setupLuckyStoreMapLazyInit(rootId, mapId, listId, regionSelectId) {
     started = true;
     // requestAnimationFrame은 탭이 비활성/백그라운드일 때 지연되거나 아예 안 불릴 수 있어
     // setTimeout을 쓴다(hidden→visible 레이아웃이 반영될 정도로만 한 틱 늦추면 충분하다).
-    setTimeout(() => initLuckyStoreMap(mapId, listId, regionSelectId), 0);
+    setTimeout(() => initLuckyStoreMap(mapId, listId, sidoSelectId, citySelectId, moreBtnId), 0);
   });
 }
 
 /* "경기 성남시" 같은 축약 지역 표기를 "경기도 성남시"처럼 정식 시/도 명칭으로 바꿔준다. */
 function fullRegionLabel(store) {
   const full = LUCKY_SIDO_FULL_NAME[store.sido] || store.sido;
-  const cityPart = store.region.replace(store.sido, "").trim();
-  return cityPart ? `${full} ${cityPart}` : full;
+  return store.city ? `${full} ${store.city}` : full;
 }
 
 function loadKakaoSdk() {
@@ -70,6 +71,16 @@ function buildLuckyStoreInfoContent(entry) {
   name.textContent = entry.store.name;
   wrap.appendChild(name);
 
+  if (entry.store.count || entry.store.count2) {
+    const stats = document.createElement("div");
+    stats.className = "lucky-store-infowindow-stats";
+    const parts = [];
+    if (entry.store.count) parts.push(`1등 ${entry.store.count}회`);
+    if (entry.store.count2) parts.push(`2등 ${entry.store.count2}회`);
+    stats.textContent = parts.join(" · ");
+    wrap.appendChild(stats);
+  }
+
   const addrText = document.createElement("div");
   addrText.className = "lucky-store-infowindow-addr";
   addrText.textContent = entry.address || entry.store.region;
@@ -89,10 +100,12 @@ function buildLuckyStoreInfoContent(entry) {
   return wrap;
 }
 
-async function initLuckyStoreMap(mapId, listId, regionSelectId) {
+async function initLuckyStoreMap(mapId, listId, sidoSelectId, citySelectId, moreBtnId) {
   const mapContainer = document.getElementById(mapId);
   const listContainer = document.getElementById(listId);
-  const regionSelect = regionSelectId ? document.getElementById(regionSelectId) : null;
+  const sidoSelect = sidoSelectId ? document.getElementById(sidoSelectId) : null;
+  const citySelect = citySelectId ? document.getElementById(citySelectId) : null;
+  const moreBtn = moreBtnId ? document.getElementById(moreBtnId) : null;
   if (!mapContainer || !listContainer) return;
 
   const ready = await kakaoReady();
@@ -111,16 +124,18 @@ async function initLuckyStoreMap(mapId, listId, regionSelectId) {
   const places = new kakao.maps.services.Places();
   const infoWindow = new kakao.maps.InfoWindow({ zIndex: 1 });
   const entries = new Array(LUCKY_STORES.length);
-  let currentRegion = LUCKY_REGIONS[0];
+  let currentSido = LUCKY_REGIONS[0];
+  let currentCity = "전체";
+  let showAll = false;
 
   // 창 크기가 바뀌어도(모바일 회전 등) 카카오맵은 자동으로 다시 맞추지 않으므로
-  // 컨테이너 크기 변화를 감지해 relayout + 현재 지역 범위 재조정을 해준다.
+  // 컨테이너 크기 변화를 감지해 relayout + 현재 범위 재조정을 해준다.
   let resizeTimer = null;
   const resizeObserver = new ResizeObserver(() => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
       map.relayout();
-      fitToRegion(currentRegion);
+      fitToSelection();
     }, 150);
   });
   resizeObserver.observe(mapContainer);
@@ -131,46 +146,61 @@ async function initLuckyStoreMap(mapId, listId, regionSelectId) {
     map.panTo(entry.pos);
   };
 
-  // 지역당 1등 배출 횟수(count) 상위 5곳만 보여준다. count가 없는 곳은 뒤로 밀린다.
-  function entriesForRegion(region) {
+  // 1등 배출 횟수(count) 상위 순으로 정렬. count가 없는 곳은 뒤로 밀린다.
+  function matchingEntries() {
     return entries
-      .filter((e) => e && e.store.sido === region)
-      .sort((a, b) => (b.store.count || 0) - (a.store.count || 0))
-      .slice(0, 5);
+      .filter(
+        (e) => e && e.store.sido === currentSido && (currentCity === "전체" || e.store.city === currentCity)
+      )
+      .sort((a, b) => (b.store.count || 0) - (a.store.count || 0));
   }
 
-  function fitToRegion(region) {
-    const visible = entriesForRegion(region);
-    visible.forEach((e) => e.marker.setMap(map));
+  function citiesForCurrentSido() {
+    const best = new Map();
     entries.forEach((e) => {
-      if (e && !visible.includes(e)) e.marker.setMap(null);
+      if (e && e.store.sido === currentSido) {
+        const prev = best.get(e.store.city) || 0;
+        best.set(e.store.city, Math.max(prev, e.store.count || 0));
+      }
+    });
+    return Array.from(best.keys()).sort((a, b) => best.get(b) - best.get(a));
+  }
+
+  function fitToSelection() {
+    const all = matchingEntries();
+    all.forEach((e) => e.marker.setMap(map));
+    entries.forEach((e) => {
+      if (e && !all.includes(e)) e.marker.setMap(null);
     });
 
-    if (visible.length === 0) {
+    if (all.length === 0) {
       infoWindow.close();
       return;
     }
-    if (visible.length === 1) {
-      map.setCenter(visible[0].pos);
+    if (all.length === 1) {
+      map.setCenter(all[0].pos);
       map.setLevel(6);
       return;
     }
     const bounds = new kakao.maps.LatLngBounds();
-    visible.forEach((e) => bounds.extend(e.pos));
+    all.forEach((e) => bounds.extend(e.pos));
     map.setBounds(bounds);
   }
 
   const renderList = () => {
     listContainer.innerHTML = "";
-    const visible = entriesForRegion(currentRegion);
+    const all = matchingEntries();
 
-    if (visible.length === 0) {
+    if (all.length === 0) {
       const empty = document.createElement("p");
       empty.className = "lucky-store-empty";
       empty.textContent = "아직 등록된 지역 명당 정보가 없어요.";
       listContainer.appendChild(empty);
+      if (moreBtn) moreBtn.hidden = true;
       return;
     }
+
+    const visible = showAll ? all : all.slice(0, LUCKY_LIST_PAGE_SIZE);
 
     // 세로로 길어지지 않도록 한 줄짜리 순위 목록으로 표시한다.
     visible.forEach((entry, i) => {
@@ -194,35 +224,86 @@ async function initLuckyStoreMap(mapId, listId, regionSelectId) {
       main.appendChild(region);
       item.appendChild(main);
 
-      if (entry.store.count) {
-        const count = document.createElement("span");
-        count.className = "lucky-store-item-count";
-        count.textContent = `${entry.store.count}회`;
-        item.appendChild(count);
+      if (entry.store.count || entry.store.count2) {
+        const stats = document.createElement("span");
+        stats.className = "lucky-store-item-count";
+        const parts = [];
+        if (entry.store.count) parts.push(`1등 ${entry.store.count}회`);
+        if (entry.store.count2) parts.push(`2등 ${entry.store.count2}회`);
+        stats.textContent = parts.join(" · ");
+        item.appendChild(stats);
       }
 
       item.addEventListener("click", () => openStoreInfo(entry));
       listContainer.appendChild(item);
     });
+
+    if (moreBtn) {
+      if (all.length > LUCKY_LIST_PAGE_SIZE && !showAll) {
+        moreBtn.hidden = false;
+        moreBtn.textContent = `더보기 (${all.length - LUCKY_LIST_PAGE_SIZE}곳 더)`;
+      } else {
+        moreBtn.hidden = true;
+      }
+    }
   };
 
-  function selectRegion(region) {
-    currentRegion = region;
-    if (regionSelect) regionSelect.value = region;
-    fitToRegion(region);
+  function refreshCitySelect() {
+    if (!citySelect) return;
+    citySelect.innerHTML = "";
+    const allOption = document.createElement("option");
+    allOption.value = "전체";
+    allOption.textContent = "전체";
+    citySelect.appendChild(allOption);
+    citiesForCurrentSido().forEach((city) => {
+      const option = document.createElement("option");
+      option.value = city;
+      option.textContent = city;
+      citySelect.appendChild(option);
+    });
+    citySelect.value = currentCity;
+  }
+
+  function apply() {
+    showAll = false;
+    fitToSelection();
     renderList();
   }
 
-  if (regionSelect) {
-    regionSelect.innerHTML = "";
+  function selectSido(sido) {
+    currentSido = sido;
+    currentCity = "전체";
+    if (sidoSelect) sidoSelect.value = sido;
+    refreshCitySelect();
+    apply();
+  }
+
+  function selectCity(city) {
+    currentCity = city;
+    apply();
+  }
+
+  if (sidoSelect) {
+    sidoSelect.innerHTML = "";
     LUCKY_REGIONS.forEach((region) => {
       const option = document.createElement("option");
       option.value = region;
       option.textContent = LUCKY_SIDO_FULL_NAME[region] || region;
-      regionSelect.appendChild(option);
+      sidoSelect.appendChild(option);
     });
-    regionSelect.value = currentRegion;
-    regionSelect.addEventListener("change", () => selectRegion(regionSelect.value));
+    sidoSelect.value = currentSido;
+    sidoSelect.addEventListener("change", () => selectSido(sidoSelect.value));
+  }
+
+  if (citySelect) {
+    citySelect.addEventListener("change", () => selectCity(citySelect.value));
+  }
+
+  if (moreBtn) {
+    moreBtn.addEventListener("click", () => {
+      showAll = true;
+      renderList();
+    });
   }
 
   // keywordSearch를 한꺼번에 다 쏘면(20여 건) 카카오 쪽에서 일부 요청이 누락되는 경우가
@@ -247,6 +328,7 @@ async function initLuckyStoreMap(mapId, listId, regionSelectId) {
     for (let i = 0; i < LUCKY_STORES.length; i++) {
       await searchOne(LUCKY_STORES[i], i);
     }
-    selectRegion(LUCKY_REGIONS[0]);
+    refreshCitySelect();
+    apply();
   })();
 }
