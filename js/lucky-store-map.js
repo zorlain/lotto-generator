@@ -196,7 +196,10 @@ async function initLuckyStoreMap(mapId, listId, sidoSelectId, citySelectId, more
       empty.className = "lucky-store-empty";
       empty.textContent = "아직 등록된 지역 명당 정보가 없어요.";
       listContainer.appendChild(empty);
-      if (moreBtn) moreBtn.hidden = true;
+      if (moreBtn) {
+        moreBtn.hidden = true;
+        moreBtn.textContent = "";
+      }
       return;
     }
 
@@ -242,6 +245,7 @@ async function initLuckyStoreMap(mapId, listId, sidoSelectId, citySelectId, more
     if (moreBtn) {
       if (all.length <= LUCKY_LIST_PAGE_SIZE) {
         moreBtn.hidden = true;
+        moreBtn.textContent = ""; // hidden이 어떤 이유로든 안 먹혀도 이전 지역의 텍스트가 안 남게
       } else {
         moreBtn.hidden = false;
         moreBtn.textContent = showAll ? "접기" : `더보기 (${all.length - LUCKY_LIST_PAGE_SIZE}곳 더)`;

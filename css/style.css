@@ -624,6 +624,13 @@ header.hero p {
   cursor: pointer;
 }
 
+/* display:block이 hidden 속성의 기본 display:none을 덮어써서 버튼이 실제로는
+   안 숨겨지던 문제 수정 — 지역 전환 시 이전 텍스트("더보기 (N곳 더)")가 그대로
+   남아 보이는 버그의 원인이었다. */
+.lucky-store-more-btn[hidden] {
+  display: none;
+}
+
 .lucky-store-more-btn:hover {
   background: var(--accent-soft);
   color: var(--accent);
