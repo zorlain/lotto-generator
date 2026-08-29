@@ -208,8 +208,6 @@ async function initLuckyStoreMap(options) {
   }
 
   async function renderFullStoresInView() {
-    window.__debugLevel = map.getLevel(); // TODO: 디버깅용, 확인 후 제거
-    window.__debugCalls = (window.__debugCalls || 0) + 1;
     if (map.getLevel() > FULL_STORE_ZOOM_LEVEL) {
       clearFullStoreMarkers();
       if (hintEl) hintEl.hidden = false;
