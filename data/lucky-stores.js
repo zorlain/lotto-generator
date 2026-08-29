@@ -2,7 +2,9 @@
 // 정확한 위치는 카카오맵 장소 검색으로 표시하며, 상호명이 흔해 다른 장소가 잡힐 수 있는 항목은
 // query에 주소를 넣어 정확도를 높였다. sido는 시/도, city는 시/군/구 단위 지역 필터링에 쓴다.
 // count는 1등, count2는 2등 배출 횟수(보도에서 확인된 경우만). 매체마다 집계 기준·시점이 달라
-// 참고용 수치이며, 지역별로 이 값이 높은 곳들을 우선 담았다.
+// 참고용 수치이며, 지역별로 이 값이 높은 곳들을 우선 담았다. count가 없는 항목은 "1등·2등을
+// 몇 번 배출했는지"보다는 "이 근처에 이런 판매점이 있다"는 위치 정보 용도로 담아둔 것들이다.
+// 같은 상호가 여러 지역에 있는 경우 이름 뒤에 지역을 괄호로 붙여 구분했다.
 // 당첨은 완전히 무작위이며 특정 판매점 방문이 확률을 높이지 않는다.
 const LUCKY_REGIONS = [
   "서울", "경기", "인천", "강원", "충북", "충남", "대전", "세종",
@@ -36,19 +38,48 @@ const LUCKY_STORES = [
   { name: "오케이상사", query: "서울 서초구 신반포로 176 센트럴시티", region: "서울 서초구", sido: "서울", city: "서초구", count: 16 },
   { name: "제이복권방", query: "서울 종로구 종로 225-1 평창빌딩", region: "서울 종로구", sido: "서울", city: "종로구", count: 16 },
   { name: "묵동식품", query: "서울 중랑구 동일로 919", region: "서울 중랑구", sido: "서울", city: "중랑구", count: 14 },
+  { name: "버스판매소", query: "서울 영등포구 영등포동4가 440", region: "서울 영등포구", sido: "서울", city: "영등포구", count: 13 },
+  { name: "복권나라(관악)", query: "서울 관악구 남부순환로 1739-9", region: "서울 관악구", sido: "서울", city: "관악구", count: 11 },
+  { name: "미나식품", query: "서울 강서구 금낭화로 91-12", region: "서울 강서구", sido: "서울", city: "강서구", count: 10 },
+  { name: "월드24시", query: "서울 은평구 통일로 855-15", region: "서울 은평구", sido: "서울", city: "은평구", count: 10 },
+  { name: "갈렙분식한식", query: "서울 중랑구 망우동 490-13", region: "서울 중랑구", sido: "서울", city: "중랑구", count: 10 },
+  { name: "지원물산", query: "서울 노원구 공릉로 108", region: "서울 노원구", sido: "서울", city: "노원구", count: 8 },
+  { name: "데이앤나잇", query: "서울 성북구 종암로 132", region: "서울 성북구", sido: "서울", city: "성북구", count: 8 },
+  { name: "영광정보통신", query: "서울 성북구 하월곡동 37-18", region: "서울 성북구", sido: "서울", city: "성북구", count: 8 },
+  { name: "가판점(신문)", query: "서울 영등포구 당산동6가 331-1", region: "서울 영등포구", sido: "서울", city: "영등포구", count: 8 },
+  { name: "로또킹", query: "서울 영등포구 영중로 2", region: "서울 영등포구", sido: "서울", city: "영등포구", count: 8 },
   { name: "드림", query: "서울 서대문구 증가로 247", region: "서울 서대문구", sido: "서울", city: "서대문구", count: 2 },
+  { name: "더블행운점", query: "서울 중랑구 겸재로 98", region: "서울 중랑구", sido: "서울", city: "중랑구" },
 
   { name: "로또휴게실", query: "경기 용인시 기흥구 용구대로 1885", region: "경기 용인시", sido: "경기", city: "용인시", count: 27, count2: 118 },
   { name: "다니엘사", query: "경기 안산시 단원구 원선1로 38", region: "경기 안산시", sido: "경기", city: "안산시", count: 15 },
   { name: "복권백화점", query: "경기 파주시 평화로 70", region: "경기 파주시", sido: "경기", city: "파주시", count: 15 },
+  { name: "행복한사람들(흥부네)", query: "경기 광주시 경충대로 763", region: "경기 광주시", sido: "경기", city: "광주시", count: 11 },
+  { name: "천하명당복권방", query: "경기 수원시 팔달구 매산로 2", region: "경기 수원시", sido: "경기", city: "수원시", count: 11 },
+  { name: "종합복권슈퍼", query: "경기 시흥시 마유로 336", region: "경기 시흥시", sido: "경기", city: "시흥시", count: 11 },
+  { name: "노다지복권방(용인)", query: "경기 용인시 처인구 금령로 130", region: "경기 용인시", sido: "경기", city: "용인시", count: 11 },
+  { name: "로또명당인주점(포천)", query: "경기 포천시 소흘읍 송우리 128-2", region: "경기 포천시", sido: "경기", city: "포천시", count: 11 },
+  { name: "올인", query: "경기 화성시 3.1만세로 1147", region: "경기 화성시", sido: "경기", city: "화성시", count: 11 },
+  { name: "명당골복권방", query: "경기 수원시 권선구", region: "경기 수원시", sido: "경기", city: "수원시", count: 10 },
   { name: "탑복권", query: "경기 성남시 분당구 성남대로 926", region: "경기 성남시", sido: "경기", city: "성남시" },
   { name: "이마트24 백석동문점", query: "경기 고양시 일산동구 호수로 358-26", region: "경기 고양시", sido: "경기", city: "고양시" },
   { name: "바로전산", query: "경기 광명시 오리로 1000", region: "경기 광명시", sido: "경기", city: "광명시" },
+  { name: "행운나눈점", query: "경기 화성시 효행구 와우로 74-1", region: "경기 화성시", sido: "경기", city: "화성시" },
+  { name: "한방로또", query: "경기 부천시 소사구 경인로 231", region: "경기 부천시", sido: "경기", city: "부천시" },
+  { name: "돈벼락", query: "경기 군포시 금당로 112", region: "경기 군포시", sido: "경기", city: "군포시" },
+  { name: "바른", query: "경기 하남시 신장로 68", region: "경기 하남시", sido: "경기", city: "하남시" },
+  { name: "복돼지복권방", query: "경기 화성시 3.1만세로 43", region: "경기 화성시", sido: "경기", city: "화성시" },
 
   { name: "복권라이프마트", query: "인천 중구 연안부두로53번길 36", region: "인천 중구", sido: "인천", city: "중구", count: 12 },
-  { name: "노다지복권방", query: "인천 미추홀구 한나루로 400", region: "인천 미추홀구", sido: "인천", city: "미추홀구", count: 11 },
+  { name: "노다지복권방(인천)", query: "인천 미추홀구 한나루로 400", region: "인천 미추홀구", sido: "인천", city: "미추홀구", count: 11 },
   { name: "대박천하마트", query: "인천 부평구 굴포로 48", region: "인천 부평구", sido: "인천", city: "부평구", count: 10 },
   { name: "복권전문점", query: "인천 부평구 원적로 437", region: "인천 부평구", sido: "인천", city: "부평구", count: 9 },
+  { name: "버스매표소 가판", query: "인천 부평구 부평대로 3", region: "인천 부평구", sido: "인천", city: "부평구", count: 6 },
+  { name: "복권판매점 포시즌마전점", query: "인천 서구 완정로10번길 6-6", region: "인천 서구", sido: "인천", city: "서구", count: 5 },
+  { name: "GS25 계산동경점", query: "인천 계양구 계산동 1076-7", region: "인천 계양구", sido: "인천", city: "계양구", count: 5 },
+  { name: "왕대박복권", query: "인천 부평구 동수천로 108", region: "인천 부평구", sido: "인천", city: "부평구", count: 5 },
+  { name: "제일슈퍼", query: "인천 연수구 앵고개로 242", region: "인천 연수구", sido: "인천", city: "연수구", count: 4 },
+  { name: "충남상회", query: "인천 미추홀구 참외전로 268", region: "인천 미추홀구", sido: "인천", city: "미추홀구", count: 4 },
   { name: "나라복권", query: "인천 남동구 인주대로676번길 22", region: "인천 남동구", sido: "인천", city: "남동구" },
 
   { name: "흥양마중물", query: "흥양마중물", region: "강원 원주시", sido: "강원", city: "원주시", count: 6 },
@@ -60,8 +91,9 @@ const LUCKY_STORES = [
   { name: "썬마트", query: "충북 청주시 흥덕구", region: "충북 청주시", sido: "충북", city: "청주시", count: 5 },
   { name: "복앤돈복권방", query: "충북 충주시 충원대로 948", region: "충북 충주시", sido: "충북", city: "충주시" },
   { name: "럭키뱅크복권방", query: "충북 청주시 서원구 청남로 2092-1", region: "충북 청주시", sido: "충북", city: "청주시" },
+  { name: "중앙복권방", query: "충북 청주시 청원구 율량로189번길 25", region: "충북 청주시", sido: "충북", city: "청주시" },
 
-  { name: "로또명당인주점", query: "충남 아산시 인주면", region: "충남 아산시", sido: "충남", city: "아산시", count: 9 },
+  { name: "로또명당인주점(아산)", query: "충남 아산시 인주면", region: "충남 아산시", sido: "충남", city: "아산시", count: 9 },
   { name: "대박마트복권방", query: "충남 아산시 음봉면", region: "충남 아산시", sido: "충남", city: "아산시", count: 5 },
   { name: "로또복권두정점", query: "충남 천안시 서북구", region: "충남 천안시", sido: "충남", city: "천안시", count: 5 },
   { name: "황실복권방", query: "충남 천안시 동남구", region: "충남 천안시", sido: "충남", city: "천안시", count: 5 },
@@ -82,12 +114,17 @@ const LUCKY_STORES = [
   { name: "대광복권방", query: "전남 화순군 칠충로 55", region: "전남 화순군", sido: "전남", city: "화순군", count: 9 },
   { name: "이마트24 순천산단점", query: "전남 순천시 산단1길 6", region: "전남 순천시", sido: "전남", city: "순천시", count: 8 },
   { name: "종합복권방", query: "전남 해남군 해남읍 해리 189-2", region: "전남 해남군", sido: "전남", city: "해남군", count: 8 },
+  { name: "하당복권방", query: "전남 목포시 옥암로 46", region: "전남 목포시", sido: "전남", city: "목포시", count: 6 },
+  { name: "복권세상(목포)", query: "전남 목포시 청호로 139", region: "전남 목포시", sido: "전남", city: "목포시", count: 6 },
+  { name: "알리바이금당점", query: "전남 순천시 연향동 1505-5", region: "전남 순천시", sido: "전남", city: "순천시", count: 6 },
+  { name: "도깨비방망이", query: "전남 완도군 완도읍 군내리 1248-21", region: "전남 완도군", sido: "전남", city: "완도군", count: 6 },
+  { name: "조례로또복권방", query: "전남 순천시 봉화2길 58", region: "전남 순천시", sido: "전남", city: "순천시", count: 5 },
   { name: "복권나라(여수)", query: "전남 여수시 중앙로 62", region: "전남 여수시", sido: "전남", city: "여수시", count: 5 },
 
   { name: "오천억복권방", query: "광주 서구 화정동 782-14", region: "광주 서구", sido: "광주", city: "서구", count: 16, count2: 59 },
   { name: "알리바이(광주)", query: "광주 광산구 신가동", region: "광주 광산구", sido: "광주", city: "광산구", count: 9 },
   { name: "일등복권판매점", query: "광주 북구 설죽로315번길 40", region: "광주 북구", sido: "광주", city: "북구" },
-  { name: "복권세상", query: "광주 광산구 무진대로231번길 28", region: "광주 광산구", sido: "광주", city: "광산구" },
+  { name: "복권세상(광주)", query: "광주 광산구 무진대로231번길 28", region: "광주 광산구", sido: "광주", city: "광산구" },
 
   { name: "CU노서점", query: "경북 경주시 노서동", region: "경북 경주시", sido: "경북", city: "경주시", count: 8 },
   { name: "NG24", query: "경북 칠곡군 석적읍", region: "경북 칠곡군", sido: "경북", city: "칠곡군", count: 5 },
@@ -100,6 +137,7 @@ const LUCKY_STORES = [
   { name: "북마산복권전문점", query: "경남 창원시 마산합포구", region: "경남 창원시", sido: "경남", city: "창원시", count: 6 },
   { name: "구산복권방", query: "경남 김해시 구산동", region: "경남 김해시", sido: "경남", city: "김해시", count: 5 },
   { name: "리이지복권", query: "경남 창원시 성산구 동산로 156", region: "경남 창원시", sido: "경남", city: "창원시" },
+  { name: "로또명당(하동)", query: "경남 하동군 진교중앙길 22", region: "경남 하동군", sido: "경남", city: "하동군" },
 
   { name: "일등복권편의점", query: "대구 달서구 본리동", region: "대구 달서구", sido: "대구", city: "달서구", count: 12 },
   { name: "세진전자통신", query: "대구 서구 평리동", region: "대구 서구", sido: "대구", city: "서구", count: 9 },
@@ -112,8 +150,17 @@ const LUCKY_STORES = [
   { name: "부일카서비스", query: "부산 동구 자성로133번길 35", region: "부산 동구", sido: "부산", city: "동구", count: 50, count2: 191 },
   { name: "뉴빅마트", query: "부산 기장군 정관중앙로 48", region: "부산 기장군", sido: "부산", city: "기장군", count: 30 },
   { name: "돈벼락맞는곳", query: "부산 동구 조방로49번길 18-1", region: "부산 동구", sido: "부산", city: "동구", count: 14 },
+  { name: "빅세일복권방", query: "부산 부산진구 서면문화로 6", region: "부산 부산진구", sido: "부산", city: "부산진구", count: 8 },
+  { name: "프로토베팅샵", query: "부산 중구 국제시장2길 5", region: "부산 중구", sido: "부산", city: "중구", count: 8 },
+  { name: "셀프카메라", query: "부산 부산진구 개금동 472-23", region: "부산 부산진구", sido: "부산", city: "부산진구", count: 7 },
+  { name: "복권방(사하)", query: "부산 사하구 장림동 328-9", region: "부산 사하구", sido: "부산", city: "사하구", count: 7 },
+  { name: "청솔서점", query: "부산 사하구 하신번영로 195", region: "부산 사하구", sido: "부산", city: "사하구", count: 7 },
+  { name: "기장슈퍼", query: "부산 기장군 차성동로 69", region: "부산 기장군", sido: "부산", city: "기장군", count: 6 },
+  { name: "우정식품", query: "부산 동래구 온천동 185-93", region: "부산 동래구", sido: "부산", city: "동래구", count: 6 },
   { name: "사하상회", query: "부산 사하구 낙동대로 256-1", region: "부산 사하구", sido: "부산", city: "사하구" },
   { name: "천하제일명당", query: "부산 부산진구 골드테마길 42", region: "부산 부산진구", sido: "부산", city: "부산진구" },
+  { name: "감만정보통신", query: "부산 남구 우암로 150", region: "부산 남구", sido: "부산", city: "남구" },
+  { name: "일등복권방", query: "부산 남구 고동골로 3", region: "부산 남구", sido: "부산", city: "남구" },
 
   { name: "영화유통(1등복권방)", query: "울산 남구 달동", region: "울산 남구", sido: "울산", city: "남구", count: 7 },
   { name: "아이러브마트복권방", query: "울산 중구 태화동", region: "울산 중구", sido: "울산", city: "중구", count: 6 },

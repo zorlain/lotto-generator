@@ -238,12 +238,13 @@ async function initLuckyStoreMap(mapId, listId, sidoSelectId, citySelectId, more
       listContainer.appendChild(item);
     });
 
+    // 더보기로 펼친 뒤에도 다시 접을 수 있도록 버튼을 숨기지 않고 라벨만 바꾼다.
     if (moreBtn) {
-      if (all.length > LUCKY_LIST_PAGE_SIZE && !showAll) {
-        moreBtn.hidden = false;
-        moreBtn.textContent = `더보기 (${all.length - LUCKY_LIST_PAGE_SIZE}곳 더)`;
-      } else {
+      if (all.length <= LUCKY_LIST_PAGE_SIZE) {
         moreBtn.hidden = true;
+      } else {
+        moreBtn.hidden = false;
+        moreBtn.textContent = showAll ? "접기" : `더보기 (${all.length - LUCKY_LIST_PAGE_SIZE}곳 더)`;
       }
     }
   };
@@ -301,7 +302,7 @@ async function initLuckyStoreMap(mapId, listId, sidoSelectId, citySelectId, more
 
   if (moreBtn) {
     moreBtn.addEventListener("click", () => {
-      showAll = true;
+      showAll = !showAll;
       renderList();
     });
   }
