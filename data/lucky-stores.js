@@ -31,14 +31,14 @@ const LUCKY_SIDO_FULL_NAME = {
 };
 
 const LUCKY_STORES = [
-  { name: "스파", query: "서울 노원구 동일로 1493 주공10단지종합상가", region: "서울 노원구", sido: "서울", city: "노원구", count: 48 },
-  { name: "잠실매점", query: "서울 송파구 올림픽로 269", region: "서울 송파구", sido: "서울", city: "송파구", count: 20 },
+  { name: "스파", query: "서울 노원구 동일로 1493 주공10단지종합상가", region: "서울 노원구", sido: "서울", city: "노원구", count: 48, count2: 241 },
+  { name: "잠실매점", query: "서울 송파구 올림픽로 269", region: "서울 송파구", sido: "서울", city: "송파구", count: 20, count2: 104 },
   { name: "오케이상사", query: "서울 서초구 신반포로 176 센트럴시티", region: "서울 서초구", sido: "서울", city: "서초구", count: 16 },
   { name: "제이복권방", query: "서울 종로구 종로 225-1 평창빌딩", region: "서울 종로구", sido: "서울", city: "종로구", count: 16 },
   { name: "묵동식품", query: "서울 중랑구 동일로 919", region: "서울 중랑구", sido: "서울", city: "중랑구", count: 14 },
   { name: "드림", query: "서울 서대문구 증가로 247", region: "서울 서대문구", sido: "서울", city: "서대문구", count: 2 },
 
-  { name: "로또휴게실", query: "경기 용인시 기흥구 용구대로 1885", region: "경기 용인시", sido: "경기", city: "용인시", count: 27 },
+  { name: "로또휴게실", query: "경기 용인시 기흥구 용구대로 1885", region: "경기 용인시", sido: "경기", city: "용인시", count: 27, count2: 118 },
   { name: "다니엘사", query: "경기 안산시 단원구 원선1로 38", region: "경기 안산시", sido: "경기", city: "안산시", count: 15 },
   { name: "복권백화점", query: "경기 파주시 평화로 70", region: "경기 파주시", sido: "경기", city: "파주시", count: 15 },
   { name: "탑복권", query: "경기 성남시 분당구 성남대로 926", region: "경기 성남시", sido: "경기", city: "성남시" },
@@ -68,7 +68,7 @@ const LUCKY_STORES = [
   { name: "태안로또복권방", query: "충남 태안군 독샘로 57", region: "충남 태안군", sido: "충남", city: "태안군", count: 2 },
 
   { name: "금빛로또방", query: "대전 중구 계룡로 880", region: "대전 중구", sido: "대전", city: "중구" },
-  { name: "온천로또방", query: "대전 유성구 계룡로 92", region: "대전 유성구", sido: "대전", city: "유성구", count: 4 },
+  { name: "온천로또방", query: "대전 유성구 계룡로 92", region: "대전 유성구", sido: "대전", city: "유성구", count: 4, count2: 9 },
   { name: "GS25 대전시네마점", query: "대전 서구 괴정동", region: "대전 서구", sido: "대전", city: "서구", count: 5 },
 
   { name: "조치원복권방", query: "세종 조치원읍 원리 9-20", region: "세종 조치원읍", sido: "세종", city: "조치원읍" },
@@ -84,7 +84,7 @@ const LUCKY_STORES = [
   { name: "종합복권방", query: "전남 해남군 해남읍 해리 189-2", region: "전남 해남군", sido: "전남", city: "해남군", count: 8 },
   { name: "복권나라(여수)", query: "전남 여수시 중앙로 62", region: "전남 여수시", sido: "전남", city: "여수시", count: 5 },
 
-  { name: "오천억복권방", query: "광주 서구 화정동 782-14", region: "광주 서구", sido: "광주", city: "서구", count: 16 },
+  { name: "오천억복권방", query: "광주 서구 화정동 782-14", region: "광주 서구", sido: "광주", city: "서구", count: 16, count2: 59 },
   { name: "알리바이(광주)", query: "광주 광산구 신가동", region: "광주 광산구", sido: "광주", city: "광산구", count: 9 },
   { name: "일등복권판매점", query: "광주 북구 설죽로315번길 40", region: "광주 북구", sido: "광주", city: "북구" },
   { name: "복권세상", query: "광주 광산구 무진대로231번길 28", region: "광주 광산구", sido: "광주", city: "광산구" },
@@ -109,7 +109,7 @@ const LUCKY_STORES = [
   { name: "GS25 대구교대점", query: "GS25 대구교대점", region: "대구 남구", sido: "대구", city: "남구" },
   { name: "로또명당 경대북문점", query: "대구 북구 대동로 43-1", region: "대구 북구", sido: "대구", city: "북구" },
 
-  { name: "부일카서비스", query: "부산 동구 자성로133번길 35", region: "부산 동구", sido: "부산", city: "동구", count: 50 },
+  { name: "부일카서비스", query: "부산 동구 자성로133번길 35", region: "부산 동구", sido: "부산", city: "동구", count: 50, count2: 191 },
   { name: "뉴빅마트", query: "부산 기장군 정관중앙로 48", region: "부산 기장군", sido: "부산", city: "기장군", count: 30 },
   { name: "돈벼락맞는곳", query: "부산 동구 조방로49번길 18-1", region: "부산 동구", sido: "부산", city: "동구", count: 14 },
   { name: "사하상회", query: "부산 사하구 낙동대로 256-1", region: "부산 사하구", sido: "부산", city: "사하구" },
