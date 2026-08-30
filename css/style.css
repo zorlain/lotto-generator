@@ -338,27 +338,29 @@ header.hero {
 /* 게임 전환 탭 (로또 / 연금복권) — 내부 탭보다 한 단계 위, 눈에 띄게 */
 .game-tabs {
   display: flex;
-  gap: 8px;
-  margin-bottom: 24px;
+  gap: 6px;
+  background: var(--accent-soft);
+  border-radius: 9999px;
+  padding: 6px;
+  margin-bottom: 20px;
 }
 
 .game-tab-btn {
   flex: 1;
-  border: 1px solid var(--border);
-  background: var(--card);
-  padding: 16px 12px;
-  font-size: 16px;
+  border: none;
+  background: transparent;
+  padding: 12px 10px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--text-muted);
-  border-radius: 16px;
+  border-radius: 9999px;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  transition: background 0.15s, color 0.15s;
 }
 
 .game-tab-btn.active {
-  background: var(--accent);
-  color: var(--accent-on);
-  border-color: var(--accent);
+  background: var(--card);
+  color: var(--accent);
 }
 
 .stats-trust-line {
@@ -2059,10 +2061,6 @@ footer {
   }
   .generate-btn {
     padding: 20px;
-    font-size: 16px;
-  }
-  .game-tab-btn {
-    padding: 16px 12px;
     font-size: 16px;
   }
   .ball {
