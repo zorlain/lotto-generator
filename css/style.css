@@ -334,6 +334,14 @@ header.hero {
   color: var(--accent);
 }
 
+/* 빈 박스(outer-frame)를 없앤 뒤에도 그때와 동일한 콘텐츠 폭을 유지 (900px, 가운데 정렬) */
+.game-tabs,
+.game-panel {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .game-tabs {
   display: flex;
   gap: 8px;
