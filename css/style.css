@@ -1,27 +1,28 @@
-/* 레볼루트(Revolut) 디자인 언어 적용: 코발트 바이올렛 포인트(전용 버튼 표면 X, 아껴서 사용),
-   1차 버튼은 캔버스 반대색 알약, Inter 타이포그래피(양수 자간), 그림자 완전 배제(깊이는 색
+/* 타이머·시계 사이트(clock-timer)와 통일한 다크 퍼스트 + 앰버(LED) 액센트 디자인.
+   1차 버튼은 다크 모드에서 앰버 알약(clock-timer와 동일), 라이트 모드에서는 캔버스
+   반대색(검정) 알약. Inter 타이포그래피(양수 자간), 그림자 완전 배제(깊이는 색
    대비로만). 다크가 기본값이며, data-theme="light"로 라이트 모드를 전환한다. */
 :root {
   --bg: #000000;
-  --card: #16181a;
-  --card-elevated: #1f2226;
+  --card: #131313;
+  --card-elevated: #1d1d1d;
   --text: #ffffff;
-  --text-muted: rgba(255, 255, 255, 0.72);
-  --border: rgba(255, 255, 255, 0.12);
-  --accent: #494fdf;
-  --accent-hover: #4f55f1;
-  --accent-soft: rgba(73, 79, 223, 0.16);
-  --accent-on: #ffffff;
-  --hot-mark: #4f55f1;
+  --text-muted: rgba(255, 255, 255, 0.66);
+  --border: rgba(255, 255, 255, 0.1);
+  --accent: #ffb020;
+  --accent-hover: #e6a01c;
+  --accent-soft: rgba(255, 176, 32, 0.14);
+  --accent-on: #17110a;
+  --hot-mark: #ffb020;
   --cold-mark: #5c5e60;
   /* 넓은 면적을 차지하는 차트 막대 전용 색. --accent보다 어둡게 잡아서,
      OLED 화면의 자동 밝기 제한(ABL)으로 큰 면적이 실제보다 칙칙하게 보이는 걸 줄인다. */
-  --chart-fill: #3a40c4;
-  /* 1차 CTA는 레볼루트 시그니처인 "캔버스 반대색 알약"으로, 액센트와 분리해서 관리한다. */
-  --btn-primary-bg: #ffffff;
-  --btn-primary-text: #000000;
-  --btn-primary-pressed: #c9c9cd;
-  --hover-tint: rgba(255, 255, 255, 0.08);
+  --chart-fill: #e6a01c;
+  /* 1차 CTA는 clock-timer와 동일하게 다크 모드에서는 앰버 알약을 쓴다. */
+  --btn-primary-bg: #ffb020;
+  --btn-primary-text: #17110a;
+  --btn-primary-pressed: #e09710;
+  --hover-tint: rgba(255, 255, 255, 0.07);
 
   /* 동행복권 공식 사이트(dhlottery.co.kr)의 실제 로또공 색상과 동일하게 맞춤 */
   --yellow: #e08f00;
@@ -48,10 +49,13 @@
   --text: #0a0a0a;
   --text-muted: rgba(10, 10, 10, 0.62);
   --border: rgba(10, 10, 10, 0.12);
-  --accent-soft: rgba(73, 79, 223, 0.12);
-  --hot-mark: #494fdf;
+  --accent: #d9770a;
+  --accent-hover: #c26a09;
+  --accent-soft: rgba(217, 119, 10, 0.12);
+  --accent-on: #ffffff;
+  --hot-mark: #d9770a;
   --cold-mark: #9296a1;
-  --chart-fill: #494fdf;
+  --chart-fill: #d9770a;
   --btn-primary-bg: #0a0a0a;
   --btn-primary-text: #ffffff;
   --btn-primary-pressed: #2e2e2e;
@@ -204,7 +208,7 @@ body {
 }
 
 .page {
-  max-width: 840px;
+  max-width: 1760px;
   margin: 0 auto;
   padding: 56px 24px 110px;
 }
@@ -661,7 +665,7 @@ header.hero p {
 .lucky-store-infowindow-stats {
   font-size: 12px;
   font-weight: 600;
-  color: #494fdf;
+  color: #d9770a;
   margin-bottom: 4px;
 }
 
@@ -2095,5 +2099,69 @@ footer {
   }
   .sum-chart {
     height: 160px;
+  }
+}
+
+/* 넓은 화면: 시계·타이머 사이트(clock-timer)와 스케일감을 맞추기 위해 주요 요소를
+   단계적으로 키운다. */
+@media (min-width: 1200px) {
+  header.hero h1 {
+    font-size: 44px;
+  }
+  header.hero p {
+    font-size: 20px;
+  }
+  .card {
+    padding: 40px;
+  }
+  .card h2 {
+    font-size: 24px;
+  }
+  .generate-btn {
+    padding: 24px;
+    font-size: 18px;
+  }
+  .game-tab-btn {
+    padding: 20px 16px;
+    font-size: 18px;
+  }
+  .tab-btn {
+    padding: 18px 14px;
+    font-size: 16px;
+  }
+  .ball {
+    width: 48px;
+    height: 48px;
+    font-size: 19px;
+  }
+}
+
+@media (min-width: 1600px) {
+  header.hero h1 {
+    font-size: 52px;
+  }
+  header.hero p {
+    font-size: 22px;
+  }
+  .card {
+    padding: 44px;
+  }
+  .card h2 {
+    font-size: 26px;
+  }
+  .generate-btn {
+    padding: 26px;
+    font-size: 19px;
+  }
+  .game-tab-btn {
+    font-size: 19px;
+  }
+  .tab-btn {
+    font-size: 17px;
+  }
+  .ball {
+    width: 54px;
+    height: 54px;
+    font-size: 21px;
   }
 }
