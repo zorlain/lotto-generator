@@ -306,57 +306,40 @@ header.hero {
   pointer-events: auto;
 }
 
-/* 탭 내비게이션 */
-/* 탭 내비게이션을 사이드바 형태로 배치하는 레이아웃 래퍼 (타이머 사이트와 동일한 구조) */
-.tab-layout {
-  display: flex;
-  align-items: flex-start;
-  gap: 28px;
-}
-
-.tab-main {
-  flex: 1;
-  min-width: 0;
-}
-
+/* 탭 내비게이션 — 로또/연금복권 토글 바로 아래 가로 알약형 탭 (이전 방식으로 되돌림) */
 .tabs {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
-  background: transparent;
-  padding: 0;
-  margin-bottom: 0;
-  flex-shrink: 0;
-  width: 132px;
-  position: sticky;
-  top: 20px;
+  gap: 6px;
+  background: var(--accent-soft);
+  border-radius: 9999px;
+  padding: 8px;
+  margin-bottom: 28px;
 }
 
 .tab-btn {
+  flex: 1;
   border: none;
   background: transparent;
-  padding: 16px 14px;
+  padding: 16px 12px;
   font-size: 15px;
   font-weight: 600;
   color: var(--text-muted);
-  border-radius: 14px;
+  border-radius: 9999px;
   cursor: pointer;
-  text-align: left;
+  text-align: center;
   transition: background 0.15s, color 0.15s;
 }
 
 .tab-btn.active {
-  background: var(--accent-soft);
+  background: var(--card);
   color: var(--accent);
 }
 
-/* 게임 전환 탭 (로또 / 연금복권) — 내부 탭보다 한 단계 위, 눈에 띄게.
-   아래 사이드바+본문 중 '본문(카드)' 폭과 맞추기 위해 사이드바 폭만큼 왼쪽 여백을 둔다. */
+/* 게임 전환 탭 (로또 / 연금복권) — 내부 탭보다 한 단계 위, 눈에 띄게 */
 .game-tabs {
   display: flex;
   gap: 8px;
   margin-bottom: 24px;
-  margin-left: 160px; /* 사이드바 132px + gap 28px */
 }
 
 .game-tab-btn {
@@ -1788,9 +1771,6 @@ footer {
   .hero-brand h1 {
     font-size: 15px;
   }
-  .game-tabs {
-    margin-left: 0;
-  }
   .card {
     padding: 18px;
     border-radius: 20px;
@@ -1806,31 +1786,16 @@ footer {
     margin: -6px 0 16px;
   }
 
-  /* 탭 내비게이션 — 모바일에서는 사이드바 대신 상단 가로 탭으로 되돌린다 */
-  .tab-layout {
-    flex-direction: column;
-    gap: 0;
-  }
+  /* 탭 내비게이션 — 세 탭 다 큼직하게 눌리도록 */
   .tabs {
-    flex-direction: row;
-    width: 100%;
-    position: static;
-    background: var(--accent-soft);
-    border-radius: 9999px;
     padding: 5px;
     gap: 4px;
     margin-bottom: 18px;
   }
   .tab-btn {
-    flex: 1;
-    text-align: center;
     font-size: 12.5px;
     padding: 13px 4px;
     line-height: 1.3;
-    border-radius: 9999px;
-  }
-  .tab-btn.active {
-    background: var(--card);
   }
 
   /* 번호 생성 버튼/결과 */
