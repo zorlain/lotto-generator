@@ -162,7 +162,7 @@ body {
 }
 
 .page {
-  max-width: 1400px;
+  max-width: 1180px;
   margin: 0 auto;
   padding: 56px 24px 110px;
 }
@@ -209,8 +209,8 @@ header.hero {
 .card {
   background: var(--card);
   border-radius: 20px;
-  padding: 24px;
-  margin-bottom: 20px;
+  padding: 32px;
+  margin-bottom: 28px;
 }
 
 .card h2 {
@@ -321,19 +321,19 @@ header.hero {
    독립된 알약 스타일 그대로 유지 (위 .outer-frame이 빈 박스로 감싸기만 한다) */
 .tabs {
   display: flex;
-  gap: 5px;
+  gap: 6px;
   background: var(--accent-soft);
   border-radius: 9999px;
-  padding: 6px;
-  margin-bottom: 18px;
+  padding: 8px;
+  margin-bottom: 28px;
 }
 
 .tab-btn {
   flex: 1;
   border: none;
   background: transparent;
-  padding: 11px 10px;
-  font-size: 13px;
+  padding: 16px 12px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--text-muted);
   border-radius: 9999px;
@@ -349,19 +349,19 @@ header.hero {
 
 .game-tabs {
   display: flex;
-  gap: 6px;
-  margin-bottom: 16px;
+  gap: 8px;
+  margin-bottom: 24px;
 }
 
 .game-tab-btn {
   flex: 1;
   border: 1px solid var(--border);
   background: var(--card);
-  padding: 11px 10px;
-  font-size: 13.5px;
+  padding: 16px 12px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--text-muted);
-  border-radius: 14px;
+  border-radius: 16px;
   cursor: pointer;
   transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
@@ -715,8 +715,8 @@ header.hero {
 .generate-btn {
   display: block;
   width: 100%;
-  padding: 15px;
-  font-size: 14.5px;
+  padding: 20px;
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.24px;
   color: var(--btn-primary-text);
@@ -724,7 +724,7 @@ header.hero {
   border: none;
   border-radius: 9999px;
   cursor: pointer;
-  margin-bottom: 20px;
+  margin-bottom: 28px;
   transition: background 0.15s, transform 0.1s;
 }
 
@@ -852,13 +852,13 @@ header.hero {
 
 /* 공 — 레볼루트 시스템은 그림자를 전혀 쓰지 않는다. 깊이는 색 대비로만 표현. */
 .ball {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 600;
   color: #fff;
   flex-shrink: 0;
@@ -1832,9 +1832,9 @@ footer {
     row-gap: 8px;
   }
   .ball {
-    width: 28px;
-    height: 28px;
-    font-size: 12px;
+    width: 34px;
+    height: 34px;
+    font-size: 14px;
   }
   .set-label {
     width: 22px;
@@ -2065,3 +2065,20 @@ footer {
 }
 
 /* 넓은 화면: 사이드바 구조와 함께 주요 요소를 단계적으로 키운다 (색상은 원래대로 유지) */
+@media (min-width: 1100px) {
+  .card {
+    padding: 30px;
+  }
+  .card h2 {
+    font-size: 20px;
+  }
+  .generate-btn {
+    padding: 20px;
+    font-size: 16px;
+  }
+  .ball {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+}
