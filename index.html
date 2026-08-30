@@ -5,14 +5,6 @@
      crossorigin="anonymous"></script>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<script>
-  (function () {
-    var saved = localStorage.getItem("theme");
-    if (saved === "light" || saved === "dark") {
-      document.documentElement.setAttribute("data-theme", saved);
-    }
-  })();
-</script>
 <title>무료 로또·연금복권 번호 생성기 - 전 회차 통계 분석 추천</title>
 <meta name="description" content="로또 6/45와 연금복권720+ 전 회차 당첨번호를 분석해 통계 기반으로 번호를 추천합니다. 홀짝비율·합계구간·출현빈도(HOT/COLD)·AC값까지 직접 설정 가능. 회원가입 없이 무료로 바로 이용하세요." />
 <meta name="keywords" content="로또번호생성기,로또 6/45,연금복권번호생성기,연금복권720+,로또 번호 추천,연금복권 번호 추천,로또 통계,연금복권 통계,동행복권" />
@@ -75,11 +67,12 @@
   <div class="page">
 
   <header class="hero">
-    <h1>🎱 로또·연금복권 번호 생성기</h1>
-    <p>동행복권 로또 6/45와 연금복권720+ 전 회차 당첨번호를 분석해서 통계 기반으로 번호를 생성합니다.</p>
+    <div class="hero-brand">
+      <h1>🎱 로또·연금복권 번호 생성기</h1>
+      <p>동행복권 로또 6/45와 연금복권720+ 전 회차 당첨번호를 분석해서 통계 기반으로 번호를 생성합니다.</p>
+    </div>
     <div class="hero-actions">
       <button type="button" class="sidebar-toggle" id="sidebar-toggle" aria-label="메뉴 열기">☰</button>
-      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="다크/라이트 모드 전환">☀️</button>
     </div>
   </header>
 

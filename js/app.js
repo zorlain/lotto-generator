@@ -61,25 +61,6 @@ function flashCopied(btn, tempLabel) {
   }, 1200);
 }
 
-/* ---------- 다크/라이트 모드 토글 ---------- */
-function initThemeToggle() {
-  const btn = document.getElementById("theme-toggle");
-  if (!btn) return;
-
-  const getTheme = () => document.documentElement.getAttribute("data-theme") || "dark";
-  const applyIcon = () => {
-    btn.textContent = getTheme() === "light" ? "🌙" : "☀️";
-  };
-
-  applyIcon();
-  btn.addEventListener("click", () => {
-    const next = getTheme() === "light" ? "dark" : "light";
-    document.documentElement.setAttribute("data-theme", next);
-    localStorage.setItem("theme", next);
-    applyIcon();
-  });
-}
-
 /* ---------- 사이드바 (모바일 드로어) ---------- */
 function initSidebar() {
   const sidebar = document.getElementById("sidebar");
@@ -1200,7 +1181,6 @@ function init() {
   const config = loadConfig();
 
   renderSeoMeta(stats);
-  initThemeToggle();
   initSidebar();
   initGameSwitcher();
   initTabs();

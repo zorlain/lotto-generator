@@ -41,48 +41,6 @@
   --pos6: #adb0ba;
 }
 
-:root[data-theme="light"] {
-  --bg: #ffffff;
-  --card: #f7f7f8;
-  --card-elevated: #ececef;
-  --text: #0a0a0a;
-  --text-muted: rgba(10, 10, 10, 0.62);
-  --border: rgba(10, 10, 10, 0.12);
-  --accent-soft: rgba(73, 79, 223, 0.12);
-  --hot-mark: #494fdf;
-  --cold-mark: #9296a1;
-  --chart-fill: #494fdf;
-  --btn-primary-bg: #0a0a0a;
-  --btn-primary-text: #ffffff;
-  --btn-primary-pressed: #2e2e2e;
-  --hover-tint: rgba(10, 10, 10, 0.06);
-}
-
-/* 테마 토글 버튼 */
-.theme-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  flex-shrink: 0;
-  border-radius: 9999px;
-  border: 1px solid var(--text);
-  background: transparent;
-  color: var(--text);
-  font-size: 17px;
-  cursor: pointer;
-  transition: background 0.15s, transform 0.1s;
-}
-
-.theme-toggle:hover {
-  background: var(--hover-tint);
-}
-
-.theme-toggle:active {
-  transform: scale(0.94);
-}
-
 * {
   box-sizing: border-box;
 }
@@ -209,33 +167,38 @@ body {
   padding: 56px 24px 110px;
 }
 
+/* 타이머 사이트와 동일한 슬림 상단바 (큰 히어로 대신 좌측 브랜드 + 우측 아이콘) */
 header.hero {
-  text-align: center;
-  margin-bottom: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  text-align: left;
+  padding-bottom: 20px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid var(--border);
 }
 
-header.hero h1 {
-  font-size: 34px;
-  font-weight: 500;
-  margin: 0 0 14px;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-}
-
-header.hero p {
-  color: var(--text-muted);
+.hero-brand h1 {
+  font-size: 17px;
+  font-weight: 700;
   margin: 0;
-  font-size: 18px;
-  line-height: 1.56;
-  letter-spacing: -0.09px;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.hero-brand p {
+  color: var(--text-muted);
+  margin: 2px 0 0;
+  font-size: 12.5px;
+  line-height: 1.4;
 }
 
 .hero-actions {
   display: flex;
-  justify-content: flex-end;
   align-items: center;
   gap: 10px;
-  margin-top: 18px;
+  flex-shrink: 0;
 }
 
 .card {
@@ -393,11 +356,13 @@ header.hero p {
   color: var(--accent);
 }
 
-/* 게임 전환 탭 (로또 / 연금복권) — 내부 탭보다 한 단계 위, 눈에 띄게 */
+/* 게임 전환 탭 (로또 / 연금복권) — 내부 탭보다 한 단계 위, 눈에 띄게.
+   아래 사이드바+본문 중 '본문(카드)' 폭과 맞추기 위해 사이드바 폭만큼 왼쪽 여백을 둔다. */
 .game-tabs {
   display: flex;
   gap: 8px;
   margin-bottom: 24px;
+  margin-left: 160px; /* 사이드바 132px + gap 28px */
 }
 
 .game-tab-btn {
@@ -1823,18 +1788,17 @@ footer {
     text-overflow: clip;
   }
   header.hero {
-    margin-bottom: 28px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
   }
-  header.hero h1 {
-    font-size: 25px;
-    margin: 0 0 8px;
+  .hero-brand h1 {
+    font-size: 15px;
   }
-  header.hero p {
-    font-size: 14px;
-    line-height: 1.5;
+  .hero-brand p {
+    display: none;
   }
-  .hero-actions {
-    margin-top: 14px;
+  .game-tabs {
+    margin-left: 0;
   }
   .card {
     padding: 18px;
@@ -2084,8 +2048,8 @@ footer {
   .page {
     padding: 24px 12px 64px;
   }
-  header.hero h1 {
-    font-size: 22px;
+  .hero-brand h1 {
+    font-size: 14px;
   }
   .card {
     padding: 15px;
@@ -2131,9 +2095,6 @@ footer {
 
 /* 넓은 화면: 사이드바 구조와 함께 주요 요소를 단계적으로 키운다 (색상은 원래대로 유지) */
 @media (min-width: 1100px) {
-  header.hero h1 {
-    font-size: 36px;
-  }
   .card {
     padding: 30px;
   }
