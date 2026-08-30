@@ -162,7 +162,7 @@ body {
 }
 
 .page {
-  max-width: 1180px;
+  max-width: 1020px;
   margin: 0 auto;
   padding: 56px 24px 110px;
 }
@@ -198,7 +198,7 @@ header.hero {
 .card {
   background: var(--card);
   border-radius: 20px;
-  padding: 32px;
+  padding: 26px;
   margin-bottom: 28px;
 }
 
@@ -310,10 +310,10 @@ header.hero {
    묶는다 (번호생성 카드와 같은 배경/둥근 모서리). 둘 다 안에서는 작고 컴팩트하게. */
 .game-tabs {
   display: flex;
-  gap: 6px;
+  gap: 5px;
   background: var(--card);
   border-radius: 20px 20px 0 0;
-  padding: 14px 14px 8px;
+  padding: 12px 12px 6px;
   margin-bottom: 0;
   border-bottom: 1px solid var(--border);
 }
@@ -322,8 +322,8 @@ header.hero {
   flex: 1;
   border: none;
   background: transparent;
-  padding: 10px 8px;
-  font-size: 13.5px;
+  padding: 8px 6px;
+  font-size: 12.5px;
   font-weight: 700;
   color: var(--text-muted);
   border-radius: 9999px;
@@ -338,10 +338,10 @@ header.hero {
 
 .tabs {
   display: flex;
-  gap: 6px;
+  gap: 5px;
   background: var(--card);
   border-radius: 0 0 20px 20px;
-  padding: 8px 14px 14px;
+  padding: 6px 12px 12px;
   margin-bottom: 0;
 }
 
@@ -360,8 +360,8 @@ header.hero {
   flex: 1;
   border: none;
   background: transparent;
-  padding: 10px 8px;
-  font-size: 13px;
+  padding: 8px 6px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--text-muted);
   border-radius: 9999px;
@@ -2075,18 +2075,18 @@ footer {
 /* 넓은 화면: 사이드바 구조와 함께 주요 요소를 단계적으로 키운다 (색상은 원래대로 유지) */
 @media (min-width: 1100px) {
   .card {
-    padding: 30px;
+    padding: 24px;
   }
   .card h2 {
-    font-size: 20px;
+    font-size: 19px;
   }
   .generate-btn {
-    padding: 20px;
-    font-size: 16px;
+    padding: 18px;
+    font-size: 15px;
   }
   .ball {
-    width: 40px;
-    height: 40px;
-    font-size: 16px;
+    width: 38px;
+    height: 38px;
+    font-size: 15px;
   }
 }
