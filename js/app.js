@@ -159,10 +159,10 @@ function renderSetsInto(containerId, sets) {
     const copyBtn = document.createElement("button");
     copyBtn.type = "button";
     copyBtn.className = "copy-btn";
-    copyBtn.textContent = "📋 복사";
+    copyBtn.textContent = "복사";
     copyBtn.addEventListener("click", () => {
       copyToClipboard(set.nums.join(", "));
-      flashCopied(copyBtn, "✅ 복사됨");
+      flashCopied(copyBtn, "복사됨");
     });
     actions.appendChild(copyBtn);
 
@@ -186,7 +186,7 @@ function setupGeneratePanel({ btnId, containerId, copyAllBtnId, warningId, stats
 
     if (warningEl) {
       if (state.sets.length < SETS_PER_GENERATE) {
-        warningEl.textContent = `⚠️ 설정한 조건이 너무 까다로워서 ${SETS_PER_GENERATE}개 중 ${state.sets.length}개만 생성됐어요. 필터 조건을 조금 완화해보세요.`;
+        warningEl.textContent = `설정한 조건이 너무 까다로워서 ${SETS_PER_GENERATE}개 중 ${state.sets.length}개만 생성됐어요. 필터 조건을 조금 완화해보세요.`;
         warningEl.hidden = false;
       } else {
         warningEl.hidden = true;
@@ -201,7 +201,7 @@ function setupGeneratePanel({ btnId, containerId, copyAllBtnId, warningId, stats
       .map((set, i) => `${SET_LABELS[i] || i + 1}: ${set.nums.join(", ")}`)
       .join("\n");
     copyToClipboard(text);
-    flashCopied(copyAllBtn, "✅ 전체 복사 완료");
+    flashCopied(copyAllBtn, "전체 복사 완료");
   });
 
   return doGenerate;
@@ -216,8 +216,8 @@ function initAdvancedToggle() {
     const willShow = section.hidden;
     section.hidden = !willShow;
     toggleBtn.textContent = willShow
-      ? "🔬 심화 설정 접기"
-      : "🔬 심화 설정 펼쳐보기 (7개)";
+      ? "심화 설정 접기"
+      : "심화 설정 펼쳐보기 (7개)";
   });
 }
 
@@ -543,7 +543,7 @@ function initConfigPanel(stats, config, onChange) {
     if (config.zoneSpread.zoneTargets.some((v) => v !== null)) {
       zoneHint.textContent =
         total > 6
-          ? `⚠️ 지정한 개수의 합(${total}개)이 6개를 초과했습니다. 조합을 찾기 어려울 수 있어요.`
+          ? `지정한 개수의 합(${total}개)이 6개를 초과했습니다. 조합을 찾기 어려울 수 있어요.`
           : `지정한 개수의 합: ${total} / 6개`;
     } else {
       zoneHint.textContent = "";

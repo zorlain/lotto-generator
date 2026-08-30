@@ -187,12 +187,6 @@ header.hero {
   line-height: 1.2;
 }
 
-.hero-brand p {
-  color: var(--text-muted);
-  margin: 2px 0 0;
-  font-size: 12.5px;
-  line-height: 1.4;
-}
 
 .hero-actions {
   display: flex;
@@ -1793,9 +1787,6 @@ footer {
   }
   .hero-brand h1 {
     font-size: 15px;
-  }
-  .hero-brand p {
-    display: none;
   }
   .game-tabs {
     margin-left: 0;

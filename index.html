@@ -57,8 +57,8 @@
 <div class="layout">
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-group">
-      <div class="sidebar-group-label">🎰 복권</div>
-      <a class="sidebar-link active" href="https://zorlain.github.io/lotto-generator/">🎱 로또·연금복권 번호 생성기</a>
+      <div class="sidebar-group-label">복권</div>
+      <a class="sidebar-link active" href="https://zorlain.github.io/lotto-generator/">로또·연금복권 번호 생성기</a>
     </div>
   </aside>
   <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
@@ -68,8 +68,7 @@
 
   <header class="hero">
     <div class="hero-brand">
-      <h1>🎱 로또·연금복권 번호 생성기</h1>
-      <p>동행복권 로또 6/45와 연금복권720+ 전 회차 당첨번호를 분석해서 통계 기반으로 번호를 생성합니다.</p>
+      <h1>로또·연금복권 번호 생성기</h1>
     </div>
     <div class="hero-actions">
       <button type="button" class="sidebar-toggle" id="sidebar-toggle" aria-label="메뉴 열기">☰</button>
@@ -77,33 +76,33 @@
   </header>
 
   <nav class="game-tabs" id="game-tabs">
-    <button class="game-tab-btn active" data-game="lotto">🎱 로또 6/45</button>
-    <button class="game-tab-btn" data-game="pension">🎰 연금복권720+</button>
+    <button class="game-tab-btn active" data-game="lotto">로또 6/45</button>
+    <button class="game-tab-btn" data-game="pension">연금복권720+</button>
   </nav>
 
   <div id="game-lotto" class="game-panel">
 
   <div class="tab-layout">
   <nav class="tabs" id="tabs">
-    <button class="tab-btn active" data-tab="generate">🎯 번호 생성</button>
-    <button class="tab-btn" data-tab="custom">⚙️ 맞춤 설정</button>
-    <button class="tab-btn" data-tab="stats">📊 데이터 통계</button>
+    <button class="tab-btn active" data-tab="generate">번호 생성</button>
+    <button class="tab-btn" data-tab="custom">맞춤 설정</button>
+    <button class="tab-btn" data-tab="stats">데이터 통계</button>
   </nav>
 
   <main class="tab-main">
   <!-- 탭 1: 번호 생성 -->
   <section class="tab-panel" data-tab-panel="generate">
     <div class="card">
-      <h2>🎯 번호 생성</h2>
+      <h2>번호 생성</h2>
       <p class="card-desc">
         <span id="active-config-summary">기본 설정</span>으로 5조합을 생성합니다.<br />
         <b>맞춤 설정</b> 탭에서 조건을 바꿀 수 있습니다.
       </p>
-      <button class="generate-btn" id="generate-btn">🔄 번호 생성하기</button>
+      <button class="generate-btn" id="generate-btn">번호 생성하기</button>
       <p class="generate-warning" id="generate-warning" hidden></p>
       <div class="sets-header">
         <span class="sets-header-label">생성된 번호</span>
-        <button class="copy-all-btn" id="copy-all-btn">📋 전체 복사</button>
+        <button class="copy-all-btn" id="copy-all-btn">전체 복사</button>
       </div>
       <div id="generated-sets"></div>
     </div>
@@ -113,7 +112,7 @@
   <section class="tab-panel" data-tab-panel="custom" hidden>
     <div class="card">
       <h2>
-        ⚙️ 맞춤 설정
+        맞춤 설정
         <button type="button" class="info-btn" aria-label="자세히 보기">
           <span aria-hidden="true">ⓘ</span>
           <span class="info-tooltip">
@@ -124,17 +123,17 @@
         </button>
       </h2>
       <p class="card-desc-short">체크한 조건에 맞는 번호만 생성됩니다.</p>
-      <button class="generate-btn" id="generate-btn-2">🔄 지금 설정으로 번호 생성하기</button>
+      <button class="generate-btn" id="generate-btn-2">지금 설정으로 번호 생성하기</button>
       <p class="generate-warning" id="generate-warning-2" hidden></p>
       <div class="sets-header">
         <span class="sets-header-label">생성된 번호</span>
-        <button class="copy-all-btn" id="copy-all-btn-2">📋 전체 복사</button>
+        <button class="copy-all-btn" id="copy-all-btn-2">전체 복사</button>
       </div>
       <div id="generated-sets-2"></div>
     </div>
 
     <div class="section-heading">
-      <span class="section-heading-title">🟢 기본 설정</span>
+      <span class="section-heading-title">기본 설정</span>
       <span class="section-heading-desc">번호 분석이 처음이어도 사용할 수 있는 조건입니다</span>
     </div>
 
@@ -143,7 +142,7 @@
         <div class="option-title-row">
           <label class="switch-row">
             <input type="checkbox" id="opt-include-enabled" />
-            <span class="option-title">🎯 원하는 번호 포함</span>
+            <span class="option-title">원하는 번호 포함</span>
           </label>
           <button type="button" class="info-btn" aria-label="자세히 보기">
             <span aria-hidden="true">ⓘ</span>
@@ -189,7 +188,7 @@
         <div class="option-title-row">
           <label class="switch-row">
             <input type="checkbox" id="opt-oddeven-enabled" />
-            <span class="option-title">⚖️ 홀짝 비율</span>
+            <span class="option-title">홀짝 비율</span>
           </label>
           <button type="button" class="info-btn" aria-label="자세히 보기">
             <span aria-hidden="true">ⓘ</span>
@@ -218,7 +217,7 @@
         <div class="option-title-row">
           <label class="switch-row">
             <input type="checkbox" id="opt-sumrange-enabled" />
-            <span class="option-title">➕ 번호 합계 구간</span>
+            <span class="option-title">번호 합계 구간</span>
           </label>
           <button type="button" class="info-btn" aria-label="자세히 보기">
             <span aria-hidden="true">ⓘ</span>
@@ -247,7 +246,7 @@
         <div class="option-title-row">
           <label class="switch-row">
             <input type="checkbox" id="opt-ac-enabled" />
-            <span class="option-title">🧮 조합 복잡도(AC값) 범위</span>
+            <span class="option-title">조합 복잡도(AC값) 범위</span>
           </label>
           <button type="button" class="info-btn" aria-label="자세히 보기">
             <span aria-hidden="true">ⓘ</span>
@@ -273,12 +272,12 @@
     </div>
 
     <button class="advanced-toggle" id="advanced-toggle">
-      🔬 심화 설정 펼쳐보기 <span class="advanced-toggle-count">(7개)</span>
+      심화 설정 펼쳐보기 <span class="advanced-toggle-count">(7개)</span>
     </button>
 
     <div id="advanced-section" hidden>
       <div class="section-heading">
-        <span class="section-heading-title">🔬 심화 설정</span>
+        <span class="section-heading-title">심화 설정</span>
         <span class="section-heading-desc">번호 분석에 익숙한 사용자를 위한 고급 필터입니다</span>
       </div>
 
@@ -287,7 +286,7 @@
           <div class="option-title-row">
             <label class="switch-row">
               <input type="checkbox" id="opt-prevrepeat-enabled" />
-              <span class="option-title">🔁 직전 회차 재출현 개수</span>
+              <span class="option-title">직전 회차 재출현 개수</span>
             </label>
             <button type="button" class="info-btn" aria-label="자세히 보기">
               <span aria-hidden="true">ⓘ</span>
@@ -323,7 +322,7 @@
           <div class="option-title-row">
             <label class="switch-row">
               <input type="checkbox" id="opt-zone-enabled" />
-              <span class="option-title">🧭 구간별 분포</span>
+              <span class="option-title">구간별 분포</span>
             </label>
             <button type="button" class="info-btn" aria-label="자세히 보기">
               <span aria-hidden="true">ⓘ</span>
@@ -345,7 +344,7 @@
           <div class="option-title-row">
             <label class="switch-row">
               <input type="checkbox" id="opt-freq-enabled" />
-              <span class="option-title">🔥 출현 빈도 가중치</span>
+              <span class="option-title">출현 빈도 가중치</span>
             </label>
             <button type="button" class="info-btn" aria-label="자세히 보기">
               <span aria-hidden="true">ⓘ</span>
@@ -402,7 +401,7 @@
           <div class="option-title-row">
             <label class="switch-row">
               <input type="checkbox" id="opt-consecutive-enabled" />
-              <span class="option-title">🔗 연속번호 포함 방식</span>
+              <span class="option-title">연속번호 포함 방식</span>
             </label>
             <button type="button" class="info-btn" aria-label="자세히 보기">
               <span aria-hidden="true">ⓘ</span>
@@ -430,7 +429,7 @@
           <div class="option-title-row">
             <label class="switch-row">
               <input type="checkbox" id="opt-lastdigit-enabled" />
-              <span class="option-title">🔢 끝자리 중복 제한</span>
+              <span class="option-title">끝자리 중복 제한</span>
             </label>
             <button type="button" class="info-btn" aria-label="자세히 보기">
               <span aria-hidden="true">ⓘ</span>
@@ -459,7 +458,7 @@
           <div class="option-title-row">
             <label class="switch-row">
               <input type="checkbox" id="opt-cooccur-enabled" />
-              <span class="option-title">🤝 궁합 번호 가중치</span>
+              <span class="option-title">궁합 번호 가중치</span>
             </label>
             <button type="button" class="info-btn" aria-label="자세히 보기">
               <span aria-hidden="true">ⓘ</span>
@@ -486,11 +485,11 @@
 
   <!-- 탭 3: 데이터 통계 -->
   <section class="tab-panel" data-tab-panel="stats" hidden>
-    <button type="button" class="download-btn" id="download-stats-btn">📥 데이터 통계 다운로드 (엑셀)</button>
+    <button type="button" class="download-btn" id="download-stats-btn">데이터 통계 다운로드 (엑셀)</button>
     <p class="stats-trust-line" id="stats-trust-line"></p>
 
     <div class="card round-lookup-card">
-      <h2>🎱 회차별 당첨번호 조회</h2>
+      <h2>회차별 당첨번호 조회</h2>
       <p class="card-desc-short">회차를 입력하면 해당 회차 당첨번호를 보여줍니다. 기본으로 최신 회차가 표시됩니다.</p>
       <div class="round-lookup-controls">
         <input type="number" inputmode="numeric" id="round-lookup-input" min="1" placeholder="회차 입력" />
@@ -500,7 +499,7 @@
     </div>
 
     <div class="card lucky-store-card">
-      <h2>📍 로또 명당 지도</h2>
+      <h2>로또 명당 지도</h2>
       <div class="lucky-store-select-row">
         <select class="lucky-store-select" id="lucky-store-sido-select"></select>
         <select class="lucky-store-select" id="lucky-store-city-select"></select>
@@ -513,7 +512,7 @@
 
     <div class="card">
       <h2>
-        🔥 번호별 출현 빈도
+        번호별 출현 빈도
         <button type="button" class="info-btn" aria-label="자세히 보기">
           <span aria-hidden="true">ⓘ</span>
           <span class="info-tooltip">
@@ -546,7 +545,7 @@
 
     <div class="card">
       <h2>
-        ⚖️ 홀짝 비율 분포
+        홀짝 비율 분포
         <button type="button" class="info-btn" aria-label="자세히 보기">
           <span aria-hidden="true">ⓘ</span>
           <span class="info-tooltip">
@@ -561,7 +560,7 @@
 
     <div class="card">
       <h2>
-        ➕ 번호 합계 구간 분포
+        번호 합계 구간 분포
         <button type="button" class="info-btn" aria-label="자세히 보기">
           <span aria-hidden="true">ⓘ</span>
           <span class="info-tooltip">
@@ -577,7 +576,7 @@
 
     <div class="card">
       <h2>
-        🎯 소수·배수 개수 분포
+        소수·배수 개수 분포
         <button type="button" class="info-btn" aria-label="자세히 보기">
           <span aria-hidden="true">ⓘ</span>
           <span class="info-tooltip">
@@ -598,7 +597,7 @@
 
     <div class="card">
       <h2>
-        🧭 구간별 번호 분포
+        구간별 번호 분포
         <button type="button" class="info-btn" aria-label="자세히 보기">
           <span aria-hidden="true">ⓘ</span>
           <span class="info-tooltip">
@@ -613,7 +612,7 @@
 
     <div class="card">
       <h2>
-        🔢 끝자리 분포
+        끝자리 분포
         <button type="button" class="info-btn" aria-label="자세히 보기">
           <span aria-hidden="true">ⓘ</span>
           <span class="info-tooltip">당첨번호의 1의 자리 숫자(끝자리)가 얼마나 골고루 나왔는지 보여줍니다.</span>
@@ -625,7 +624,7 @@
 
     <div class="card">
       <h2>
-        🎾 보너스 번호 통계
+        보너스 번호 통계
         <button type="button" class="info-btn" aria-label="자세히 보기">
           <span aria-hidden="true">ⓘ</span>
           <span class="info-tooltip">
@@ -648,7 +647,7 @@
 
     <div class="card">
       <h2>
-        🤝 자주 함께 나오는 번호 TOP 10
+        자주 함께 나오는 번호 TOP 10
         <button type="button" class="info-btn" aria-label="자세히 보기">
           <span aria-hidden="true">ⓘ</span>
           <span class="info-tooltip">
@@ -663,7 +662,7 @@
 
     <div class="card">
       <h2>
-        🔗 번호 조합 특성
+        번호 조합 특성
         <button type="button" class="info-btn" aria-label="자세히 보기">
           <span aria-hidden="true">ⓘ</span>
           <span class="info-tooltip">
@@ -682,7 +681,7 @@
 
     <div class="card">
       <h2>
-        🤝🤝 세 번호 조합(트리플) TOP 10
+        세 번호 조합(트리플) TOP 10
         <button type="button" class="info-btn" aria-label="자세히 보기">
           <span aria-hidden="true">ⓘ</span>
           <span class="info-tooltip">
@@ -697,7 +696,7 @@
 
     <div class="card">
       <h2>
-        🌸 계절별 인기 번호
+        계절별 인기 번호
         <button type="button" class="info-btn" aria-label="자세히 보기">
           <span aria-hidden="true">ⓘ</span>
           <span class="info-tooltip">
@@ -725,7 +724,7 @@
 
     <div class="card">
       <h2>
-        🔁 직전 회차 재출현 통계
+        직전 회차 재출현 통계
         <button type="button" class="info-btn" aria-label="자세히 보기">
           <span aria-hidden="true">ⓘ</span>
           <span class="info-tooltip">바로 전 회차 당첨번호 중 몇 개가 이번 회차에도 다시 나왔는지 보여줍니다.</span>
@@ -737,7 +736,7 @@
 
     <div class="card">
       <h2>
-        📈 최근 트렌드 vs 전체 기간 비교
+        최근 트렌드 vs 전체 기간 비교
         <button type="button" class="info-btn" aria-label="자세히 보기">
           <span aria-hidden="true">ⓘ</span>
           <span class="info-tooltip">최근 회차의 인기 번호와 전체 기간 인기 번호를 비교하여 최근 흐름이 달라졌는지 보여줍니다.</span>
@@ -771,9 +770,9 @@
 
   <div class="tab-layout">
   <nav class="tabs" id="pension-tabs">
-    <button class="tab-btn active" data-tab="generate">🎯 번호 생성</button>
-    <button class="tab-btn" data-tab="custom">⚙️ 맞춤 설정</button>
-    <button class="tab-btn" data-tab="stats">📊 데이터 통계</button>
+    <button class="tab-btn active" data-tab="generate">번호 생성</button>
+    <button class="tab-btn" data-tab="custom">맞춤 설정</button>
+    <button class="tab-btn" data-tab="stats">데이터 통계</button>
   </nav>
 
   <main class="tab-main">
@@ -781,16 +780,16 @@
   <!-- 탭 1: 번호 생성 -->
   <section class="tab-panel" data-tab-panel="generate">
     <div class="card">
-      <h2>🎯 번호 생성</h2>
+      <h2>번호 생성</h2>
       <p class="card-desc">
         <span id="pension-active-config-summary">기본 설정</span>으로 5조합을 생성합니다.<br />
         <b>맞춤 설정</b> 탭에서 조건을 바꿀 수 있습니다.
       </p>
-      <button class="generate-btn" id="pension-generate-btn">🔄 번호 생성하기</button>
+      <button class="generate-btn" id="pension-generate-btn">번호 생성하기</button>
       <p class="generate-warning" id="pension-generate-warning" hidden></p>
       <div class="sets-header">
         <span class="sets-header-label">생성된 번호</span>
-        <button class="copy-all-btn" id="pension-copy-all-btn">📋 전체 복사</button>
+        <button class="copy-all-btn" id="pension-copy-all-btn">전체 복사</button>
       </div>
       <div id="pension-generated-sets"></div>
     </div>
@@ -800,7 +799,7 @@
   <section class="tab-panel" data-tab-panel="custom" hidden>
     <div class="card">
       <h2>
-        ⚙️ 맞춤 설정
+        맞춤 설정
         <button type="button" class="info-btn" aria-label="자세히 보기">
           <span aria-hidden="true">ⓘ</span>
           <span class="info-tooltip">
@@ -811,24 +810,24 @@
         </button>
       </h2>
       <p class="card-desc-short">체크한 조건에 맞는 번호만 생성됩니다.</p>
-      <button class="generate-btn" id="pension-generate-btn-2">🔄 지금 설정으로 번호 생성하기</button>
+      <button class="generate-btn" id="pension-generate-btn-2">지금 설정으로 번호 생성하기</button>
       <p class="generate-warning" id="pension-generate-warning-2" hidden></p>
       <div class="sets-header">
         <span class="sets-header-label">생성된 번호</span>
-        <button class="copy-all-btn" id="pension-copy-all-btn-2">📋 전체 복사</button>
+        <button class="copy-all-btn" id="pension-copy-all-btn-2">전체 복사</button>
       </div>
       <div id="pension-generated-sets-2"></div>
     </div>
 
     <div class="section-heading">
-      <span class="section-heading-title">🟢 기본 설정</span>
+      <span class="section-heading-title">기본 설정</span>
       <span class="section-heading-desc">번호 분석이 처음이어도 사용할 수 있는 조건입니다</span>
     </div>
 
     <div class="card option-card">
       <div class="option-head">
         <div class="option-title-row">
-          <span class="option-title">🎱 조(組) 선택</span>
+          <span class="option-title">조(組) 선택</span>
           <button type="button" class="info-btn" aria-label="자세히 보기">
             <span aria-hidden="true">ⓘ</span>
             <span class="info-tooltip">
@@ -864,7 +863,7 @@
         <div class="option-title-row">
           <label class="switch-row">
             <input type="checkbox" id="pension-opt-include-enabled" />
-            <span class="option-title">🎯 원하는 숫자 포함</span>
+            <span class="option-title">원하는 숫자 포함</span>
           </label>
           <button type="button" class="info-btn" aria-label="자세히 보기">
             <span aria-hidden="true">ⓘ</span>
@@ -886,7 +885,7 @@
         <div class="option-title-row">
           <label class="switch-row">
             <input type="checkbox" id="pension-opt-sumrange-enabled" />
-            <span class="option-title">➕ 자릿수 합계 구간</span>
+            <span class="option-title">자릿수 합계 구간</span>
           </label>
           <button type="button" class="info-btn" aria-label="자세히 보기">
             <span aria-hidden="true">ⓘ</span>
@@ -915,7 +914,7 @@
         <div class="option-title-row">
           <label class="switch-row">
             <input type="checkbox" id="pension-opt-odddigit-enabled" />
-            <span class="option-title">⚖️ 홀수 자릿수 개수</span>
+            <span class="option-title">홀수 자릿수 개수</span>
           </label>
           <button type="button" class="info-btn" aria-label="자세히 보기">
             <span aria-hidden="true">ⓘ</span>
@@ -939,12 +938,12 @@
     </div>
 
     <button class="advanced-toggle" id="pension-advanced-toggle">
-      🔬 심화 설정 펼쳐보기 <span class="advanced-toggle-count">(4개)</span>
+      심화 설정 펼쳐보기 <span class="advanced-toggle-count">(4개)</span>
     </button>
 
     <div id="pension-advanced-section" hidden>
       <div class="section-heading">
-        <span class="section-heading-title">🔬 심화 설정</span>
+        <span class="section-heading-title">심화 설정</span>
         <span class="section-heading-desc">번호 분석에 익숙한 사용자를 위한 고급 필터입니다</span>
       </div>
 
@@ -953,7 +952,7 @@
           <div class="option-title-row">
             <label class="switch-row">
               <input type="checkbox" id="pension-opt-digitfreq-enabled" />
-              <span class="option-title">🔥 자릿수별 누적 출현 빈도 가중치</span>
+              <span class="option-title">자릿수별 누적 출현 빈도 가중치</span>
             </label>
             <button type="button" class="info-btn" aria-label="자세히 보기">
               <span aria-hidden="true">ⓘ</span>
@@ -1008,7 +1007,7 @@
           <div class="option-title-row">
             <label class="switch-row">
               <input type="checkbox" id="pension-opt-duplicatedigit-enabled" />
-              <span class="option-title">🔢 자릿수 중복 개수 제한</span>
+              <span class="option-title">자릿수 중복 개수 제한</span>
             </label>
             <button type="button" class="info-btn" aria-label="자세히 보기">
               <span aria-hidden="true">ⓘ</span>
@@ -1037,7 +1036,7 @@
           <div class="option-title-row">
             <label class="switch-row">
               <input type="checkbox" id="pension-opt-prevrepeat-enabled" />
-              <span class="option-title">🔁 직전 회차와 자릿수 일치 제한</span>
+              <span class="option-title">직전 회차와 자릿수 일치 제한</span>
             </label>
             <button type="button" class="info-btn" aria-label="자세히 보기">
               <span aria-hidden="true">ⓘ</span>
@@ -1069,11 +1068,11 @@
 
   <!-- 탭 3: 데이터 통계 -->
   <section class="tab-panel" data-tab-panel="stats" hidden>
-    <button type="button" class="download-btn" id="pension-download-stats-btn">📥 데이터 통계 다운로드 (엑셀)</button>
+    <button type="button" class="download-btn" id="pension-download-stats-btn">데이터 통계 다운로드 (엑셀)</button>
     <p class="stats-trust-line" id="pension-stats-trust-line"></p>
 
     <div class="card round-lookup-card">
-      <h2>🎰 회차별 당첨번호 조회</h2>
+      <h2>회차별 당첨번호 조회</h2>
       <p class="card-desc-short">회차를 입력하면 해당 회차 당첨번호를 보여줍니다. 기본으로 최신 회차가 표시됩니다.</p>
       <div class="round-lookup-controls">
         <input type="number" inputmode="numeric" id="pension-round-lookup-input" min="1" placeholder="회차 입력" />
@@ -1083,7 +1082,7 @@
     </div>
 
     <div class="card lucky-store-card">
-      <h2>📍 복권 명당 지도</h2>
+      <h2>복권 명당 지도</h2>
       <div class="lucky-store-select-row">
         <select class="lucky-store-select" id="pension-lucky-store-sido-select"></select>
         <select class="lucky-store-select" id="pension-lucky-store-city-select"></select>
@@ -1096,7 +1095,7 @@
 
     <div class="card">
       <h2>
-        🎱 조별 출현 빈도
+        조별 출현 빈도
         <button type="button" class="info-btn" aria-label="자세히 보기">
           <span aria-hidden="true">ⓘ</span>
           <span class="info-tooltip">
@@ -1115,7 +1114,7 @@
 
     <div class="card">
       <h2>
-        🔢 자릿수별 숫자 분포
+        자릿수별 숫자 분포
         <button type="button" class="info-btn" aria-label="자세히 보기">
           <span aria-hidden="true">ⓘ</span>
           <span class="info-tooltip">
@@ -1131,7 +1130,7 @@
 
     <div class="card">
       <h2>
-        ➕ 자릿수 합계 분포
+        자릿수 합계 분포
         <button type="button" class="info-btn" aria-label="자세히 보기">
           <span aria-hidden="true">ⓘ</span>
           <span class="info-tooltip">
@@ -1147,7 +1146,7 @@
 
     <div class="card">
       <h2>
-        🎯 소수·배수 자릿수 개수 분포
+        소수·배수 자릿수 개수 분포
         <button type="button" class="info-btn" aria-label="자세히 보기">
           <span aria-hidden="true">ⓘ</span>
           <span class="info-tooltip">
@@ -1167,7 +1166,7 @@
 
     <div class="card">
       <h2>
-        ⚖️ 홀수 자릿수 개수 분포
+        홀수 자릿수 개수 분포
         <button type="button" class="info-btn" aria-label="자세히 보기">
           <span aria-hidden="true">ⓘ</span>
           <span class="info-tooltip">
@@ -1181,7 +1180,7 @@
 
     <div class="card">
       <h2>
-        🔢 자릿수 중복 개수 분포
+        자릿수 중복 개수 분포
         <button type="button" class="info-btn" aria-label="자세히 보기">
           <span aria-hidden="true">ⓘ</span>
           <span class="info-tooltip">
@@ -1197,7 +1196,7 @@
 
     <div class="card">
       <h2>
-        🔗 자릿수 연속 패턴
+        자릿수 연속 패턴
         <button type="button" class="info-btn" aria-label="자세히 보기">
           <span aria-hidden="true">ⓘ</span>
           <span class="info-tooltip">
@@ -1216,7 +1215,7 @@
 
     <div class="card">
       <h2>
-        🔁 직전 회차와 자릿수 일치 통계
+        직전 회차와 자릿수 일치 통계
         <button type="button" class="info-btn" aria-label="자세히 보기">
           <span aria-hidden="true">ⓘ</span>
           <span class="info-tooltip">
@@ -1232,7 +1231,7 @@
 
     <div class="card">
       <h2>
-        🎾 보너스 번호 자릿수 분포
+        보너스 번호 자릿수 분포
         <button type="button" class="info-btn" aria-label="자세히 보기">
           <span aria-hidden="true">ⓘ</span>
           <span class="info-tooltip">
@@ -1246,7 +1245,7 @@
 
     <div class="card">
       <h2>
-        📈 최근 트렌드 vs 전체 기간 비교
+        최근 트렌드 vs 전체 기간 비교
         <button type="button" class="info-btn" aria-label="자세히 보기">
           <span aria-hidden="true">ⓘ</span>
           <span class="info-tooltip">최근 회차의 조 출현 순위와 전체 기간 순위를 비교하여 최근 흐름이 달라졌는지 보여줍니다.</span>
@@ -1279,7 +1278,7 @@
 
     <div class="card">
       <h2>
-        🌸 계절별 인기 조
+        계절별 인기 조
         <button type="button" class="info-btn" aria-label="자세히 보기">
           <span aria-hidden="true">ⓘ</span>
           <span class="info-tooltip">
