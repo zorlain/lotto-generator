@@ -169,6 +169,8 @@ body {
 
 /* 게임탭+세부탭+콘텐츠를 감싸는 빈 박스 (내부 요소들 자체 스타일/간격은 그대로 유지) */
 .outer-frame {
+  max-width: 1150px;
+  margin: 0 auto;
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 24px;
   padding: 40px;
