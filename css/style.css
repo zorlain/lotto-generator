@@ -167,16 +167,20 @@ body {
   padding: 56px 24px 110px;
 }
 
-/* 타이머 사이트와 동일한 슬림 상단바 (큰 히어로 대신 좌측 브랜드 + 우측 아이콘) */
+/* 제목 영역만 아래 본문(.page, 960px)보다 넓은 별도의 박스로 감싼다.
+   본문 폭/크기는 전혀 건드리지 않고, 제목 박스만 폭을 더 준다. */
 header.hero {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
   text-align: left;
-  padding-bottom: 20px;
-  margin-bottom: 28px;
-  border-bottom: 1px solid var(--border);
+  max-width: 1400px;
+  margin: 0 auto 28px;
+  padding: 20px 32px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--card);
 }
 
 .hero-brand h1 {
@@ -1766,7 +1770,7 @@ footer {
   }
   header.hero {
     margin-bottom: 20px;
-    padding-bottom: 16px;
+    padding: 14px 18px;
   }
   .hero-brand h1 {
     font-size: 15px;
