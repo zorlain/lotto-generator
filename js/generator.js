@@ -86,6 +86,14 @@ function computeNumberWeights(stats, config) {
     });
   }
 
+  // "선택한 번호 안에서만 조합": 고르지 않은 번호의 가중치를 0으로 만들어 추첨 대상에서 뺀다.
+  if (config.poolNumbers.enabled && config.poolNumbers.numbers.length >= MIN_POOL_NUMBERS) {
+    const inPool = new Set(config.poolNumbers.numbers);
+    for (let n = 1; n <= 45; n++) {
+      if (!inPool.has(n)) w[n] = 0;
+    }
+  }
+
   return w;
 }
 
@@ -96,12 +104,13 @@ function weightedSampleWithoutReplacement(weights, k, forced) {
   const forcedSet = new Set(forcedList);
   const pool = [];
   for (let n = 1; n <= 45; n++) {
-    if (!forcedSet.has(n)) pool.push({ n, w: weights[n] });
+    if (!forcedSet.has(n) && weights[n] > 0) pool.push({ n, w: weights[n] });
   }
 
   const result = [...forcedList];
   const need = k - result.length;
   for (let i = 0; i < need; i++) {
+    if (pool.length === 0) break;
     const total = pool.reduce((a, p) => a + p.w, 0);
     let r = Math.random() * total;
     let idx = 0;

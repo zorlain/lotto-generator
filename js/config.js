@@ -2,6 +2,8 @@
 // 홀짝 비율 / 번호 합계 구간 / 조합 복잡도(AC값)는 "기본 설정"으로, 항상 직접 범위 지정(mode: "manual")만 사용한다.
 const CONFIG_STORAGE_KEY = "lotto-gen-config-v8";
 const MAX_INCLUDE_NUMBERS = 5;
+const MIN_POOL_NUMBERS = 6;
+const MAX_POOL_NUMBERS = 30;
 
 function defaultConfig() {
   return {
@@ -14,6 +16,8 @@ function defaultConfig() {
       rowCount: 5,
       perRow: [[], [], [], [], []],
     },
+    // 고른 번호(MIN_POOL_NUMBERS개 이상) 안에서만 조합을 만든다.
+    poolNumbers: { enabled: false, numbers: [] },
     oddEven: { enabled: true, mode: "manual", manualMin: 2, manualMax: 4 },
     sumRange: {
       enabled: true,

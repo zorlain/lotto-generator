@@ -189,6 +189,32 @@
       <div class="option-head">
         <div class="option-title-row">
           <label class="switch-row">
+            <input type="checkbox" id="opt-pool-enabled" />
+            <span class="option-title">선택한 번호 안에서만 조합</span>
+          </label>
+          <button type="button" class="info-btn" aria-label="자세히 보기">
+            <span aria-hidden="true">ⓘ</span>
+            <span class="info-tooltip">
+              마음에 드는 번호를 6개 이상(최대 <span id="opt-pool-max-label"></span>개) 고르면, 생성되는 조합이
+              고른 번호 안에서만 무작위로 만들어집니다. 번호를 많이 고를수록 만들 수 있는 조합이 늘어납니다.
+              홀짝 비율·합계 구간 같은 다른 조건도 함께 적용됩니다.
+              "원하는 번호 포함"과 함께 쓰면 포함 번호는 항상 들어가고 나머지 자리를 이 번호들로 채웁니다.
+            </span>
+          </button>
+        </div>
+      </div>
+      <p class="card-desc-short">고른 번호 안에서만 무작위로 조합합니다.</p>
+      <div class="number-picker" id="opt-pool-grid"></div>
+      <p class="field-hint" id="opt-pool-hint"></p>
+      <div class="row-select">
+        <button type="button" id="opt-pool-clear">선택 초기화</button>
+      </div>
+    </div>
+
+    <div class="card option-card">
+      <div class="option-head">
+        <div class="option-title-row">
+          <label class="switch-row">
             <input type="checkbox" id="opt-oddeven-enabled" />
             <span class="option-title">홀짝 비율</span>
           </label>

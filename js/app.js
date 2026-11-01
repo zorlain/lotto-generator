@@ -232,6 +232,9 @@ function renderActiveConfigSummary(config) {
       active.push(`${config.includeNumbers.numbers.join(",")}번 포함${rowNote}`);
     }
   }
+  if (config.poolNumbers.enabled && config.poolNumbers.numbers.length >= MIN_POOL_NUMBERS) {
+    active.push(`선택 ${config.poolNumbers.numbers.length}개 번호 안에서 조합`);
+  }
   if (config.oddEven.enabled) {
     const { manualMin, manualMax } = config.oddEven;
     active.push(
@@ -429,6 +432,83 @@ function initConfigPanel(stats, config, onChange) {
       activeIncludeRow = Number(rowBtn.dataset.row);
       syncInclude();
     });
+  });
+
+  // 선택한 번호 안에서만 조합
+  const poolEnabled = document.getElementById("opt-pool-enabled");
+  const poolGrid = document.getElementById("opt-pool-grid");
+  const poolHint = document.getElementById("opt-pool-hint");
+  const poolClear = document.getElementById("opt-pool-clear");
+  document.getElementById("opt-pool-max-label").textContent = MAX_POOL_NUMBERS;
+
+  const poolButtons = [];
+  for (let n = 1; n <= 45; n++) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = `pick-ball ${ballColor(n)}`;
+    btn.textContent = n;
+    btn.dataset.num = String(n);
+    btn.addEventListener("click", () => {
+      const arr = config.poolNumbers.numbers;
+      const idx = arr.indexOf(n);
+      if (idx >= 0) {
+        arr.splice(idx, 1);
+      } else {
+        if (arr.length >= MAX_POOL_NUMBERS) return;
+        arr.push(n);
+        arr.sort((a, b) => a - b);
+      }
+      syncPool();
+      onChange();
+    });
+    poolGrid.appendChild(btn);
+    poolButtons.push(btn);
+  }
+
+  // 조합 가능 개수 C(n, 6)
+  const combinationsOf6 = (n) => {
+    let r = 1;
+    for (let i = 0; i < 6; i++) r = (r * (n - i)) / (i + 1);
+    return Math.round(r);
+  };
+
+  const syncPool = () => {
+    const arr = config.poolNumbers.numbers;
+    const selected = new Set(arr);
+    const atMax = arr.length >= MAX_POOL_NUMBERS;
+    poolButtons.forEach((btn) => {
+      const n = Number(btn.dataset.num);
+      const isSelected = selected.has(n);
+      btn.classList.toggle("selected", isSelected);
+      btn.disabled = !config.poolNumbers.enabled || (!isSelected && atMax);
+    });
+    poolClear.disabled = !config.poolNumbers.enabled || arr.length === 0;
+
+    if (!config.poolNumbers.enabled) {
+      poolHint.textContent = "";
+    } else if (arr.length < MIN_POOL_NUMBERS) {
+      poolHint.textContent = `${arr.length}/${MAX_POOL_NUMBERS}개 선택됨 · ${MIN_POOL_NUMBERS}개 이상 고르면 적용됩니다`;
+    } else {
+      poolHint.textContent = `${arr.length}/${MAX_POOL_NUMBERS}개 선택됨 · 만들 수 있는 조합 ${combinationsOf6(arr.length).toLocaleString()}개`;
+    }
+  };
+
+  const resyncPool = () => {
+    poolEnabled.checked = config.poolNumbers.enabled;
+    syncPool();
+  };
+  resyncPool();
+  resyncFns.push(resyncPool);
+
+  poolEnabled.addEventListener("change", () => {
+    config.poolNumbers.enabled = poolEnabled.checked;
+    syncPool();
+    onChange();
+  });
+  poolClear.addEventListener("click", () => {
+    config.poolNumbers.numbers.length = 0;
+    syncPool();
+    onChange();
   });
 
   // 홀짝 비율 (항상 직접 범위 지정)
