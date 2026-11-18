@@ -61,24 +61,6 @@ function flashCopied(btn, tempLabel) {
   }, 1200);
 }
 
-/* ---------- 사이드바 (모바일 드로어) ---------- */
-function initSidebar() {
-  const sidebar = document.getElementById("sidebar");
-  const toggle = document.getElementById("sidebar-toggle");
-  const backdrop = document.getElementById("sidebar-backdrop");
-  if (!sidebar || !toggle || !backdrop) return;
-  const close = () => {
-    sidebar.classList.remove("open");
-    backdrop.classList.remove("open");
-  };
-  toggle.addEventListener("click", (e) => {
-    e.stopPropagation();
-    sidebar.classList.toggle("open");
-    backdrop.classList.toggle("open");
-  });
-  backdrop.addEventListener("click", close);
-}
-
 /* ---------- 탭 전환 (로또 패널 내부로 범위 한정 — 연금복권 탭과 분리) ---------- */
 function initTabs() {
   const root = document.getElementById("game-lotto");
@@ -1261,7 +1243,6 @@ function init() {
   const config = loadConfig();
 
   renderSeoMeta(stats);
-  initSidebar();
   initGameSwitcher();
   initTabs();
   initAdvancedToggle();
