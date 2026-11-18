@@ -7,6 +7,7 @@
 // 탭2("맞춤 설정")에서 사용자가 켜고 끄고, 직접 값으로 지정하는 생성 설정.
 const CONFIG_STORAGE_KEY = "pension-gen-config-v2";
 const DIGIT_POSITIONS = 6; // 6자리 숫자
+const MIN_POOL_DIGITS = 2;
 
 function defaultConfig() {
   return {
@@ -17,6 +18,8 @@ function defaultConfig() {
     sumRange: { enabled: true, manualMin: 15, manualMax: 35 },
     // positions[i]: i번째 자리(0~5)에 고정할 숫자(0~9). null이면 자동.
     includeDigits: { enabled: false, positions: [null, null, null, null, null, null] },
+    // digits: 이 숫자들만으로 6자리를 조합(MIN_POOL_DIGITS개 이상이어야 적용), groups: 조를 이 안에서만 무작위로 선택(비어 있으면 자동).
+    poolDigits: { enabled: false, digits: [], groups: [] },
     oddDigit: { enabled: false, manualMin: 2, manualMax: 4 },
     // 아래는 전부 "심화 설정" — 초기값은 모두 꺼짐(체크 해제) 상태로 시작한다.
     digitFreq: { enabled: false, direction: "hot" },
@@ -296,6 +299,16 @@ function computeDigitWeights(stats, config) {
     }
   }
 
+  // "선택한 숫자 안에서만 조합": 고르지 않은 숫자의 가중치를 0으로 만들어 추첨 대상에서 뺀다.
+  if (config.poolDigits.enabled && config.poolDigits.digits.length >= MIN_POOL_DIGITS) {
+    const inPool = new Set(config.poolDigits.digits);
+    for (let pos = 0; pos < DIGIT_POSITIONS; pos++) {
+      for (let digit = 0; digit <= 9; digit++) {
+        if (!inPool.has(digit)) weights[pos][digit] = 0;
+      }
+    }
+  }
+
   return weights;
 }
 
@@ -308,16 +321,20 @@ function weightedDigit(digitWeights) {
   let r = Math.random() * total;
   for (let d = 0; d < digitWeights.length; d++) {
     r -= digitWeights[d];
-    if (r <= 0) return d;
+    if (r <= 0 && digitWeights[d] > 0) return d;
   }
-  return digitWeights.length - 1;
+  return digitWeights.map((w, d) => (w > 0 ? d : -1)).filter((d) => d >= 0).pop();
 }
 
 // rowIndex(0~4)는 결과가 A~E 중 몇 번째 줄로 나올지를 뜻한다. "줄마다 다르게 설정" 모드에서
 // 줄별로 지정한 조를 그대로 반영하기 위해, 결과를 채우는 순서(results.length)를 그대로 넘겨 쓴다.
 function pickGroup(config, rowIndex) {
   const spec = config.group.mode === "perRow" ? config.group.perRow[rowIndex] : config.group.value;
-  if (spec === "auto" || spec === undefined) return 1 + Math.floor(Math.random() * 5);
+  if (spec === "auto" || spec === undefined) {
+    const pool = config.poolDigits.enabled ? config.poolDigits.groups : [];
+    if (pool.length > 0) return pool[Math.floor(Math.random() * pool.length)];
+    return 1 + Math.floor(Math.random() * 5);
+  }
   return Number(spec);
 }
 
@@ -589,6 +606,10 @@ function renderActiveConfigSummary(config) {
     const template = config.includeDigits.positions.map((v) => (v === null ? "_" : v)).join("");
     if (template !== "______") active.push(`${template} 자리 고정`);
   }
+  if (config.poolDigits.enabled && config.poolDigits.digits.length >= MIN_POOL_DIGITS) {
+    const g = config.poolDigits.groups;
+    active.push(`선택 ${config.poolDigits.digits.length}개 숫자 안에서 조합${g.length ? ` (${g.join(",")}조)` : ""}`);
+  }
   if (config.digitFreq.enabled) {
     active.push(`자리별 ${config.digitFreq.direction === "hot" ? "HOT" : "COLD"} 숫자 우대`);
   }
@@ -821,6 +842,81 @@ function initConfigPanel(stats, config, onChange) {
       syncInclude();
       onChange();
     });
+  });
+
+  // 선택한 숫자/조 안에서만 조합
+  const poolEnabled = document.getElementById("pension-opt-pool-enabled");
+  const poolDigitsEl = document.getElementById("pension-opt-pool-digits");
+  const poolGroupsEl = document.getElementById("pension-opt-pool-groups");
+  const poolHint = document.getElementById("pension-opt-pool-hint");
+  const poolClear = document.getElementById("pension-opt-pool-clear");
+
+  const makePoolButtons = (container, values, labelFn, getArr) => {
+    return values.map((v) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "pick-ball";
+      btn.textContent = labelFn(v);
+      btn.dataset.value = String(v);
+      btn.addEventListener("click", () => {
+        const arr = getArr();
+        const idx = arr.indexOf(v);
+        if (idx >= 0) arr.splice(idx, 1);
+        else {
+          arr.push(v);
+          arr.sort((a, b) => a - b);
+        }
+        syncPool();
+        onChange();
+      });
+      container.appendChild(btn);
+      return btn;
+    });
+  };
+  const digitButtons = makePoolButtons(poolDigitsEl, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], (d) => String(d), () => config.poolDigits.digits);
+  const groupButtons = makePoolButtons(poolGroupsEl, [1, 2, 3, 4, 5], (g) => `${g}조`, () => config.poolDigits.groups);
+
+  const syncPool = () => {
+    const on = config.poolDigits.enabled;
+    const digits = config.poolDigits.digits;
+    const groups = config.poolDigits.groups;
+    digitButtons.forEach((btn) => {
+      btn.classList.toggle("selected", digits.includes(Number(btn.dataset.value)));
+      btn.disabled = !on;
+    });
+    groupButtons.forEach((btn) => {
+      btn.classList.toggle("selected", groups.includes(Number(btn.dataset.value)));
+      btn.disabled = !on;
+    });
+    poolClear.disabled = !on || (digits.length === 0 && groups.length === 0);
+
+    if (!on) {
+      poolHint.textContent = "";
+    } else if (digits.length < MIN_POOL_DIGITS) {
+      poolHint.textContent = `숫자 ${digits.length}개 선택됨 · ${MIN_POOL_DIGITS}개 이상 고르면 적용됩니다`;
+    } else {
+      const groupNote = groups.length ? `${groups.join(", ")}조 중에서 선택` : "조는 자동";
+      poolHint.textContent = `숫자 ${digits.length}개 선택됨 · 만들 수 있는 숫자 ${(digits.length ** 6).toLocaleString()}개 · ${groupNote}`;
+    }
+  };
+
+  const resyncPool = () => {
+    poolEnabled.checked = config.poolDigits.enabled;
+    syncPool();
+  };
+  resyncPool();
+  resyncFns.push(resyncPool);
+
+  poolEnabled.addEventListener("change", () => {
+    config.poolDigits.enabled = poolEnabled.checked;
+    syncPool();
+    onChange();
+  });
+  poolClear.addEventListener("click", () => {
+    config.poolDigits.digits.length = 0;
+    config.poolDigits.groups.length = 0;
+    syncPool();
+    onChange();
   });
 
   // 자릿수별 누적 출현 빈도 가중치

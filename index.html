@@ -902,6 +902,36 @@
       <div class="option-head">
         <div class="option-title-row">
           <label class="switch-row">
+            <input type="checkbox" id="pension-opt-pool-enabled" />
+            <span class="option-title">선택한 숫자 안에서만 조합</span>
+          </label>
+          <button type="button" class="info-btn" aria-label="자세히 보기">
+            <span aria-hidden="true">ⓘ</span>
+            <span class="info-tooltip">
+              마음에 드는 숫자를 2개 이상 고르면, 6자리 숫자가 고른 숫자만으로 무작위 조합됩니다.
+              조(組)도 1개 이상 고르면 그중에서 무작위로 정해집니다(조를 고르지 않으면 자동).
+              "원하는 숫자 포함"으로 자리를 고정한 경우 그 자리는 고정값이 우선하고,
+              위의 "조 선택"에서 조를 직접 지정했다면 그 조가 우선합니다.
+              합계·홀짝 같은 다른 조건도 함께 적용됩니다.
+            </span>
+          </button>
+        </div>
+      </div>
+      <p class="card-desc-short">고른 숫자와 조 안에서만 무작위로 조합합니다.</p>
+      <span class="field-label">사용할 숫자 (0~9)</span>
+      <div class="pool-picker pool-picker-digits" id="pension-opt-pool-digits"></div>
+      <span class="field-label">사용할 조 (선택 안 하면 자동)</span>
+      <div class="pool-picker pool-picker-groups" id="pension-opt-pool-groups"></div>
+      <p class="field-hint" id="pension-opt-pool-hint"></p>
+      <div class="row-select">
+        <button type="button" id="pension-opt-pool-clear">선택 초기화</button>
+      </div>
+    </div>
+
+    <div class="card option-card">
+      <div class="option-head">
+        <div class="option-title-row">
+          <label class="switch-row">
             <input type="checkbox" id="pension-opt-sumrange-enabled" />
             <span class="option-title">자릿수 합계 구간</span>
           </label>

@@ -2073,3 +2073,27 @@ footer {
     font-size: 16px;
   }
 }
+
+/* 연금복권 - 선택한 숫자/조 안에서만 조합 */
+.pool-picker {
+  display: grid;
+  gap: 8px;
+  margin: 8px 0 16px;
+}
+.pool-picker-digits {
+  grid-template-columns: repeat(10, 1fr);
+  max-width: 620px;
+}
+.pool-picker-groups {
+  grid-template-columns: repeat(5, 1fr);
+  max-width: 310px;
+}
+@media (max-width: 640px) {
+  .pool-picker-digits {
+    grid-template-columns: repeat(5, 1fr);
+    max-width: none;
+  }
+  .pool-picker-groups {
+    max-width: none;
+  }
+}
