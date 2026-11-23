@@ -51,7 +51,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
-<link rel="stylesheet" href="css/style.css?v=26" />
+<link rel="stylesheet" href="css/style.css?v=28" />
 </head>
 <body>
 <div class="layout">
@@ -788,6 +788,11 @@
         <span id="pension-active-config-summary">기본 설정</span>으로 5조합을 생성합니다.<br />
         <b>맞춤 설정</b> 탭에서 조건을 바꿀 수 있습니다.
       </p>
+      <div class="pn-picker" id="pension-picker">
+        <div class="pn-groups" id="pension-tile-groups" role="group" aria-label="조 선택"></div>
+        <div class="pn-tiles" id="pension-tiles"></div>
+        <p class="field-hint pn-tile-hint" id="pension-tile-hint"></p>
+      </div>
       <button class="generate-btn" id="pension-generate-btn">번호 생성하기</button>
       <p class="generate-warning" id="pension-generate-warning" hidden></p>
       <div class="sets-header">
@@ -1348,9 +1353,9 @@
 <script src="js/config.js"></script>
 <script src="js/stats.js?v=2"></script>
 <script src="js/generator.js"></script>
-<script src="js/app.js?v=9"></script>
+<script src="js/app.js?v=10"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script defer src="js/export.js"></script>
-<script defer src="js/pension-bundle.js"></script>
+<script defer src="js/pension-bundle.js?v=2"></script>
 </body>
 </html>

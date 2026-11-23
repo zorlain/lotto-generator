@@ -552,6 +552,7 @@ function setupGeneratePanel({ btnId, containerId, copyAllBtnId, warningId, stats
   const doGenerate = () => {
     state.sets = generateSets(stats, config, SETS_PER_GENERATE);
     renderSetsInto(containerId, state.sets);
+    document.dispatchEvent(new CustomEvent("pension:generated", { detail: state.sets }));
 
     if (warningEl) {
       if (state.sets.length < SETS_PER_GENERATE) {
@@ -737,6 +738,109 @@ function initConfigPanel(stats, config, onChange) {
       onChange();
     });
   });
+
+  // 번호 생성 탭의 조 버튼 + 자리별 타일.
+  // 맞춤 설정의 '조 선택'과 '원하는 숫자 포함'을 화면에서 바로 만지는 창구라서 같은 설정값을 함께 쓴다.
+  const tileGroupsEl = document.getElementById("pension-tile-groups");
+  const tilesEl = document.getElementById("pension-tiles");
+  const tileHintEl = document.getElementById("pension-tile-hint");
+  let lastRow = null; // 마지막으로 생성된 A줄(잠기지 않은 자리에 흐리게 보여준다)
+
+  const baseOnChange = onChange;
+  onChange = () => {
+    baseOnChange();
+    renderTilePicker();
+  };
+
+  function lockedDigit(i) {
+    if (!config.includeDigits.enabled) return null;
+    const v = config.includeDigits.positions[i];
+    return v === null || v === undefined ? null : v;
+  }
+
+  function renderTilePicker() {
+    if (!tileGroupsEl || !tilesEl) return;
+    const perRow = config.group.mode === "perRow";
+    const cur = perRow ? null : String(config.group.value);
+    tileGroupsEl.innerHTML = ["auto", "1", "2", "3", "4", "5"]
+      .map((v) => {
+        const on = !perRow && cur === v;
+        return `<button type="button" class="pn-group-btn${on ? " on" : ""}" data-g="${v}" aria-pressed="${on}">${v === "auto" ? "자동" : v + "조"}</button>`;
+      })
+      .join("");
+
+    let lockedCount = 0;
+    tilesEl.innerHTML = [0, 1, 2, 3, 4, 5]
+      .map((i) => {
+        const lk = lockedDigit(i);
+        const locked = lk !== null;
+        if (locked) lockedCount++;
+        const shown = locked ? lk : lastRow ? Number(lastRow.num[i]) : null;
+        const n = i + 1;
+        return `<div class="pn-tile${locked ? " locked" : ""}" data-pos="${i}">
+          <button type="button" class="pn-step" data-act="up" aria-label="${n}번째 자리 숫자 올리기">▲</button>
+          <div class="pn-digit" aria-label="${n}번째 자리 ${shown === null ? "미정" : shown}">${shown === null ? "?" : shown}</div>
+          <button type="button" class="pn-step" data-act="down" aria-label="${n}번째 자리 숫자 내리기">▼</button>
+          <button type="button" class="pn-lock" data-act="lock" aria-pressed="${locked}" aria-label="${n}번째 자리 ${locked ? "잠금 해제" : "잠그기"}">${locked ? "🔒" : "🔓"}</button>
+        </div>`;
+      })
+      .join("");
+
+    if (tileHintEl) {
+      tileHintEl.textContent = perRow
+        ? "조는 맞춤 설정에서 줄마다 따로 정했습니다. 위 버튼을 누르면 모든 줄에 같은 조를 씁니다."
+        : lockedCount
+        ? `${lockedCount}개 자리를 잠갔습니다. 번호를 다시 뽑아도 잠근 자리는 그대로이고 나머지만 바뀝니다.`
+        : "자리를 잠그면 그 숫자는 그대로 두고 나머지 자리만 다시 뽑습니다. ▲▼로 숫자를 바꾸면 자동으로 잠깁니다.";
+    }
+  }
+
+  function setLock(i, digit) {
+    config.includeDigits.enabled = true;
+    config.includeDigits.positions[i] = digit;
+  }
+  function clearLock(i) {
+    config.includeDigits.positions[i] = null;
+    if (config.includeDigits.positions.every((v) => v === null || v === undefined)) {
+      config.includeDigits.enabled = false;
+    }
+  }
+  function afterTileChange() {
+    resyncFns.forEach((fn) => fn());
+    onChange();
+  }
+
+  if (tileGroupsEl && tilesEl) {
+    tileGroupsEl.addEventListener("click", (e) => {
+      const btn = e.target.closest(".pn-group-btn");
+      if (!btn) return;
+      config.group.mode = "common";
+      config.group.value = btn.dataset.g;
+      afterTileChange();
+    });
+    tilesEl.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-act]");
+      const tile = e.target.closest(".pn-tile");
+      if (!btn || !tile) return;
+      const i = Number(tile.dataset.pos);
+      const lk = lockedDigit(i);
+      const base = lk !== null ? lk : lastRow ? Number(lastRow.num[i]) : 0;
+      const act = btn.dataset.act;
+      if (act === "lock") {
+        if (lk !== null) clearLock(i);
+        else setLock(i, base);
+      } else {
+        setLock(i, (base + (act === "up" ? 1 : 9)) % 10);
+      }
+      afterTileChange();
+    });
+    document.addEventListener("pension:generated", (e) => {
+      lastRow = e.detail && e.detail[0] ? e.detail[0] : lastRow;
+      renderTilePicker();
+    });
+    resyncFns.push(renderTilePicker);
+    renderTilePicker();
+  }
 
   // 자릿수 합계 구간
   const sumEnabled = document.getElementById("pension-opt-sumrange-enabled");

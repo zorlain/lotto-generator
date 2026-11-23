@@ -116,6 +116,15 @@ function renderSetsInto(containerId, sets) {
   const container = document.getElementById(containerId);
   container.innerHTML = "";
 
+  // 복권 용지처럼 맨 위에 회차 안내를 붙인다 (다음 추첨 회차 = 마지막 반영 회차 + 1)
+  if (sets.length > 0) {
+    const nextNo = typeof LOTTO_DATA !== "undefined" && LOTTO_DATA.length ? LOTTO_DATA[LOTTO_DATA.length - 1].no + 1 : null;
+    const head = document.createElement("div");
+    head.className = "ticket-head";
+    head.innerHTML = `<b>로또 6/45${nextNo ? ` · ${nextNo}회` : ""}</b><span>자동 · ${sets.length}게임</span>`;
+    container.appendChild(head);
+  }
+
   sets.forEach((set, i) => {
     const row = document.createElement("div");
     row.className = "set-row";

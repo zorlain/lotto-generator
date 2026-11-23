@@ -1987,3 +1987,165 @@ footer {
     max-width: none;
   }
 }
+
+/* ---------- 로또 C: 복권 용지 스타일 결과 ---------- */
+#generated-sets:not(:empty),
+#generated-sets-2:not(:empty) {
+  position: relative;
+  background: var(--card);
+  border: 2px dashed var(--border);
+  border-radius: 16px;
+  padding: 6px 22px 10px;
+  margin-top: 4px;
+}
+.ticket-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0 12px;
+  border-bottom: 2px solid var(--border);
+}
+.ticket-head b {
+  font-size: 16px;
+  letter-spacing: -0.01em;
+}
+.ticket-head span {
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+#generated-sets .set-row,
+#generated-sets-2 .set-row {
+  border-bottom: 1px dashed var(--border);
+  padding: 13px 0;
+  gap: 12px;
+}
+#generated-sets .set-row:last-child,
+#generated-sets-2 .set-row:last-child {
+  border-bottom: 0;
+}
+#generated-sets .set-label,
+#generated-sets-2 .set-label {
+  border-radius: 6px;
+}
+#generated-sets .ball,
+#generated-sets-2 .ball {
+  width: 36px;
+  height: 36px;
+  font-size: 15px;
+}
+@media (max-width: 640px) {
+  #generated-sets:not(:empty),
+  #generated-sets-2:not(:empty) {
+    padding: 4px 14px 8px;
+  }
+  #generated-sets .ball,
+  #generated-sets-2 .ball {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+}
+
+/* ---------- 연금복권 B: 조 버튼 + 자리별 숫자 타일(잠금·위아래 조절) ---------- */
+.pn-picker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  margin: 8px 0 22px;
+}
+.pn-groups {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+.pn-group-btn {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  padding: 9px 18px;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.pn-group-btn:hover {
+  border-color: var(--accent);
+}
+.pn-group-btn.on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-on);
+}
+.pn-tiles {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.pn-tile {
+  width: 58px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--card);
+  overflow: hidden;
+}
+.pn-tile.locked {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+.pn-digit {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.55;
+}
+.pn-tile.locked .pn-digit {
+  opacity: 1;
+  color: var(--accent);
+}
+.pn-step,
+.pn-lock {
+  border: 0;
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  font-size: 11px;
+  padding: 5px 0;
+  cursor: pointer;
+}
+.pn-step:hover,
+.pn-lock:hover {
+  background: var(--hover-tint);
+  color: var(--text);
+}
+.pn-lock {
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+  padding: 6px 0;
+}
+.pn-step:focus-visible,
+.pn-lock:focus-visible,
+.pn-group-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+.pn-tile-hint {
+  text-align: center;
+  margin: 0;
+  max-width: 460px;
+}
+@media (max-width: 420px) {
+  .pn-tiles { gap: 6px; }
+  .pn-tile { width: 46px; }
+  .pn-digit { font-size: 24px; }
+}
