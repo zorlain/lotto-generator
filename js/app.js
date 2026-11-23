@@ -1233,10 +1233,10 @@ function renderSeoMeta(stats) {
   const no = stats.lastDraw.no;
   const date = stats.lastDraw.date;
 
-  const title = `무료 로또 번호 생성기 - 로또 6/45 ${no}회 당첨결과 반영 통계 분석`;
+  const title = `로또·연금복권 번호 생성기 - 로또 ${no}회 당첨번호 반영`;
   const description =
-    `로또 6/45 ${no}회(${date}) 당첨번호까지 반영한 전 회차 데이터를 분석해 통계 기반으로 번호를 추천합니다. ` +
-    `홀짝비율·합계구간·출현빈도(HOT/COLD)·AC값까지 직접 설정 가능. 회원가입 없이 무료로 바로 이용하세요.`;
+    `로또 6/45 ${no}회(${date}) 당첨번호까지 반영한 전 회차 통계로 로또와 연금복권720+ 번호를 추천합니다. ` +
+    `홀짝, 합계, 출현 빈도 조건을 직접 정할 수 있는 무료 번호 생성기입니다.`;
 
   document.title = title;
   document.querySelector('meta[name="description"]')?.setAttribute("content", description);
