@@ -1185,63 +1185,70 @@ function initConfigPanel(stats, config, onChange) {
   });
 }
 
-/* ---------- 탭 3: 데이터 통계 ---------- */
-/* 회차별 당첨번호 조회 — "N회 연금복권 당첨번호" 검색 유입에 대응. 데이터 통계 탭 맨 위에서
-   최신 회차를 기본으로 보여주고, 회차를 입력하면 그 회차로 바꿔 보여준다. */
-function renderPensionRoundLookup(stats, no) {
-  const resultEl = document.getElementById("pension-round-lookup-result");
-  const inputEl = document.getElementById("pension-round-lookup-input");
-  const targetNo = no || stats.lastDraw.no;
-  const draw = PENSION_DATA.find((d) => d.no === targetNo);
+/* ---------- 탭 3: 당첨번호·당첨금 조회 ----------
+   최신 회차부터 전 회차를 목록으로 보여주고, 회차마다 번호 아래에 등수별 당첨자 수·당첨금을 붙인다
+   (data/pension-prizes.js, 공식 사이트 값). */
+const PENSION_PRIZE_RULES = [
+  { rank: "1등", cond: "조와 6자리 모두 일치", months: 240 },
+  { rank: "2등", cond: "조 상관없이 6자리 일치", months: 120 },
+  { rank: "3등", cond: "끝 5자리 일치" },
+  { rank: "4등", cond: "끝 4자리 일치" },
+  { rank: "5등", cond: "끝 3자리 일치" },
+  { rank: "6등", cond: "끝 2자리 일치" },
+  { rank: "7등", cond: "끝 1자리 일치" },
+  { rank: "보너스", cond: "보너스 번호 6자리 일치 (조 무관)", months: 120 },
+];
 
-  inputEl.value = targetNo;
-  resultEl.innerHTML = "";
-
-  if (!draw) {
-    const err = document.createElement("p");
-    err.className = "round-lookup-error";
-    err.textContent = `${targetNo}회는 존재하지 않는 회차입니다. (1~${stats.lastDraw.no}회)`;
-    resultEl.appendChild(err);
-    return;
-  }
-
-  const head = document.createElement("div");
-  head.className = "round-lookup-head";
-  head.textContent = `${draw.no}회 (${draw.date} 추첨)`;
-  resultEl.appendChild(head);
-
-  const row = document.createElement("div");
-  row.className = "round-lookup-balls";
-  row.appendChild(makeGroupBadge(draw.group));
-  draw.num.split("").forEach((d, pos) => row.appendChild(makeDigitTile(d, `pos-${pos}`)));
-  resultEl.appendChild(row);
-
-  const bonusRow = document.createElement("div");
-  bonusRow.className = "round-lookup-bonus-row";
-  const bonusLabel = document.createElement("span");
-  bonusLabel.className = "round-lookup-bonus-label";
-  bonusLabel.textContent = "보너스";
-  bonusRow.appendChild(bonusLabel);
-  draw.bonus.split("").forEach((d) => bonusRow.appendChild(makeDigitTile(d, "bonus-tile")));
-  resultEl.appendChild(bonusRow);
+function pensionPrizeRows(no) {
+  const counts = PENSION_PRIZES[no];
+  if (!counts) return null;
+  return PENSION_PRIZE_RULES.map((rule, i) => {
+    const amt = PENSION_PRIZE_AMOUNTS[i];
+    let amount;
+    let amountSub = "";
+    if (rule.months) {
+      const years = rule.months / 12;
+      amount = `월 ${formatWonShort(amt / rule.months)} × ${years}년`;
+      amountSub = `총 ${formatWonShort(amt)}`;
+    } else {
+      amount = formatWon(amt);
+      if (amt >= 1e6) amountSub = `약 ${formatWonShort(amt)}`;
+    }
+    return { rank: rule.rank, cond: rule.cond, count: counts[i], amount, amountSub, highlight: i === 0 };
+  });
 }
 
-function initPensionRoundLookup(stats) {
-  const inputEl = document.getElementById("pension-round-lookup-input");
-  const btnEl = document.getElementById("pension-round-lookup-btn");
-  inputEl.max = stats.lastDraw.no;
+function initPensionRoundResults(stats) {
+  const drawByNo = new Map(PENSION_DATA.map((d) => [d.no, d]));
+  initRoundResults({
+    game: "pension",
+    lastNo: stats.lastDraw.no,
+    getDraw: (no) => drawByNo.get(no),
+    renderNumbers(draw, el) {
+      const row = document.createElement("div");
+      row.className = "round-lookup-balls";
+      row.appendChild(makeGroupBadge(draw.group));
+      draw.num.split("").forEach((d, pos) => row.appendChild(makeDigitTile(d, `pos-${pos}`)));
+      el.appendChild(row);
 
-  const doLookup = () => {
-    const no = parseInt(inputEl.value, 10);
-    renderPensionRoundLookup(stats, Number.isFinite(no) ? no : null);
-  };
-
-  btnEl.addEventListener("click", doLookup);
-  inputEl.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") doLookup();
+      const bonusRow = document.createElement("div");
+      bonusRow.className = "round-lookup-bonus-row";
+      const bonusLabel = document.createElement("span");
+      bonusLabel.className = "round-lookup-bonus-label";
+      bonusLabel.textContent = "보너스";
+      bonusRow.appendChild(bonusLabel);
+      draw.bonus.split("").forEach((d) => bonusRow.appendChild(makeDigitTile(d, "bonus-tile")));
+      el.appendChild(bonusRow);
+    },
+    prizeRows: pensionPrizeRows,
+    footerText: () => "당첨자 수는 판매점과 인터넷 판매를 합친 값입니다. 1등·2등·보너스는 매월 지급액 기준입니다.",
+    firstStoreRound: 1,
+    listId: "pension-round-list",
+    inputId: "pension-round-lookup-input",
+    btnId: "pension-round-lookup-btn",
+    moreId: "pension-round-list-more",
+    resetId: "pension-round-list-reset",
   });
-
-  renderPensionRoundLookup(stats, null);
 }
 
 function renderTrustLine(stats) {
@@ -1479,7 +1486,7 @@ function init() {
   initInfoTooltips();
 
   renderTrustLine(stats);
-  initPensionRoundLookup(stats);
+  initPensionRoundResults(stats);
   setupLuckyStoreMapLazyInit("game-pension", {
     mapId: "pension-lucky-store-map",
     listId: "pension-lucky-store-list",
@@ -1487,7 +1494,17 @@ function init() {
     citySelectId: "pension-lucky-store-city-select",
     moreBtnId: "pension-lucky-store-more-btn",
     hintId: "pension-lucky-store-hint",
+    game: "pension",
+    gameName: "연금복권",
     gameFlag: "p",
+    sortSelectId: "pension-lucky-store-sort",
+    searchId: "pension-lucky-store-search",
+    openOnlyId: "pension-lucky-store-open-only",
+    detailId: "pension-lucky-store-detail",
+    summaryId: "pension-lucky-store-summary",
+    expandBtnId: "pension-lucky-store-expand",
+    lastNo: stats.lastDraw.no,
+    drawDate: (no) => (PENSION_DATA[no - 1] && PENSION_DATA[no - 1].no === no ? PENSION_DATA[no - 1].date : ""),
   });
   renderGroupFreqChart(stats);
   renderDigitHeatmap("pension-digit-heatmap", stats.digitFreq);

@@ -2,3 +2,6 @@
 data/full-store-chunks/
 scratchpad-*.log
 scratchpad-*.log.err
+
+# 당첨금·당첨 판매점 원본 JSON(수집 중간 산출물). scripts/update-win-data.sh 가 받아서 data/*.js 로 합친다
+data-raw/

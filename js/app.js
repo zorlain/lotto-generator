@@ -880,58 +880,65 @@ function initConfigPanel(stats, config, onChange) {
   });
 }
 
-/* ---------- 탭 3: 데이터 통계 ---------- */
-/* 회차별 당첨번호 조회 — "N회 로또 당첨번호" 같은 검색 유입이 가장 많은 항목이라
-   데이터 통계 탭 맨 위에서 최신 회차를 기본으로 보여주고, 회차를 입력하면 그 회차로 바꿔 보여준다. */
-function renderRoundLookup(stats, no) {
-  const resultEl = document.getElementById("round-lookup-result");
-  const inputEl = document.getElementById("round-lookup-input");
-  const targetNo = no || stats.lastDraw.no;
-  const draw = LOTTO_DATA.find((d) => d.no === targetNo);
+/* ---------- 탭 3: 당첨번호·당첨금 조회 ----------
+   "N회 로또 당첨번호" 검색 유입이 많은 항목이라 최신 회차부터 전 회차를 목록으로 보여주고,
+   회차마다 번호 아래에 등수별 당첨자 수·당첨금을 붙인다(data/lotto-prizes.js, 공식 사이트 값). */
+const LOTTO_PRIZE_RULES = [
+  { rank: "1등", cond: "6개 번호 일치" },
+  { rank: "2등", cond: "5개 + 보너스 번호 일치" },
+  { rank: "3등", cond: "5개 번호 일치" },
+  { rank: "4등", cond: "4개 번호 일치" },
+  { rank: "5등", cond: "3개 번호 일치" },
+];
 
-  inputEl.value = targetNo;
-  resultEl.innerHTML = "";
-
-  if (!draw) {
-    const err = document.createElement("p");
-    err.className = "round-lookup-error";
-    err.textContent = `${targetNo}회는 존재하지 않는 회차입니다. (1~${stats.lastDraw.no}회)`;
-    resultEl.appendChild(err);
-    return;
-  }
-
-  const head = document.createElement("div");
-  head.className = "round-lookup-head";
-  head.textContent = `${draw.no}회 (${draw.date} 추첨)`;
-  resultEl.appendChild(head);
-
-  const balls = document.createElement("div");
-  balls.className = "round-lookup-balls";
-  draw.nums.forEach((n) => balls.appendChild(makeBall(n)));
-  const plus = document.createElement("span");
-  plus.className = "round-lookup-plus";
-  plus.textContent = "+";
-  balls.appendChild(plus);
-  balls.appendChild(makeBall(draw.bonus, "ball-bonus"));
-  resultEl.appendChild(balls);
+function lottoPrizeRows(no) {
+  const p = LOTTO_PRIZES[no];
+  if (!p) return null;
+  return LOTTO_PRIZE_RULES.map((rule, i) => {
+    const count = p[i * 2];
+    const amt = p[i * 2 + 1];
+    let amount;
+    let amountSub = "";
+    if (count === 0) {
+      amount = i === 0 ? "해당자 없음" : "-";
+      amountSub = i === 0 ? "당첨금은 다음 회차로 이월" : "";
+    } else {
+      amount = formatWon(amt);
+      if (amt >= 1e6) amountSub = `약 ${formatWonShort(amt)}`;
+    }
+    return { rank: rule.rank, cond: rule.cond, count, amount, amountSub, highlight: i === 0 };
+  });
 }
 
-function initRoundLookup(stats) {
-  const inputEl = document.getElementById("round-lookup-input");
-  const btnEl = document.getElementById("round-lookup-btn");
-  inputEl.max = stats.lastDraw.no;
-
-  const doLookup = () => {
-    const no = parseInt(inputEl.value, 10);
-    renderRoundLookup(stats, Number.isFinite(no) ? no : null);
-  };
-
-  btnEl.addEventListener("click", doLookup);
-  inputEl.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") doLookup();
+function initLottoRoundResults(stats) {
+  const drawByNo = new Map(LOTTO_DATA.map((d) => [d.no, d]));
+  initRoundResults({
+    game: "lotto",
+    lastNo: stats.lastDraw.no,
+    getDraw: (no) => drawByNo.get(no),
+    renderNumbers(draw, el) {
+      const balls = document.createElement("div");
+      balls.className = "round-lookup-balls";
+      draw.nums.forEach((n) => balls.appendChild(makeBall(n)));
+      const plus = document.createElement("span");
+      plus.className = "round-lookup-plus";
+      plus.textContent = "+";
+      balls.appendChild(plus);
+      balls.appendChild(makeBall(draw.bonus, "ball-bonus"));
+      el.appendChild(balls);
+    },
+    prizeRows: lottoPrizeRows,
+    footerText(no) {
+      const p = LOTTO_PRIZES[no];
+      return p && p[10] ? `총 판매금액 ${formatWonBig(p[10])}` : "";
+    },
+    firstStoreRound: 262,
+    listId: "round-list",
+    inputId: "round-lookup-input",
+    btnId: "round-lookup-btn",
+    moreId: "round-list-more",
+    resetId: "round-list-reset",
   });
-
-  renderRoundLookup(stats, null);
 }
 
 function renderTrustLine(stats) {
@@ -1260,7 +1267,7 @@ function init() {
   initInfoTooltips();
 
   renderTrustLine(stats);
-  initRoundLookup(stats);
+  initLottoRoundResults(stats);
   setupLuckyStoreMapLazyInit("game-lotto", {
     mapId: "lucky-store-map",
     listId: "lucky-store-list",
@@ -1268,7 +1275,17 @@ function init() {
     citySelectId: "lucky-store-city-select",
     moreBtnId: "lucky-store-more-btn",
     hintId: "lucky-store-hint",
+    game: "lotto",
+    gameName: "로또",
     gameFlag: "l",
+    sortSelectId: "lucky-store-sort",
+    searchId: "lucky-store-search",
+    openOnlyId: "lucky-store-open-only",
+    detailId: "lucky-store-detail",
+    summaryId: "lucky-store-summary",
+    expandBtnId: "lucky-store-expand",
+    lastNo: stats.lastDraw.no,
+    drawDate: (no) => (LOTTO_DATA[no - 1] && LOTTO_DATA[no - 1].no === no ? LOTTO_DATA[no - 1].date : ""),
   });
   renderFreqChart(stats);
   renderOddEvenChart(stats);
