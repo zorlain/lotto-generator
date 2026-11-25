@@ -3,7 +3,7 @@
    시점을 잡는다. 로또/연금복권 두 게임 패널이 각자 initLuckyStoreMap을 호출해도
    kakao.maps.load 콜백 등록은 한 번만 하도록 kakaoReady()로 프라미스를 공유한다.
    지도 탭이 처음엔 hidden 상태라 그 안에서 바로 지도를 만들면 크기가 0으로 잡혀 깨지므로,
-   "데이터 통계" 탭을 처음 열 때(레이아웃이 잡힌 뒤) 지연 생성한다.
+   "명당 지도" 탭을 처음 열 때(레이아웃이 잡힌 뒤) 지연 생성한다.
 
    장소 검색(키워드 검색)은 페이지당 한 번만 전체 목록에 대해 수행하고, 그 결과(좌표 +
    도로명/지번 주소)를 캐싱해둔다. 시/도·시군구 필터를 눌러도 재검색하지 않고 마커를
@@ -16,12 +16,12 @@ const LUCKY_LIST_PAGE_SIZE = 5;
 const FULL_STORE_ZOOM_LEVEL = 4;
 const FULL_STORE_MAX_MARKERS = 150;
 
-/* 지도가 속한 "데이터 통계" 탭을 처음 열 때만 지도를 생성한다(게임 패널마다 버튼이
+/* 지도가 속한 "명당 지도" 탭을 처음 열 때만 지도를 생성한다(게임 패널마다 버튼이
    따로 있으므로 rootId로 범위를 좁혀 그 안의 버튼만 찾는다). */
 function setupLuckyStoreMapLazyInit(rootId, options) {
   const root = document.getElementById(rootId);
   if (!root) return;
-  const btn = root.querySelector('[data-tab="stats"]');
+  const btn = root.querySelector('[data-tab="map"]');
   if (!btn) return;
   let started = false;
   btn.addEventListener("click", () => {

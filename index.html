@@ -41,7 +41,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
-<link rel="stylesheet" href="css/style.css?v=33" />
+<link rel="stylesheet" href="css/style.css?v=34" />
 </head>
 <body>
 <div class="layout">
@@ -65,6 +65,8 @@
   <nav class="tabs" id="tabs">
     <button class="tab-btn active" data-tab="generate">번호 생성</button>
     <button class="tab-btn" data-tab="custom">맞춤 설정</button>
+    <button class="tab-btn" data-tab="lookup">당첨번호 조회</button>
+    <button class="tab-btn" data-tab="map">명당 지도</button>
     <button class="tab-btn" data-tab="stats">데이터 통계</button>
   </nav>
 
@@ -487,11 +489,8 @@
     <button class="reset-btn" id="reset-config-btn">기본값으로 초기화</button>
   </section>
 
-  <!-- 탭 3: 데이터 통계 -->
-  <section class="tab-panel" data-tab-panel="stats" hidden>
-    <button type="button" class="download-btn" id="download-stats-btn">데이터 통계 다운로드 (엑셀)</button>
-    <p class="stats-trust-line" id="stats-trust-line"></p>
-
+  <!-- 탭 3: 당첨번호 조회 -->
+  <section class="tab-panel" data-tab-panel="lookup" hidden>
     <div class="card round-lookup-card">
       <h2>회차별 당첨번호 조회</h2>
       <p class="card-desc-short">회차를 입력하면 해당 회차 당첨번호를 보여줍니다. 기본으로 최신 회차가 표시됩니다.</p>
@@ -501,7 +500,10 @@
       </div>
       <div class="round-lookup-result" id="round-lookup-result"></div>
     </div>
+  </section>
 
+  <!-- 탭 4: 명당 지도 -->
+  <section class="tab-panel" data-tab-panel="map" hidden>
     <div class="card lucky-store-card">
       <h2>로또 명당 지도</h2>
       <div class="lucky-store-select-row">
@@ -513,6 +515,12 @@
       <div class="lucky-store-list" id="lucky-store-list"></div>
       <button type="button" class="lucky-store-more-btn" id="lucky-store-more-btn" hidden>더보기</button>
     </div>
+  </section>
+
+  <!-- 탭 5: 데이터 통계 -->
+  <section class="tab-panel" data-tab-panel="stats" hidden>
+    <button type="button" class="download-btn" id="download-stats-btn">데이터 통계 다운로드 (엑셀)</button>
+    <p class="stats-trust-line" id="stats-trust-line"></p>
 
     <div class="card">
       <h2>
@@ -768,6 +776,8 @@
   <nav class="tabs" id="pension-tabs">
     <button class="tab-btn active" data-tab="generate">번호 생성</button>
     <button class="tab-btn" data-tab="custom">맞춤 설정</button>
+    <button class="tab-btn" data-tab="lookup">당첨번호 조회</button>
+    <button class="tab-btn" data-tab="map">명당 지도</button>
     <button class="tab-btn" data-tab="stats">데이터 통계</button>
   </nav>
 
@@ -1095,11 +1105,8 @@
     <button class="reset-btn" id="pension-reset-config-btn">기본값으로 초기화</button>
   </section>
 
-  <!-- 탭 3: 데이터 통계 -->
-  <section class="tab-panel" data-tab-panel="stats" hidden>
-    <button type="button" class="download-btn" id="pension-download-stats-btn">데이터 통계 다운로드 (엑셀)</button>
-    <p class="stats-trust-line" id="pension-stats-trust-line"></p>
-
+  <!-- 탭 3: 당첨번호 조회 -->
+  <section class="tab-panel" data-tab-panel="lookup" hidden>
     <div class="card round-lookup-card">
       <h2>회차별 당첨번호 조회</h2>
       <p class="card-desc-short">회차를 입력하면 해당 회차 당첨번호를 보여줍니다. 기본으로 최신 회차가 표시됩니다.</p>
@@ -1109,7 +1116,10 @@
       </div>
       <div class="round-lookup-result" id="pension-round-lookup-result"></div>
     </div>
+  </section>
 
+  <!-- 탭 4: 명당 지도 -->
+  <section class="tab-panel" data-tab-panel="map" hidden>
     <div class="card lucky-store-card">
       <h2>복권 명당 지도</h2>
       <div class="lucky-store-select-row">
@@ -1121,6 +1131,12 @@
       <div class="lucky-store-list" id="pension-lucky-store-list"></div>
       <button type="button" class="lucky-store-more-btn" id="pension-lucky-store-more-btn" hidden>더보기</button>
     </div>
+  </section>
+
+  <!-- 탭 5: 데이터 통계 -->
+  <section class="tab-panel" data-tab-panel="stats" hidden>
+    <button type="button" class="download-btn" id="pension-download-stats-btn">데이터 통계 다운로드 (엑셀)</button>
+    <p class="stats-trust-line" id="pension-stats-trust-line"></p>
 
     <div class="card">
       <h2>
@@ -1352,13 +1368,13 @@
 <script src="data/full-stores/index.js?v=1"></script>
 <script src="js/kakao-config.js"></script>
 <script src="js/full-store-loader.js?v=1"></script>
-<script src="js/lucky-store-map.js?v=14"></script>
+<script src="js/lucky-store-map.js?v=15"></script>
 <script src="js/config.js"></script>
 <script src="js/stats.js?v=2"></script>
 <script src="js/generator.js"></script>
-<script src="js/app.js?v=11"></script>
+<script src="js/app.js?v=12"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script defer src="js/export.js"></script>
-<script defer src="js/pension-bundle.js?v=2"></script>
+<script defer src="js/pension-bundle.js?v=3"></script>
 </body>
 </html>

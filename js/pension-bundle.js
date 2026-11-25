@@ -478,6 +478,8 @@ function initTabs() {
       panels.forEach((p) => {
         p.hidden = p.dataset.tabPanel !== target;
       });
+      // 탭이 많아 옆으로 밀어서 보는 화면에서도 선택한 탭이 보이게 한다
+      btn.scrollIntoView({ inline: "center", block: "nearest" });
     });
   });
 }

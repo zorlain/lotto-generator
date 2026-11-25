@@ -2302,3 +2302,23 @@ header.hero {
   left: auto;
   right: 0;
 }
+
+/* 탭이 5개가 되어, 좁은 화면에서는 탭 줄을 옆으로 밀어서 본다 */
+.tabs {
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+.tab-btn {
+  flex: 1 0 auto;
+  padding: 0 18px;
+  white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .tab-btn {
+    padding: 0 14px;
+    font-size: 14px;
+  }
+}
