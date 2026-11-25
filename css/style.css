@@ -2,25 +2,24 @@
    1차 버튼은 캔버스 반대색 알약, Inter 타이포그래피(양수 자간), 그림자 완전 배제(깊이는 색
    대비로만). 다크가 기본값이며, data-theme="light"로 라이트 모드를 전환한다. */
 :root {
-  --bg: #000000;
-  --card: #16181a;
-  --card-elevated: #1f2226;
+  /* 2026-11 디자인 A: toolbox와 같은 따뜻한 검정 + 호박색 포인트 (로또공 색은 공식 색 그대로) */
+  --bg: #14110e;
+  --card: #1c1713;
+  --card-elevated: #26201a;
   --text: #ffffff;
   --text-muted: rgba(255, 255, 255, 0.72);
   --border: rgba(255, 255, 255, 0.12);
-  --accent: #494fdf;
-  --accent-hover: #4f55f1;
-  --accent-soft: rgba(73, 79, 223, 0.16);
-  --accent-on: #ffffff;
-  --hot-mark: #4f55f1;
-  --cold-mark: #5c5e60;
-  /* 넓은 면적을 차지하는 차트 막대 전용 색. --accent보다 어둡게 잡아서,
-     OLED 화면의 자동 밝기 제한(ABL)으로 큰 면적이 실제보다 칙칙하게 보이는 걸 줄인다. */
-  --chart-fill: #3a40c4;
-  /* 1차 CTA는 레볼루트 시그니처인 "캔버스 반대색 알약"으로, 액센트와 분리해서 관리한다. */
-  --btn-primary-bg: #ffffff;
-  --btn-primary-text: #000000;
-  --btn-primary-pressed: #c9c9cd;
+  --accent: #ffb020;
+  --accent-hover: #e6a01c;
+  --accent-soft: rgba(255, 176, 32, 0.14);
+  --accent-on: #17110a;
+  --hot-mark: #ffb020;
+  --cold-mark: #6e665d;
+  /* 넓은 면적을 차지하는 차트 막대 전용 색. --accent보다 살짝 어둡게 잡는다. */
+  --chart-fill: #e09710;
+  --btn-primary-bg: #ffb020;
+  --btn-primary-text: #17110a;
+  --btn-primary-pressed: #e09710;
   --hover-tint: rgba(255, 255, 255, 0.08);
 
   /* 동행복권 공식 사이트(dhlottery.co.kr)의 실제 로또공 색상과 동일하게 맞춤 */
@@ -519,7 +518,7 @@ header.hero {
 .lucky-store-infowindow-stats {
   font-size: 12px;
   font-weight: 600;
-  color: #494fdf;
+  color: #b45309;
   margin-bottom: 4px;
 }
 
@@ -2193,4 +2192,38 @@ footer {
 }
 @media (max-width: 768px) {
   .copy-btn { min-height: 40px; }
+}
+
+/* ======================================================================
+   디자인 A (2026-11): toolbox 통일형 — 같은 색, 둥근 사각 버튼, 채워진 선택 탭
+   ====================================================================== */
+.hero-brand h1 {
+  font-size: 20px;
+  font-weight: 800;
+}
+.card {
+  border: 1px solid var(--border);
+  border-radius: 18px;
+}
+.tabs {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 6px;
+}
+.tab-btn {
+  border-radius: 12px;
+  font-weight: 700;
+}
+.tab-btn.active {
+  background: var(--accent);
+  color: var(--accent-on);
+}
+.game-tab-btn {
+  border-radius: 14px;
+  font-weight: 800;
+}
+.generate-btn {
+  border-radius: 14px;
+  font-weight: 800;
 }
