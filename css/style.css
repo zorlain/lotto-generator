@@ -2227,3 +2227,78 @@ footer {
   border-radius: 14px;
   font-weight: 800;
 }
+
+/* 디자인 A 구조: 가운데 정렬 제목 + 알약 메뉴 + 채운 선택 탭 + 박스형 입력칸 */
+header.hero {
+  justify-content: center;
+  text-align: center;
+  border-bottom: 0;
+  padding: 8px 0 4px;
+  margin-bottom: 24px;
+}
+.hero-brand h1 {
+  font-size: 36px;
+  letter-spacing: -0.02em;
+}
+.hero-sub {
+  margin: 10px 0 0;
+  font-size: 16px;
+  color: var(--text-muted);
+}
+.game-tabs {
+  justify-content: center;
+  gap: 10px;
+}
+.game-tab-btn {
+  flex: none;
+  height: 48px;
+  padding: 0 28px;
+  border-radius: 9999px;
+  font-size: 15px;
+}
+.tabs {
+  gap: 8px;
+}
+.tab-btn {
+  height: 48px;
+  padding: 0 10px;
+  font-size: 16px;
+}
+.card {
+  padding: 28px;
+}
+.card h2 {
+  font-weight: 700;
+}
+.card select,
+.card input[type="text"],
+.card input[type="number"],
+.card input[type="search"] {
+  min-height: 48px;
+  padding-left: 14px;
+  padding-right: 14px;
+  border-radius: 12px;
+  background: var(--card-elevated);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+@media (max-width: 640px) {
+  .hero-brand h1 {
+    font-size: 26px;
+  }
+  .hero-sub {
+    font-size: 14px;
+  }
+  .game-tab-btn {
+    padding: 0 20px;
+  }
+  .card {
+    padding: 20px;
+  }
+}
+
+/* 오른쪽 끝의 ⓘ 설명창이 화면 밖으로 나가 가로 스크롤이 생기던 문제: 왼쪽으로 펼친다 */
+.option-title-row .info-tooltip {
+  left: auto;
+  right: 0;
+}
